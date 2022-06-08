@@ -44,11 +44,8 @@ public class ProyectoPPP implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date fechaat;
 
-    @Column(name = "objetivo_general")
-    private String objetivoGeneral;
-
-    @Column(name = "alcance_territorial")
-    private String alcanceTerritorial;
+    @Column(length = 10485760)
+    private String documento;
 
     @Column(name = "programa_vinculacion")
     private String programaVinculacion;

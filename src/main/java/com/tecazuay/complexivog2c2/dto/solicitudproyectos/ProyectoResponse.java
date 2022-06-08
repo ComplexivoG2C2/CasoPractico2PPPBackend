@@ -42,9 +42,7 @@ public class ProyectoResponse implements Serializable {
 
     private String nombreresponsable;
 
-    private String objetivoGeneral;
-
-    private String alcanceTerritorial;
+    private String documento;
 
     private String programaVinculacion;
 

@@ -32,9 +32,7 @@ public class ProyectoRequest implements Serializable {
 
     private Long responsablePPP;
 
-    private String objetivoGeneral;
-
-    private String alcanceTerritorial;
+    private String documento;
 
     private String programaVinculacion;
 

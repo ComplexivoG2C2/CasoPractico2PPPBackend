@@ -131,8 +131,6 @@ public class ProyectosService {
         proyectoPPP.setCodigocarrera(proyectoRequest.getCodigocarrera());
         proyectoPPP.setLineaaccion(proyectoRequest.getLineaaccion());
         proyectoPPP.setEmpresa(proyectoRequest.getEmpresa());
-        proyectoPPP.setObjetivoGeneral(proyectoRequest.getObjetivoGeneral());
-        proyectoPPP.setAlcanceTerritorial(proyectoRequest.getAlcanceTerritorial());
         proyectoPPP.setProgramaVinculacion(proyectoRequest.getProgramaVinculacion());
         proyectoPPP.setPlazoEjecucion(proyectoRequest.getPlazoEjecucion());
         proyectoPPP.setFechaInicio(proyectoRequest.getFechaInicio());
@@ -355,15 +353,13 @@ public class ProyectosService {
         proyectoPPP.setCodigocarrera(proyectoRequest.getCodigocarrera());
         proyectoPPP.setLineaaccion(proyectoRequest.getLineaaccion());
         proyectoPPP.setEmpresa(proyectoRequest.getEmpresa());
-        proyectoPPP.setObjetivoGeneral(proyectoRequest.getObjetivoGeneral());
-        proyectoPPP.setAlcanceTerritorial(proyectoRequest.getAlcanceTerritorial());
         proyectoPPP.setProgramaVinculacion(proyectoRequest.getProgramaVinculacion());
         proyectoPPP.setPlazoEjecucion(proyectoRequest.getPlazoEjecucion());
         proyectoPPP.setFechaInicio(proyectoRequest.getFechaInicio());
         proyectoPPP.setFechaFin(proyectoRequest.getFechaFin());
         proyectoPPP.setParticipantes(proyectoRequest.getParticipantes());
         proyectoPPP.setHoras(proyectoRequest.getHoras());
-
+        proyectoPPP.setDocumento(proyectoRequest.getDocumento());
         ProyectoPPP saved = proyectoRepository.save(proyectoPPP);
         updateObjetivosEspecificos(proyectoRequest.getId(), proyectoRequest.getObjetivosEspecificosProyecto());
 
@@ -566,14 +562,13 @@ public class ProyectosService {
             materiasList.setNombreEmpresa(optional.get().getEmpresa().toString());
             materiasList.setNombreresponsable(nombreResponsable(optional.get().getResponsablePPP().getId()));
             materiasList.setEmpresa(optional.get().getEmpresa());
-            materiasList.setAlcanceTerritorial(optional.get().getAlcanceTerritorial());
-            materiasList.setObjetivoGeneral(optional.get().getObjetivoGeneral());
             materiasList.setProgramaVinculacion(optional.get().getProgramaVinculacion());
             materiasList.setHoras(optional.get().getHoras());
             materiasList.setParticipantes(optional.get().getParticipantes());
             materiasList.setFechaFin(optional.get().getFechaFin());
             materiasList.setFechaInicio(optional.get().getFechaInicio());
             materiasList.setPlazoEjecucion(optional.get().getPlazoEjecucion());
+            materiasList.setDocumento(optional.get().getDocumento());
             if (optional.get().getTutorEmp() != null) {
                 materiasList.setNombretutoremp(nombreDirector(optional.get().getTutorEmp().getId()));
             } else {
@@ -705,8 +700,7 @@ public class ProyectosService {
                 materiasList.setNombreEmpresa(optional.get().getEmpresa().toString());
                 materiasList.setNombreresponsable(nombreResponsable(optional.get().getResponsablePPP().getId()));
                 materiasList.setEmpresa(optional.get().getEmpresa());
-                materiasList.setAlcanceTerritorial(optional.get().getAlcanceTerritorial());
-                materiasList.setObjetivoGeneral(optional.get().getObjetivoGeneral());
+                materiasList.setDocumento(optional.get().getDocumento());
                 materiasList.setProgramaVinculacion(optional.get().getProgramaVinculacion());
                 materiasList.setHoras(optional.get().getHoras());
                 materiasList.setParticipantes(optional.get().getParticipantes());
@@ -780,8 +774,7 @@ public class ProyectosService {
         response.setNombreEmpresa(proyectoPPP.getEmpresa().toString());
         response.setNombreresponsable(nombreResponsable(proyectoPPP.getResponsablePPP().getId()));
         response.setEmpresa(proyectoPPP.getEmpresa());
-        response.setAlcanceTerritorial(proyectoPPP.getAlcanceTerritorial());
-        response.setObjetivoGeneral(proyectoPPP.getObjetivoGeneral());
+        response.setDocumento(proyectoPPP.getDocumento());
         response.setProgramaVinculacion(proyectoPPP.getProgramaVinculacion());
         response.setHoras(proyectoPPP.getHoras());
         response.setFechaInicio(proyectoPPP.getFechaInicio());
