@@ -6,11 +6,11 @@ import com.tecazuay.complexivog2c2.dto.anexos.Anexo3Response;
 import com.tecazuay.complexivog2c2.exception.BadRequestException;
 import com.tecazuay.complexivog2c2.exception.ResponseNotFoundException;
 import com.tecazuay.complexivog2c2.model.Primary.Anexos.Anexo3;
-import com.tecazuay.complexivog2c2.model.Primary.proyecto.ProyectoPPP;
+import com.tecazuay.complexivog2c2.model.Primary.solicitudproyecto.ProyectoPPP;
 import com.tecazuay.complexivog2c2.model.Secondary.alumnos.VCicloAlumnos;
 import com.tecazuay.complexivog2c2.repository.Primary.Anexos.Anexo3Repository;
 import com.tecazuay.complexivog2c2.repository.Primary.designaciones.ResponsablePPPRepository;
-import com.tecazuay.complexivog2c2.repository.Primary.proyecto.ProyectoRepository;
+import com.tecazuay.complexivog2c2.repository.Primary.solicitudproyecto.ProyectoRepository;
 import com.tecazuay.complexivog2c2.repository.Primary.usuario.UsuarioRepository;
 import com.tecazuay.complexivog2c2.repository.Secondary.alumnos.VCicloAlumnosRepository;
 import com.tecazuay.complexivog2c2.repository.Secondary.carreras.CarrerasRepository;
@@ -84,7 +84,7 @@ public class Anexo3Service {
             }
 
         }
-        throw new BadRequestException("No existe el proyecto con id: " + anexo3Request.getIdProyectoPPP());
+        throw new BadRequestException("No existe el solicitudproyecto con id: " + anexo3Request.getIdProyectoPPP());
     }
 
 
@@ -142,7 +142,7 @@ public class Anexo3Service {
             }).collect(Collectors.toList());
 
         }
-        throw new BadRequestException("No existe el proyecto");
+        throw new BadRequestException("No existe el solicitudproyecto");
     }
 
     @Transactional

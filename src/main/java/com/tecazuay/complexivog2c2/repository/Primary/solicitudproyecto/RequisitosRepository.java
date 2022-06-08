@@ -1,7 +1,7 @@
-package com.tecazuay.complexivog2c2.repository.Primary.proyecto;
+package com.tecazuay.complexivog2c2.repository.Primary.solicitudproyecto;
 
-import com.tecazuay.complexivog2c2.model.Primary.proyecto.ProyectoPPP;
-import com.tecazuay.complexivog2c2.model.Primary.proyecto.RequisitosProyecto;
+import com.tecazuay.complexivog2c2.model.Primary.solicitudproyecto.ProyectoPPP;
+import com.tecazuay.complexivog2c2.model.Primary.solicitudproyecto.RequisitosProyecto;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

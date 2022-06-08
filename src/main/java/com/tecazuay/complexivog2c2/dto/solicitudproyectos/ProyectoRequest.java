@@ -1,32 +1,24 @@
-package com.tecazuay.complexivog2c2.dto.proyectos;
+package com.tecazuay.complexivog2c2.dto.solicitudproyectos;
 
-import com.tecazuay.complexivog2c2.dto.docentes.designaciones.TutorAcademicoResponse;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.tecazuay.complexivog2c2.dto.docentes.DocenteRequest;
+import lombok.Data;
 
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
-public class ProyectoResponse implements Serializable {
+@Data
+public class ProyectoRequest implements Serializable {
 
     private Long id;
 
-    private String codigo;
-
     private int participantes;
+
+    private String codigo;
 
     private String nombre;
 
     private String lineaaccion;
-
-    private String carrera;
 
     private String codigocarrera;
 
@@ -34,13 +26,11 @@ public class ProyectoResponse implements Serializable {
 
     private Date fechaat;
 
-    private String nombreEnudad;
+    private Long empresa;
 
-    private Long entidadbeneficiaria;
+    private String tutorempProyecto;
 
-    private String nombredirector;
-
-    private String nombreresponsable;
+    private Long responsablePPP;
 
     private String objetivoGeneral;
 
@@ -52,9 +42,14 @@ public class ProyectoResponse implements Serializable {
 
     private List<RequisitoslistProyecto> requisitoslistProyectos;
 
-    private List<TutorAcademicoResponse> tutorAcademicoResponse;
+    //FALTA COORDINADOR DE CARERRA EL ID
+   // private List<TutorAcademicoDelegados> docentesApoyoDelegados;
 
     private List<ObjetivosEspeciicoslistProyecto> objetivosEspecificosProyecto;
+
+    private List<DocenteRequest> docentesDelegados;
+
+    private String coordinadorCedula;
 
     private String plazoEjecucion;
 
@@ -63,5 +58,5 @@ public class ProyectoResponse implements Serializable {
     private Date fechaFin;
 
     private int horas;
-
 }
+

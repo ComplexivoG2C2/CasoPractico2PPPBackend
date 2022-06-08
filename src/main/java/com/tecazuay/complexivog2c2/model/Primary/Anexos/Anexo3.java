@@ -1,6 +1,6 @@
 package com.tecazuay.complexivog2c2.model.Primary.Anexos;
 
-import com.tecazuay.complexivog2c2.model.Primary.proyecto.ProyectoPPP;
+import com.tecazuay.complexivog2c2.model.Primary.solicitudproyecto.ProyectoPPP;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

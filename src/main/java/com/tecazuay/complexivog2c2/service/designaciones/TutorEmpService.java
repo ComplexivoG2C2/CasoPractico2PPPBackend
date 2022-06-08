@@ -4,16 +4,20 @@ import com.tecazuay.complexivog2c2.dto.docentes.TutorEmpCedulaResponse;
 import com.tecazuay.complexivog2c2.dto.docentes.designaciones.TutorEmpProyectoRequest;
 import com.tecazuay.complexivog2c2.dto.docentes.designaciones.TutorEmpProyectoResponse;
 import com.tecazuay.complexivog2c2.dto.email.EmailBody;
+import com.tecazuay.complexivog2c2.dto.empresa.EmpresaRequest;
 import com.tecazuay.complexivog2c2.exception.BadRequestException;
 import com.tecazuay.complexivog2c2.exception.ResponseNotFoundException;
 import com.tecazuay.complexivog2c2.model.Primary.coordinadores.CoordinadorCarrera;
+import com.tecazuay.complexivog2c2.model.Primary.coordinadores.CoordinadorVinculacion;
+import com.tecazuay.complexivog2c2.model.Primary.desigaciones.ResponsablePPP;
 import com.tecazuay.complexivog2c2.model.Primary.desigaciones.TutorEmp;
-import com.tecazuay.complexivog2c2.model.Primary.proyecto.ProyectoPPP;
+import com.tecazuay.complexivog2c2.model.Primary.empresa.Empresa;
+import com.tecazuay.complexivog2c2.model.Primary.solicitudproyecto.ProyectoPPP;
 import com.tecazuay.complexivog2c2.model.Primary.usuario.Usuario;
 import com.tecazuay.complexivog2c2.model.Secondary.personas.VPersonasppp;
 import com.tecazuay.complexivog2c2.repository.Primary.coordinadorCarrera.CoordinadorRepository;
 import com.tecazuay.complexivog2c2.repository.Primary.designaciones.TutorEmpProyectoRepository;
-import com.tecazuay.complexivog2c2.repository.Primary.proyecto.ProyectoRepository;
+import com.tecazuay.complexivog2c2.repository.Primary.solicitudproyecto.ProyectoRepository;
 import com.tecazuay.complexivog2c2.repository.Primary.usuario.UsuarioRepository;
 import com.tecazuay.complexivog2c2.repository.Secondary.personas.PersonasRepository;
 import com.tecazuay.complexivog2c2.service.email.EmailService;
@@ -46,17 +50,43 @@ public class TutorEmpService {
     private ProyectoRepository proyectoRepository;
 
 
-    public boolean saveRolDirector(TutorEmpProyectoRequest tutorEmpProyectoRequest) {
+//    public boolean save(TutorEmpProyectoRequest teRequest) {
+//        TutorEmp eb = new TutorEmp();
+//        eb.setCedula(teRequest.getCedula());
+//        CoordinadorCarrera cc = getCedula(teRequest.getCoordinador_id());
+//        eb.setCoordinadorCarrera(cc);
+//
+//        eb.setEstado(teRequest.isEstado());
+//        try {
+//            tutorEmpProyectoRepository.save(eb);
+//            return true;
+//        } catch (Exception ex) {
+//            throw new BadRequestException("No se guardó tutor empreasrial" + ex);
+//        }
+//    }
+//    public TutorEmp getIdPPP(Long id) {
+//        Optional<TutorEmp> optional = tutorEmpProyectoRepository.findById(id);
+//        if (optional.isPresent()) {
+//
+//            return proyectoRepository.findByTutorEmp(optional.get()).orElse(new ());
+//        }else{
+//            throw new BadRequestException("No se encontró el id del Coordinador de Vinculacion");
+//        }
+//
+//    }
+
+
+    public boolean saveRolTutoremp(TutorEmpProyectoRequest tutorEmpProyectoRequest) {
         if (tutorEmpProyectoRepository.existsByCedulaAndEstado(tutorEmpProyectoRequest.getCedula(), true)) {
-            throw new BadRequestException("Ya está asignado como Director de un Proyecto");
+            throw new BadRequestException("Ya está asignado como tutor empresarial");
         }
         Optional<ProyectoPPP> optional = proyectoRepository.findById(tutorEmpProyectoRequest.getIdProyecto());
         if (optional.isPresent()) {
             if (!optional.get().isEstado())
-                throw new BadRequestException("El proyecto ha finalizado, no es posible modificar sus datos");
+                throw new BadRequestException("La solicitud ha finalizado, no es posible modificar sus datos");
 
             if (tutorEmpProyectoRepository.existsByProyectoPPP(optional.get())) {
-                throw new BadRequestException("Ya está asignado un Director de  Proyecto");
+                throw new BadRequestException("Ya está asignado un Tutor empresarial");
             }
         } else {
             throw new ResponseNotFoundException("Proyecto:", "ID:", tutorEmpProyectoRequest.getIdProyecto() + "");
@@ -96,10 +126,10 @@ public class TutorEmpService {
             if (proyecto.isPresent()) {
                 EmailBody e = new EmailBody();
                 e.setEmail(List.of(optional.get().getEmail()));
-                e.setContent("Usted ha sido designado como director de proyecto\n" +
+                e.setContent("Usted ha sido designado como director de solicitudproyecto\n" +
                         "Proyecto; " + proyecto.get().getNombre() + "\n");
                 e.setText2(" Ingrese al sistema dando clic en el siguiente botón:");
-                e.setSubject("Designación para proyectos de vinculación");
+                e.setSubject("Designación para solicitudproyectos de vinculación");
                 emailService.sendEmail(e);
             } else {
                 System.out.println("NO EXISTE PROYECTO");
@@ -157,7 +187,7 @@ public class TutorEmpService {
     public void deleteById(Long id) {
         Optional<TutorEmp> optional = tutorEmpProyectoRepository.findById(id);
         if (optional.isEmpty()) {
-            throw new BadRequestException("El director de proyecto con el id: " + id + ", no existe");
+            throw new BadRequestException("El director de solicitudproyecto con el id: " + id + ", no existe");
         }
         tutorEmpProyectoRepository.delete(optional.get());
     }
@@ -166,7 +196,7 @@ public class TutorEmpService {
     public TutorEmpCedulaResponse getCedulaDirectorByProject(Long id) {
         Optional<ProyectoPPP> optional = proyectoRepository.findById(id);
         if (optional.isEmpty())
-            throw new BadRequestException("El proyecto con id: " + id + ", no existe");
+            throw new BadRequestException("El solicitudproyecto con id: " + id + ", no existe");
 
         String cedula = optional.get().getTutorEmp().getCedula();
         return new TutorEmpCedulaResponse(cedula);

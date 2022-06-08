@@ -1,4 +1,4 @@
-package com.tecazuay.complexivog2c2.model.Primary.proyecto;
+package com.tecazuay.complexivog2c2.model.Primary.solicitudproyecto;
 
 
 import com.tecazuay.complexivog2c2.model.Primary.Anexos.*;
@@ -17,7 +17,7 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
-@Table(name = "proyecto")
+@Table(name = "solicitudproyecto")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -39,7 +39,7 @@ public class ProyectoPPP implements Serializable {
 
     private int horas;
 
-    private Long entidadbeneficiaria;
+    private Long empresa;
 
     @Temporal(TemporalType.DATE)
     private Date fechaat;

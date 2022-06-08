@@ -28,7 +28,7 @@ import com.tecazuay.complexivog2c2.repository.Primary.designaciones.TutorEmpProy
 import com.tecazuay.complexivog2c2.repository.Primary.designaciones.TutorAcademicoRepository;
 import com.tecazuay.complexivog2c2.repository.Primary.designaciones.ResponsablePPPRepository;
 import com.tecazuay.complexivog2c2.repository.Primary.empresa.EmpresaRepository;
-import com.tecazuay.complexivog2c2.repository.Primary.proyecto.ProyectoRepository;
+import com.tecazuay.complexivog2c2.repository.Primary.solicitudproyecto.ProyectoRepository;
 import com.tecazuay.complexivog2c2.repository.Primary.roles.RolesRepository;
 import com.tecazuay.complexivog2c2.repository.Primary.usuario.UsuarioRepository;
 import com.tecazuay.complexivog2c2.repository.Secondary.alumnos.VAlumnosRepository;
@@ -286,6 +286,7 @@ public class AuthService implements UserDetailsService {
     }
 
 
+
     private boolean getPersonaFenix(String cedula) {
         return personasRepository.existsByCedula(cedula);
     }
@@ -420,7 +421,7 @@ public class AuthService implements UserDetailsService {
             if(empresa!=null){
                 try {
                 if(empresaRequest.getClave().equals(empresa.getClave())){
-                    return  new EmpresaResponse(empresa.getId(), empresa.getEmailEmpresa(),empresa.getClave(),generateTokenLogin2(empresaRequest));
+                    return  new EmpresaResponse(empresa.getId(),empresa.getNombre(), empresa.getEmailEmpresa(),empresa.getClave(),generateTokenLogin2(empresaRequest),empresa.getRepresentante(),empresa.getCelularRepresentante());
                 }else{
                     throw new Exception("La contraseña es incorrecta");
                 }
