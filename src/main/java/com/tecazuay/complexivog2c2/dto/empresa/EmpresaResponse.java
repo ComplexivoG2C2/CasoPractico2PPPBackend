@@ -58,12 +58,23 @@ public class EmpresaResponse implements Serializable {
         this.emailEmpresa = emailEmpresa;
         this.clave = clave;
     }
+//    public EmpresaResponse(Long id, String emailEmpresa, String clave,  String token, String representante, String celularRepresentante,Long idCoordinador, String nombreCoordinador) {
+//        this.id = id;
+//        this.emailEmpresa = emailEmpresa;
+//        this.clave = clave;
+//        this.token = token;
+//    }
 
-    public EmpresaResponse(Long id, String emailEmpresa, String clave,  String token) {
+
+
+    public EmpresaResponse(Long id, String nombre,String emailEmpresa, String clave,  String token, String representante, String celularRepresentante) {
         this.id = id;
+        this.nombre=nombre;
         this.emailEmpresa = emailEmpresa;
         this.clave = clave;
         this.token = token;
+        this.representante=representante;
+        this.celularRepresentante=celularRepresentante;
     }
 
 

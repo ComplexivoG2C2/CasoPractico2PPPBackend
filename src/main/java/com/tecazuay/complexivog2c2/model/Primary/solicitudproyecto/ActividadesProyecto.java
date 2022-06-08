@@ -1,4 +1,4 @@
-package com.tecazuay.complexivog2c2.model.Primary.proyecto;
+package com.tecazuay.complexivog2c2.model.Primary.solicitudproyecto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,20 +9,24 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "requisitospproyecto")
+@Table(name = "actividadesproyecto")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class RequisitosProyecto implements Serializable {
+public class ActividadesProyecto implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String descripcion;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinColumn(name="idproyecto", referencedColumnName = "id")
     private ProyectoPPP proyectoPPP;
+
+
+
+
 
 }

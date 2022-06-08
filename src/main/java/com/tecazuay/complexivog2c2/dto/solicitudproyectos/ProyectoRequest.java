@@ -1,4 +1,4 @@
-package com.tecazuay.complexivog2c2.dto.proyectos;
+package com.tecazuay.complexivog2c2.dto.solicitudproyectos;
 
 import com.tecazuay.complexivog2c2.dto.docentes.DocenteRequest;
 import lombok.Data;
@@ -26,15 +26,13 @@ public class ProyectoRequest implements Serializable {
 
     private Date fechaat;
 
-    private Long entidadbeneficiaria;
+    private Long empresa;
 
-    private String directorProyecto;
+    private String tutorempProyecto;
 
     private Long responsablePPP;
 
-    private String objetivoGeneral;
-
-    private String alcanceTerritorial;
+    private String documento;
 
     private String programaVinculacion;
 

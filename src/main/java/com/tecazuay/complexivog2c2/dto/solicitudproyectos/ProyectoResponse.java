@@ -1,4 +1,4 @@
-package com.tecazuay.complexivog2c2.dto.proyectos;
+package com.tecazuay.complexivog2c2.dto.solicitudproyectos;
 
 import com.tecazuay.complexivog2c2.dto.docentes.designaciones.TutorAcademicoResponse;
 import lombok.AllArgsConstructor;
@@ -34,17 +34,15 @@ public class ProyectoResponse implements Serializable {
 
     private Date fechaat;
 
-    private String nombreEnudad;
+    private String nombreEmpresa;
 
-    private Long entidadbeneficiaria;
+    private Long empresa;
 
-    private String nombredirector;
+    private String nombretutoremp;
 
     private String nombreresponsable;
 
-    private String objetivoGeneral;
-
-    private String alcanceTerritorial;
+    private String documento;
 
     private String programaVinculacion;
 

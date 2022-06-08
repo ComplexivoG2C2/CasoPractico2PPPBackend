@@ -63,14 +63,14 @@ public class EmpresaController {
 
 
 
-    @PostMapping("/login")
-    public ResponseEntity<EmpresaResponse> login(@RequestBody EmpresaRequest empRequest) throws Exception {
-        EmpresaResponse empResponse = empresaService.login(empRequest);
-        if (empResponse == null){
-            return new ResponseEntity(new Mensaje("No existe"), HttpStatus.NOT_FOUND);
-        }else {
-            return new ResponseEntity<EmpresaResponse>(empResponse, HttpStatus.OK);
-        }
-    }
+//    @PostMapping("/login")
+//    public ResponseEntity<EmpresaResponse> login(@RequestBody EmpresaRequest empRequest) throws Exception {
+//        EmpresaResponse empResponse = empresaService.login(empRequest);
+//        if (empResponse == null){
+//            return new ResponseEntity(new Mensaje("No existe"), HttpStatus.NOT_FOUND);
+//        }else {
+//            return new ResponseEntity<EmpresaResponse>(empResponse, HttpStatus.OK);
+//        }
+//    }
 
 }

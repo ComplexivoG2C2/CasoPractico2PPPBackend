@@ -1,4 +1,4 @@
-package com.tecazuay.complexivog2c2.dto.proyectos;
+package com.tecazuay.complexivog2c2.dto.solicitudproyectos;
 
 import lombok.Data;
 
