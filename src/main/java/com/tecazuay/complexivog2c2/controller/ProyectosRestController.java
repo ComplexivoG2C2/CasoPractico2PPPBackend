@@ -1,12 +1,12 @@
 package com.tecazuay.complexivog2c2.controller;
 
 
-import com.tecazuay.complexivog2c2.dto.proyectos.ActividadeslistProyecto;
-import com.tecazuay.complexivog2c2.dto.proyectos.ProyectoResponse;
-import com.tecazuay.complexivog2c2.dto.proyectos.ProyectoRequest;
-import com.tecazuay.complexivog2c2.dto.proyectos.RequisitoslistProyecto;
+import com.tecazuay.complexivog2c2.dto.solicitudproyectos.ActividadeslistProyecto;
+import com.tecazuay.complexivog2c2.dto.solicitudproyectos.ProyectoResponse;
+import com.tecazuay.complexivog2c2.dto.solicitudproyectos.ProyectoRequest;
+import com.tecazuay.complexivog2c2.dto.solicitudproyectos.RequisitoslistProyecto;
 import com.tecazuay.complexivog2c2.exception.Mensaje;
-import com.tecazuay.complexivog2c2.service.proyecto.ProyectosService;
+import com.tecazuay.complexivog2c2.service.solicitudproyecto.ProyectosService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +16,7 @@ import java.util.List;
 
 @CrossOrigin(origins = {"http://localhost:4200"})
 @RestController
-@RequestMapping("/api/proyectos")
+@RequestMapping("/api/solicitudproyectos")
 @RequiredArgsConstructor
 public class ProyectosRestController {
 
@@ -46,16 +46,16 @@ public class ProyectosRestController {
         return new ResponseEntity<>(proyectoResponses, HttpStatus.OK);
     }
 
-    @GetMapping("/cedula/apoyo/{cedula}")
+    @GetMapping("/cedula/tutoracademico/{cedula}")
     public ResponseEntity<?> listProyectosByApoyo(@PathVariable String cedula) {
         ProyectoResponse proyectoResponses = proyectosService.getProyectoCIApoyo(cedula);
         return new ResponseEntity<>(proyectoResponses, HttpStatus.OK);
     }
 
-    @DeleteMapping("/apoyo/{id}")
+    @DeleteMapping("/tutoracademico/{id}")
     public ResponseEntity<?> deleteDApoyo(@PathVariable Long id) {
         proyectosService.deleteDocenteApoyo(id);
-        return new ResponseEntity<>(new Mensaje("Docente de apoyo eliminado"), HttpStatus.OK);
+        return new ResponseEntity<>(new Mensaje("Docente de tutor eliminado"), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
@@ -76,12 +76,12 @@ public class ProyectosRestController {
         return new ResponseEntity<>(new Mensaje("Actividades actualizados"), HttpStatus.OK);
     }
 
-    @GetMapping("/director/{cedula}")
+    @GetMapping("/tutoremp/{cedula}")
     public ResponseEntity<?> byDirectorCedula(@PathVariable String cedula) {
         return new ResponseEntity<>(proyectosService.allByDirectorCedula(cedula), HttpStatus.OK);
     }
 
-    @GetMapping("/apoyo/{cedula}")
+    @GetMapping("/tutoracademico/{cedula}")
     public ResponseEntity<?> byCedulaApoyo(@PathVariable String cedula) {
         return new ResponseEntity<>(proyectosService.allByApoyoCedula(cedula), HttpStatus.OK);
     }

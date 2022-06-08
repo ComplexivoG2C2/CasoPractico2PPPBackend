@@ -100,7 +100,7 @@ public class CoordinadorVinculacionService {
             EmailBody e = new EmailBody();
             e.setEmail(List.of(getEmail.get().getEmail()));
             e.setContent("Usted ha sido designado como coordinador de vinculación" );
-            e.setSubject("Designación para proyectos de vinculación");
+            e.setSubject("Designación para solicitudproyectos de vinculación");
             e.setText2("Ingrese al sistema dando clic en el siguiente botón:");
             emailService.sendEmail(e);
         }else{

@@ -5,11 +5,11 @@ import com.tecazuay.complexivog2c2.dto.anexos.Anexo1Response;
 import com.tecazuay.complexivog2c2.exception.BadRequestException;
 import com.tecazuay.complexivog2c2.exception.ResponseNotFoundException;
 import com.tecazuay.complexivog2c2.model.Primary.Anexos.Anexo1;
-import com.tecazuay.complexivog2c2.model.Primary.proyecto.ProyectoPPP;
+import com.tecazuay.complexivog2c2.model.Primary.solicitudproyecto.ProyectoPPP;
 import com.tecazuay.complexivog2c2.repository.Primary.Anexos.Anexo1Repository;
 import com.tecazuay.complexivog2c2.repository.Primary.designaciones.TutorEmpProyectoRepository;
 import com.tecazuay.complexivog2c2.repository.Primary.designaciones.TutorAcademicoRepository;
-import com.tecazuay.complexivog2c2.repository.Primary.proyecto.ProyectoRepository;
+import com.tecazuay.complexivog2c2.repository.Primary.solicitudproyecto.ProyectoRepository;
 import com.tecazuay.complexivog2c2.repository.Secondary.carreras.CarrerasAllRepository;
 import com.tecazuay.complexivog2c2.repository.Secondary.personas.PersonasRepository;
 import lombok.RequiredArgsConstructor;
@@ -36,7 +36,7 @@ public class Anexo1Service {
         Optional<ProyectoPPP> optional = proyectoRepository.findById(anexo1Request.getIdProyectoPPP());
         if (optional.isPresent()) {
             if (!optional.get().isEstado())
-                throw new BadRequestException("El proyecto ha finalizado, no es posible modificar sus datos");
+                throw new BadRequestException("El solicitudproyecto ha finalizado, no es posible modificar sus datos");
 
             Anexo1 an = new Anexo1();
             if (personasRepository.existsByCedula(anexo1Request.getCedulaDelegado())) {
@@ -68,14 +68,14 @@ public class Anexo1Service {
                 throw new ResponseNotFoundException("Docente Delegado", "CEDULA:", "" + anexo1Request.getCedulaDelegado());
             }
         }
-        throw new BadRequestException("No existe el proyecto con id: " + anexo1Request.getIdProyectoPPP());
+        throw new BadRequestException("No existe el solicitudproyecto con id: " + anexo1Request.getIdProyectoPPP());
     }
 
     public Boolean update(Anexo1Request anexo1Request) {
         Optional<Anexo1> op = anexo1Repository.findById(anexo1Request.getId());
         if (op.isPresent()) {
             if (!op.get().getProyectoPPP().isEstado())
-                throw new BadRequestException("El proyecto ha finalizado, no es posible modificar sus datos");
+                throw new BadRequestException("El solicitudproyecto ha finalizado, no es posible modificar sus datos");
 
             if (personasRepository.existsByCedula(anexo1Request.getCedulaDelegado())) {
                 if (personasRepository.existsByCedula(anexo1Request.getCedulaCoordinador())) {
@@ -138,7 +138,7 @@ public class Anexo1Service {
             }).collect(Collectors.toList());
 
         }
-        throw new BadRequestException("No existe el proyecto");
+        throw new BadRequestException("No existe el solicitudproyecto");
     }
 
     public List<Anexo1Response> listByCarreraCodigo(String codigo) {
@@ -202,10 +202,10 @@ public class Anexo1Service {
     public void deleteAllByProyectId(Long id) {
         Optional<ProyectoPPP> optional = proyectoRepository.findById(id);
         if (optional.isEmpty())
-            throw new BadRequestException("El proyecto con id: " + id + ", no existe");
+            throw new BadRequestException("El solicitudproyecto con id: " + id + ", no existe");
 
         if (!optional.get().isEstado())
-            throw new BadRequestException("El proyecto ha finalizado, no es posible modificar sus datos");
+            throw new BadRequestException("El solicitudproyecto ha finalizado, no es posible modificar sus datos");
 
         if (optional.get().getAnexo1() != null) {
 

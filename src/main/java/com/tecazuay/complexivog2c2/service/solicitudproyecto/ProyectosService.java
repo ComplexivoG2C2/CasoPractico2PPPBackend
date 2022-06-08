@@ -1,21 +1,21 @@
-package com.tecazuay.complexivog2c2.service.proyecto;
+package com.tecazuay.complexivog2c2.service.solicitudproyecto;
 
 import com.tecazuay.complexivog2c2.dto.docentes.DocenteRequest;
 import com.tecazuay.complexivog2c2.dto.docentes.DocenteRolesList;
 import com.tecazuay.complexivog2c2.dto.docentes.designaciones.TutorEmpProyectoRequest;
 import com.tecazuay.complexivog2c2.dto.docentes.designaciones.TutorAcademicoResponse;
 import com.tecazuay.complexivog2c2.dto.email.EmailBody;
-import com.tecazuay.complexivog2c2.dto.proyectos.*;
+import com.tecazuay.complexivog2c2.dto.solicitudproyectos.*;
 import com.tecazuay.complexivog2c2.exception.BadRequestException;
 import com.tecazuay.complexivog2c2.exception.ResponseNotFoundException;
 import com.tecazuay.complexivog2c2.model.Primary.coordinadores.CoordinadorCarrera;
 import com.tecazuay.complexivog2c2.model.Primary.desigaciones.TutorAcademicoDelegados;
 import com.tecazuay.complexivog2c2.model.Primary.desigaciones.TutorEmp;
 import com.tecazuay.complexivog2c2.model.Primary.desigaciones.ResponsablePPP;
-import com.tecazuay.complexivog2c2.model.Primary.proyecto.ActividadesProyecto;
-import com.tecazuay.complexivog2c2.model.Primary.proyecto.ObjetivosEspecificosProyecto;
-import com.tecazuay.complexivog2c2.model.Primary.proyecto.ProyectoPPP;
-import com.tecazuay.complexivog2c2.model.Primary.proyecto.RequisitosProyecto;
+import com.tecazuay.complexivog2c2.model.Primary.solicitudproyecto.ActividadesProyecto;
+import com.tecazuay.complexivog2c2.model.Primary.solicitudproyecto.ObjetivosEspecificosProyecto;
+import com.tecazuay.complexivog2c2.model.Primary.solicitudproyecto.ProyectoPPP;
+import com.tecazuay.complexivog2c2.model.Primary.solicitudproyecto.RequisitosProyecto;
 import com.tecazuay.complexivog2c2.model.Primary.usuario.Usuario;
 import com.tecazuay.complexivog2c2.model.Secondary.carreras.VCarrerasppp;
 import com.tecazuay.complexivog2c2.model.Secondary.personas.VPersonasppp;
@@ -25,7 +25,7 @@ import com.tecazuay.complexivog2c2.repository.Primary.designaciones.CoordinadorV
 import com.tecazuay.complexivog2c2.repository.Primary.designaciones.TutorEmpProyectoRepository;
 import com.tecazuay.complexivog2c2.repository.Primary.designaciones.TutorAcademicoRepository;
 import com.tecazuay.complexivog2c2.repository.Primary.designaciones.ResponsablePPPRepository;
-import com.tecazuay.complexivog2c2.repository.Primary.proyecto.*;
+import com.tecazuay.complexivog2c2.repository.Primary.solicitudproyecto.*;
 import com.tecazuay.complexivog2c2.repository.Primary.usuario.UsuarioRepository;
 import com.tecazuay.complexivog2c2.repository.Secondary.carreras.CarrerasRepository;
 import com.tecazuay.complexivog2c2.repository.Secondary.coordinadores.CoordinadorVRepository;
@@ -116,7 +116,7 @@ public class ProyectosService {
     private Anexo1Service anexo1Service;
 
     /**
-     * Metodo para crear un proyecto en la base
+     * Metodo para crear un solicitudproyecto en la base
      *
      * @param proyectoRequest
      * @param responsablePPP
@@ -130,9 +130,7 @@ public class ProyectosService {
         proyectoPPP.setEstado(proyectoRequest.isEstado());
         proyectoPPP.setCodigocarrera(proyectoRequest.getCodigocarrera());
         proyectoPPP.setLineaaccion(proyectoRequest.getLineaaccion());
-        proyectoPPP.setEntidadbeneficiaria(proyectoRequest.getEntidadbeneficiaria());
-        proyectoPPP.setObjetivoGeneral(proyectoRequest.getObjetivoGeneral());
-        proyectoPPP.setAlcanceTerritorial(proyectoRequest.getAlcanceTerritorial());
+        proyectoPPP.setEmpresa(proyectoRequest.getEmpresa());
         proyectoPPP.setProgramaVinculacion(proyectoRequest.getProgramaVinculacion());
         proyectoPPP.setPlazoEjecucion(proyectoRequest.getPlazoEjecucion());
         proyectoPPP.setFechaInicio(proyectoRequest.getFechaInicio());
@@ -182,7 +180,7 @@ public class ProyectosService {
             request.setEstado(true);
             request.setIdProyecto(idProyecto);
             request.setCoordinador_id(coordinadorCarrera.getCedula());
-            tutorEmpService.saveRolDirector(request);
+            tutorEmpService.saveRolTutoremp(request);
         }
     }
 
@@ -224,7 +222,7 @@ public class ProyectosService {
                             }
                             if (tutorEmpProyectoRepository.existsByCedulaAndEstado(docenteRequest.getCedula(), true)) {
                                 log.info("Ya existe un DP con esa cedula {}", docenteRequest.getCedula());
-                                throw new BadRequestException("Ya se encuentra asignado como Director de Proyecto");
+                                throw new BadRequestException("Ya se encuentra asignado como Tutor empresarial");
                             }
                             if (responsablePPPRepository.existsByCedulaAndEstado(docenteRequest.getCedula(), true)) {
                                 log.info("Ya existe un RPPP con esa cedula {}", docenteRequest.getCedula());
@@ -262,7 +260,7 @@ public class ProyectosService {
                     e.setEmail(List.of(getEmail.get().getEmail()));
                     e.setContent("Usted ha sido designado como docente de apoyo");
                     e.setText2(" Ingrese al sistema dando clic en el siguiente botón:");
-                    e.setSubject("Designación para proyectos de vinculación");
+                    e.setSubject("Designación para solicitudproyectos de vinculación");
                     emailService.sendEmail(e);
                 } else {
                     System.out.println("NO HAY EL EMAIL");
@@ -292,7 +290,7 @@ public class ProyectosService {
 
 
     /**
-     * Llamar desde controlador y enviar un proyecto al metodo de saveProyecto
+     * Llamar desde controlador y enviar un solicitudproyecto al metodo de saveProyecto
      *
      * @param proyectoRequest
      * @return
@@ -319,7 +317,7 @@ public class ProyectosService {
     }
 
     /**
-     * Metodo para actualizar proyectos
+     * Metodo para actualizar solicitudproyectos
      *
      * @param proyectoRequest
      * @return
@@ -354,16 +352,14 @@ public class ProyectosService {
         proyectoPPP.setFechaat(proyectoRequest.getFechaat());
         proyectoPPP.setCodigocarrera(proyectoRequest.getCodigocarrera());
         proyectoPPP.setLineaaccion(proyectoRequest.getLineaaccion());
-        proyectoPPP.setEntidadbeneficiaria(proyectoRequest.getEntidadbeneficiaria());
-        proyectoPPP.setObjetivoGeneral(proyectoRequest.getObjetivoGeneral());
-        proyectoPPP.setAlcanceTerritorial(proyectoRequest.getAlcanceTerritorial());
+        proyectoPPP.setEmpresa(proyectoRequest.getEmpresa());
         proyectoPPP.setProgramaVinculacion(proyectoRequest.getProgramaVinculacion());
         proyectoPPP.setPlazoEjecucion(proyectoRequest.getPlazoEjecucion());
         proyectoPPP.setFechaInicio(proyectoRequest.getFechaInicio());
         proyectoPPP.setFechaFin(proyectoRequest.getFechaFin());
         proyectoPPP.setParticipantes(proyectoRequest.getParticipantes());
         proyectoPPP.setHoras(proyectoRequest.getHoras());
-
+        proyectoPPP.setDocumento(proyectoRequest.getDocumento());
         ProyectoPPP saved = proyectoRepository.save(proyectoPPP);
         updateObjetivosEspecificos(proyectoRequest.getId(), proyectoRequest.getObjetivosEspecificosProyecto());
 
@@ -410,12 +406,12 @@ public class ProyectosService {
                 }
             });
         } else {
-            throw new BadRequestException("El proyecto con id: " + id + ", no existe");
+            throw new BadRequestException("El solicitudproyecto con id: " + id + ", no existe");
         }
     }
 
     /**
-     * obtenemos el proyecto por id para actualizar
+     * obtenemos el solicitudproyecto por id para actualizar
      *
      * @param id
      * @return
@@ -425,11 +421,11 @@ public class ProyectosService {
         if (optional.isPresent()) {
             return optional.get();
         }
-        throw new BadRequestException("No existe un proyecto");
+        throw new BadRequestException("No existe un solicitudproyecto");
     }
 
     /**
-     * Lista todos los proyectos
+     * Lista todos los solicitudproyectos
      *
      * @return
      */
@@ -463,7 +459,7 @@ public class ProyectosService {
     }
 
     /**
-     * Metodo para listar las actividades de un proyecto
+     * Metodo para listar las actividades de un solicitudproyecto
      *
      * @param proyectoPPP
      * @return
@@ -478,7 +474,7 @@ public class ProyectosService {
     }
 
     /**
-     * Metodo para listar las requisitos de un proyecto
+     * Metodo para listar las requisitos de un solicitudproyecto
      *
      * @param proyectoPPP
      * @return
@@ -503,7 +499,7 @@ public class ProyectosService {
     }
 
     /**
-     * Metodo para mostrar el nombre de Carrera al momento de listar proyectos
+     * Metodo para mostrar el nombre de Carrera al momento de listar solicitudproyectos
      *
      * @param codigo
      * @return
@@ -563,21 +559,20 @@ public class ProyectosService {
             materiasList.setCodigocarrera(optional.get().getCodigocarrera());
             materiasList.setCarrera(getNombreCarrea(optional.get().getCodigocarrera()));
             materiasList.setEstado(optional.get().isEstado());
-            materiasList.setNombreEnudad(optional.get().getEntidadbeneficiaria().toString());
+            materiasList.setNombreEmpresa(optional.get().getEmpresa().toString());
             materiasList.setNombreresponsable(nombreResponsable(optional.get().getResponsablePPP().getId()));
-            materiasList.setEntidadbeneficiaria(optional.get().getEntidadbeneficiaria());
-            materiasList.setAlcanceTerritorial(optional.get().getAlcanceTerritorial());
-            materiasList.setObjetivoGeneral(optional.get().getObjetivoGeneral());
+            materiasList.setEmpresa(optional.get().getEmpresa());
             materiasList.setProgramaVinculacion(optional.get().getProgramaVinculacion());
             materiasList.setHoras(optional.get().getHoras());
             materiasList.setParticipantes(optional.get().getParticipantes());
             materiasList.setFechaFin(optional.get().getFechaFin());
             materiasList.setFechaInicio(optional.get().getFechaInicio());
             materiasList.setPlazoEjecucion(optional.get().getPlazoEjecucion());
+            materiasList.setDocumento(optional.get().getDocumento());
             if (optional.get().getTutorEmp() != null) {
-                materiasList.setNombredirector(nombreDirector(optional.get().getTutorEmp().getId()));
+                materiasList.setNombretutoremp(nombreDirector(optional.get().getTutorEmp().getId()));
             } else {
-                materiasList.setNombredirector("");
+                materiasList.setNombretutoremp("");
             }
             materiasList.setTutorAcademicoResponse(getDocenteApoyo(optional.get()));
             materiasList.setActividadeslistProyectos(getActividadeByProject(optional.get()));
@@ -603,7 +598,7 @@ public class ProyectosService {
     public void deleteProyecoById(Long id) {
         Optional<ProyectoPPP> optional = proyectoRepository.findById(id);
         if (optional.isEmpty()) {
-            throw new BadRequestException("El proyecto con id: " + id + ", no existe");
+            throw new BadRequestException("El solicitudproyecto con id: " + id + ", no existe");
         }
         optional.get().getTutorAcademicoDelegados()
                 .forEach(d -> docentesService.deleteDocenteApoyoById(d.getId()));
@@ -648,7 +643,7 @@ public class ProyectosService {
                 }
             });
         } else {
-            throw new BadRequestException("El proyecto con id: " + id + ", no existe");
+            throw new BadRequestException("El solicitudproyecto con id: " + id + ", no existe");
         }
     }
 
@@ -683,7 +678,7 @@ public class ProyectosService {
                 }
             });
         } else {
-            throw new BadRequestException("El proyecto con id: " + id + ", no existe");
+            throw new BadRequestException("El solicitudproyecto con id: " + id + ", no existe");
         }
     }
 
@@ -702,11 +697,10 @@ public class ProyectosService {
                 materiasList.setCodigocarrera(optional.get().getCodigocarrera());
                 materiasList.setCarrera(getNombreCarrea(optional.get().getCodigocarrera()));
                 materiasList.setEstado(optional.get().isEstado());
-                materiasList.setNombreEnudad(optional.get().getEntidadbeneficiaria().toString());
+                materiasList.setNombreEmpresa(optional.get().getEmpresa().toString());
                 materiasList.setNombreresponsable(nombreResponsable(optional.get().getResponsablePPP().getId()));
-                materiasList.setEntidadbeneficiaria(optional.get().getEntidadbeneficiaria());
-                materiasList.setAlcanceTerritorial(optional.get().getAlcanceTerritorial());
-                materiasList.setObjetivoGeneral(optional.get().getObjetivoGeneral());
+                materiasList.setEmpresa(optional.get().getEmpresa());
+                materiasList.setDocumento(optional.get().getDocumento());
                 materiasList.setProgramaVinculacion(optional.get().getProgramaVinculacion());
                 materiasList.setHoras(optional.get().getHoras());
                 materiasList.setParticipantes(optional.get().getParticipantes());
@@ -714,9 +708,9 @@ public class ProyectosService {
                 materiasList.setFechaInicio(optional.get().getFechaInicio());
                 materiasList.setPlazoEjecucion(optional.get().getPlazoEjecucion());
                 if (optional.get().getTutorEmp() != null) {
-                    materiasList.setNombredirector(nombreDirector(optional.get().getTutorEmp().getId()));
+                    materiasList.setNombretutoremp(nombreDirector(optional.get().getTutorEmp().getId()));
                 } else {
-                    materiasList.setNombredirector("");
+                    materiasList.setNombretutoremp("");
                 }
                 materiasList.setTutorAcademicoResponse(getDocenteApoyo(optional.get()));
                 materiasList.setActividadeslistProyectos(getActividadeByProject(optional.get()));
@@ -728,7 +722,7 @@ public class ProyectosService {
             }
             throw new ResponseNotFoundException("Proyecto PPP", "id", op.get().getProyectoPPP().getId() + "");
         }
-        throw new ResponseNotFoundException("Docente apoyo ", "cedula", cedula);
+        throw new ResponseNotFoundException("Docente tutor ", "cedula", cedula);
     }
 
     public ProyectoResponse getProyectoCIApoyo(String cedula) {
@@ -740,7 +734,7 @@ public class ProyectosService {
             }
             throw new ResponseNotFoundException("Proyecto PPP", "id", op.get().getProyectoPPP().getId() + "");
         } else {
-            throw new ResponseNotFoundException("Docente apoyo ", "cedula", cedula);
+            throw new ResponseNotFoundException("Docente tutor ", "cedula", cedula);
         }
     }
 
@@ -754,7 +748,7 @@ public class ProyectosService {
                     .map(this::toProyectoResponse)
                     .collect(Collectors.toList());
         }
-        throw new BadRequestException("El director con cédula: " + cedula + ", no existe");
+        throw new BadRequestException("El tutor emp con cédula: " + cedula + ", no existe");
     }
 
     @Transactional(readOnly = true)
@@ -765,7 +759,7 @@ public class ProyectosService {
                     .map(d -> toProyectoResponse(d.getProyectoPPP()))
                     .collect(Collectors.toList());
         }
-        throw new BadRequestException("El docente de apoyo con cédula:" + cedula + " no existe");
+        throw new BadRequestException("El docente tutor con cédula:" + cedula + " no existe");
     }
 
     private ProyectoResponse toProyectoResponse(ProyectoPPP proyectoPPP) {
@@ -777,11 +771,10 @@ public class ProyectosService {
         response.setLineaaccion(proyectoPPP.getLineaaccion());
         response.setCarrera(getNombreCarrea(proyectoPPP.getCodigocarrera()));
         response.setEstado(proyectoPPP.isEstado());
-        response.setNombreEnudad(proyectoPPP.getEntidadbeneficiaria().toString());
+        response.setNombreEmpresa(proyectoPPP.getEmpresa().toString());
         response.setNombreresponsable(nombreResponsable(proyectoPPP.getResponsablePPP().getId()));
-        response.setEntidadbeneficiaria(proyectoPPP.getEntidadbeneficiaria());
-        response.setAlcanceTerritorial(proyectoPPP.getAlcanceTerritorial());
-        response.setObjetivoGeneral(proyectoPPP.getObjetivoGeneral());
+        response.setEmpresa(proyectoPPP.getEmpresa());
+        response.setDocumento(proyectoPPP.getDocumento());
         response.setProgramaVinculacion(proyectoPPP.getProgramaVinculacion());
         response.setHoras(proyectoPPP.getHoras());
         response.setFechaInicio(proyectoPPP.getFechaInicio());
@@ -790,9 +783,9 @@ public class ProyectosService {
         response.setParticipantes(proyectoPPP.getParticipantes());
         response.setCodigocarrera(proyectoPPP.getCodigocarrera());
         if (proyectoPPP.getTutorEmp() != null) {
-            response.setNombredirector(nombreDirector(proyectoPPP.getTutorEmp().getId()));
+            response.setNombretutoremp(nombreDirector(proyectoPPP.getTutorEmp().getId()));
         } else {
-            response.setNombredirector("");
+            response.setNombretutoremp("");
         }
         response.setTutorAcademicoResponse(getDocenteApoyo(proyectoPPP));
         response.setActividadeslistProyectos(getActividadeByProject(proyectoPPP));
