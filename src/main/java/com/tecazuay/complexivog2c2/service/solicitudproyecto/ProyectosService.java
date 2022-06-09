@@ -13,7 +13,7 @@ import com.tecazuay.complexivog2c2.model.Primary.desigaciones.TutorAcademicoDele
 import com.tecazuay.complexivog2c2.model.Primary.desigaciones.TutorEmp;
 import com.tecazuay.complexivog2c2.model.Primary.desigaciones.ResponsablePPP;
 import com.tecazuay.complexivog2c2.model.Primary.solicitudproyecto.ActividadesProyecto;
-import com.tecazuay.complexivog2c2.model.Primary.solicitudproyecto.ObjetivosEspecificosProyecto;
+import com.tecazuay.complexivog2c2.model.Primary.solicitudproyecto.ActividadesempresaProyecto;
 import com.tecazuay.complexivog2c2.model.Primary.solicitudproyecto.ProyectoPPP;
 import com.tecazuay.complexivog2c2.model.Primary.solicitudproyecto.RequisitosProyecto;
 import com.tecazuay.complexivog2c2.model.Primary.usuario.Usuario;
@@ -75,11 +75,11 @@ public class ProyectosService {
     @Autowired
     private TutorAcademicoRepository tutorAcademicoRepository;
 
+//    @Autowired
+//    private ObjetivosRepository objetivosRepository;
+//
     @Autowired
-    private ObjetivosRepository objetivosRepository;
-
-    @Autowired
-    private ObjectivosEspecificosRepository objectivosEspecificosRepository;
+    private ActividadesEmpresaRepository actividadesEmpresaRepository;
 
     @Autowired
     //private DocenteRepository docenteRepository;
@@ -135,14 +135,15 @@ public class ProyectosService {
         proyectoPPP.setPlazoEjecucion(proyectoRequest.getPlazoEjecucion());
         proyectoPPP.setFechaInicio(proyectoRequest.getFechaInicio());
         proyectoPPP.setFechaFin(proyectoRequest.getFechaFin());
+        proyectoPPP.setDocumento(proyectoRequest.getDocumento());
         proyectoPPP.setParticipantes(proyectoRequest.getParticipantes());
         proyectoPPP.setHoras(proyectoRequest.getHoras());
         try {
             ProyectoPPP saved = proyectoRepository.save(proyectoPPP);
-            saveObjetivosEspecificos(proyectoRequest.getObjetivosEspecificosProyecto().stream().map(objetivosEspeciicoslistProyecto ->
+            saveActicvidadesEmpresa(proyectoRequest.getActividadesEmpresaProyecto().stream().map(actlistProyecto ->
             {
-                ObjetivosEspecificosProyecto a = new ObjetivosEspecificosProyecto();
-                a.setDescripcion(objetivosEspeciicoslistProyecto.getDescripcion());
+                ActividadesempresaProyecto a = new ActividadesempresaProyecto();
+                a.setDescripcion(actlistProyecto.getDescripcion());
                 a.setProyectoPPP(saved);
                 return a;
             }).collect(Collectors.toList()), saved);
@@ -156,10 +157,10 @@ public class ProyectosService {
 
             Optional<CoordinadorCarrera> coordinadorCarrera = coordinadorRepository.findByCedula(proyectoRequest.getCoordinadorCedula());
 
-            if (coordinadorCarrera.isEmpty()) {
-                throw new BadRequestException("No se encontró al coordinador de carrera con cédula: " + coordinadorCedula);
-            }
-            saveRoles(proyectoRequest.getDocentesDelegados(), saved.getId(), coordinadorCarrera.get());
+//            if (coordinadorCarrera.isEmpty()) {
+//                throw new BadRequestException("No se encontró al coordinador de carrera con cédula: " + coordinadorCedula);
+//            }
+//            saveRoles(proyectoRequest.getDocentesDelegados(), saved.getId(), coordinadorCarrera.get());
             // saveRolesApoyo(rolesList, coordinadorCarrera.get());
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -273,18 +274,18 @@ public class ProyectosService {
     }
 
 
-    private void saveObjetivosEspecificos(List<ObjetivosEspecificosProyecto> request, ProyectoPPP proyectoPPP) {
-        List<ObjetivosEspecificosProyecto> objetivos = request.stream().map(o -> {
-            ObjetivosEspecificosProyecto objetivo = new ObjetivosEspecificosProyecto();
-            objetivo.setDescripcion(o.getDescripcion());
-            objetivo.setProyectoPPP(proyectoPPP);
-            return objetivo;
+    private void saveActicvidadesEmpresa(List<ActividadesempresaProyecto> request, ProyectoPPP proyectoPPP) {
+        List<ActividadesempresaProyecto> actividades = request.stream().map(o -> {
+            ActividadesempresaProyecto act = new ActividadesempresaProyecto();
+            act.setDescripcion(o.getDescripcion());
+            act.setProyectoPPP(proyectoPPP);
+            return act;
         }).collect(Collectors.toList());
         try {
-            objectivosEspecificosRepository.saveAll(objetivos);
+            actividadesEmpresaRepository.saveAll(actividades);
         } catch (Exception e) {
             log.error("Error");
-            throw new BadRequestException("Error al guardar objetivo específico");
+            throw new BadRequestException("Error al guardar actividades");
         }
     }
 
@@ -361,7 +362,7 @@ public class ProyectosService {
         proyectoPPP.setHoras(proyectoRequest.getHoras());
         proyectoPPP.setDocumento(proyectoRequest.getDocumento());
         ProyectoPPP saved = proyectoRepository.save(proyectoPPP);
-        updateObjetivosEspecificos(proyectoRequest.getId(), proyectoRequest.getObjetivosEspecificosProyecto());
+//        updateObjetivosEspecificos(proyectoRequest.getId(), proyectoRequest.getActividadesempresaProyecto());
 
         String coordinadorCedula = findCordinador(proyectoRequest.getCodigocarrera());
         if (coordinadorCedula.isEmpty()) {
@@ -379,36 +380,36 @@ public class ProyectosService {
     }
 
     @Transactional
-    public void updateObjetivosEspecificos(Long id, List<ObjetivosEspeciicoslistProyecto> requisitos) {
-        Optional<ProyectoPPP> optional = proyectoRepository.findById(id);
-        if (optional.isPresent()) {
-            List<ObjetivosEspecificosProyecto> proyecto = optional.get().getObjetivosEspecificosProyecto();
-            proyecto.forEach(r -> {
-                Optional<ObjetivosEspeciicoslistProyecto> exists = requisitos
-                        .stream()
-                        .filter(req -> req.getDescripcion().equalsIgnoreCase(r.getDescripcion()))
-                        .findAny();
-                if (exists.isEmpty()) {
-                    objectivosEspecificosRepository.delete(r);
-                }
-            });
-            requisitos.forEach(request -> {
-                String descripcion = request.getDescripcion();
-                Optional<ObjetivosEspecificosProyecto> exists = proyecto
-                        .stream()
-                        .filter(r -> r.getDescripcion().equalsIgnoreCase(descripcion))
-                        .findAny();
-                if (exists.isEmpty()) {
-                    ObjetivosEspecificosProyecto save = new ObjetivosEspecificosProyecto();
-                    save.setProyectoPPP(optional.get());
-                    save.setDescripcion(request.getDescripcion());
-                    objectivosEspecificosRepository.save(save);
-                }
-            });
-        } else {
-            throw new BadRequestException("El solicitudproyecto con id: " + id + ", no existe");
-        }
-    }
+//    public void updateObjetivosEspecificos(Long id, List<ActividadesEmpresalistProyecto> requisitos) {
+//        Optional<ProyectoPPP> optional = proyectoRepository.findById(id);
+//        if (optional.isPresent()) {
+//            List<ActividadesempresaProyecto> proyecto = optional.get().getActividadesempresaProyecto();
+//            proyecto.forEach(r -> {
+//                Optional<ActividadesEmpresalistProyecto> exists = requisitos
+//                        .stream()
+//                        .filter(req -> req.getDescripcion().equalsIgnoreCase(r.getDescripcion()))
+//                        .findAny();
+//                if (exists.isEmpty()) {
+//                    objectivosEspecificosRepository.delete(r);
+//                }
+//            });
+//            requisitos.forEach(request -> {
+//                String descripcion = request.getDescripcion();
+//                Optional<ActividadesempresaProyecto> exists = proyecto
+//                        .stream()
+//                        .filter(r -> r.getDescripcion().equalsIgnoreCase(descripcion))
+//                        .findAny();
+//                if (exists.isEmpty()) {
+//                    ActividadesempresaProyecto save = new ActividadesempresaProyecto();
+//                    save.setProyectoPPP(optional.get());
+//                    save.setDescripcion(request.getDescripcion());
+//                    objectivosEspecificosRepository.save(save);
+//                }
+//            });
+//        } else {
+//            throw new BadRequestException("El solicitudproyecto con id: " + id + ", no existe");
+//        }
+//    }
 
     /**
      * obtenemos el solicitudproyecto por id para actualizar
@@ -489,14 +490,14 @@ public class ProyectosService {
         }).collect(Collectors.toList());
     }
 
-    private List<ObjetivosEspeciicoslistProyecto> getObjetivosEspecificosByProyecto(ProyectoPPP proyectoPPP) {
-        List<ObjetivosEspecificosProyecto> listRe = objetivosRepository.findAllByProyectoPPP(proyectoPPP);
-        return listRe.stream().map(one -> {
-            ObjetivosEspeciicoslistProyecto a = new ObjetivosEspeciicoslistProyecto();
-            a.setDescripcion(one.getDescripcion());
-            return a;
-        }).collect(Collectors.toList());
-    }
+//    private List<ActividadesEmpresalistProyecto> getObjetivosEspecificosByProyecto(ProyectoPPP proyectoPPP) {
+//        List<ActividadesempresaProyecto> listRe = objetivosRepository.findAllByProyectoPPP(proyectoPPP);
+//        return listRe.stream().map(one -> {
+//            ActividadesEmpresalistProyecto a = new ActividadesEmpresalistProyecto();
+//            a.setDescripcion(one.getDescripcion());
+//            return a;
+//        }).collect(Collectors.toList());
+//    }
 
     /**
      * Metodo para mostrar el nombre de Carrera al momento de listar solicitudproyectos
@@ -577,7 +578,7 @@ public class ProyectosService {
             materiasList.setTutorAcademicoResponse(getDocenteApoyo(optional.get()));
             materiasList.setActividadeslistProyectos(getActividadeByProject(optional.get()));
             materiasList.setRequisitoslistProyectos(getRequisitosByProject(optional.get()));
-            materiasList.setObjetivosEspecificosProyecto(getObjetivosEspecificosByProyecto(optional.get()));
+//            materiasList.setActividadesempresaProyecto(getObjetivosEspecificosByProyecto(optional.get()));
 
             materiasList.setFechaat(optional.get().getFechaat());
             return materiasList;
@@ -603,8 +604,8 @@ public class ProyectosService {
         optional.get().getTutorAcademicoDelegados()
                 .forEach(d -> docentesService.deleteDocenteApoyoById(d.getId()));
 
-        optional.get().getObjetivosEspecificosProyecto()
-                .forEach(o -> objectivosEspecificosRepository.deleteById(o.getId()));
+//        optional.get().getActividadesempresaProyecto()
+//                .forEach(o -> objectivosEspecificosRepository.deleteById(o.getId()));
 
         if (optional.get().getAnexo1() != null)
             anexo1Service.deleteAnexosList(optional.get().getAnexo1());
@@ -715,7 +716,7 @@ public class ProyectosService {
                 materiasList.setTutorAcademicoResponse(getDocenteApoyo(optional.get()));
                 materiasList.setActividadeslistProyectos(getActividadeByProject(optional.get()));
                 materiasList.setRequisitoslistProyectos(getRequisitosByProject(optional.get()));
-                materiasList.setObjetivosEspecificosProyecto(getObjetivosEspecificosByProyecto(optional.get()));
+//                materiasList.setActividadesempresaProyecto(getObjetivosEspecificosByProyecto(optional.get()));
                 materiasList.setFechaat(optional.get().getFechaat());
                 response.add(materiasList);
                 return response;
@@ -790,7 +791,7 @@ public class ProyectosService {
         response.setTutorAcademicoResponse(getDocenteApoyo(proyectoPPP));
         response.setActividadeslistProyectos(getActividadeByProject(proyectoPPP));
         response.setRequisitoslistProyectos(getRequisitosByProject(proyectoPPP));
-        response.setObjetivosEspecificosProyecto(getObjetivosEspecificosByProyecto(proyectoPPP));
+//        response.setActividadesempresaProyecto(getObjetivosEspecificosByProyecto(proyectoPPP));
         response.setFechaat(proyectoPPP.getFechaat());
         return response;
     }

@@ -43,7 +43,7 @@ public class ProyectoRequest implements Serializable {
     //FALTA COORDINADOR DE CARERRA EL ID
    // private List<TutorAcademicoDelegados> docentesApoyoDelegados;
 
-    private List<ObjetivosEspeciicoslistProyecto> objetivosEspecificosProyecto;
+    private List<ActividadesEmpresalistProyecto> actividadesEmpresaProyecto;
 
     private List<DocenteRequest> docentesDelegados;
 
