@@ -39,14 +39,6 @@ public class EmpresaResponse implements Serializable {
     private String direccion;
 
 
-//    private String nombreAdministrador;
-//
-//
-//    private String cedulaAdministrador;
-//
-//
-//    private String correoAdministrador;
-
     private String descripcionEmpresa;
 
     private Long idCoordinador;

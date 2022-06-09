@@ -303,7 +303,6 @@ public class AuthService implements UserDetailsService {
         Optional<Usuario> usuario = usuarioRepository.findByEmail(email);
         Optional<Empresa> empresa = empresaRepository.findByEmailEmpresa(email);
 
-
          if(empresa.isPresent()){
              return new org.springframework.security.core.userdetails.User(empresa.get().getEmailEmpresa(), empresa.get().getEmailEmpresa(), new ArrayList<>());
 

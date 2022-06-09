@@ -52,7 +52,7 @@ public class ProyectoResponse implements Serializable {
 
     private List<TutorAcademicoResponse> tutorAcademicoResponse;
 
-    private List<ObjetivosEspeciicoslistProyecto> objetivosEspecificosProyecto;
+    private List<ActividadesEmpresalistProyecto> actividadesEmpresaProyecto;
 
     private String plazoEjecucion;
 

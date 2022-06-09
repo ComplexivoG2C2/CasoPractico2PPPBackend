@@ -5,7 +5,7 @@ import lombok.Data;
 import java.io.Serializable;
 
 @Data
-public class ObjetivosEspeciicoslistProyecto implements Serializable {
+public class ActividadesEmpresalistProyecto implements Serializable {
 
     private Long id;
 

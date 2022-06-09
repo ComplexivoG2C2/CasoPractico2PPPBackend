@@ -9,12 +9,12 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "objetivosproyecto")
+@Table(name = "actividadesempresaproyecto")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ObjetivosEspecificosProyecto implements Serializable {
+public class ActividadesempresaProyecto implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
