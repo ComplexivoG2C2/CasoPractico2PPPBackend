@@ -137,9 +137,7 @@ public class EmpresaService{
             optional.get().setEmailRepresentante(empresaRequest.getEmailRepresentante());
             optional.get().setTelefonoEmpresa(empresaRequest.getTelefonoEmpresa());
             optional.get().setCelularRepresentante(empresaRequest.getCelularRepresentante());
-//            optional.get().setNombreAdministrador(empresaRequest.getNombreAdministrador());
-//            optional.get().setCedulaAdministrador(empresaRequest.getCedulaAdministrador());
-//            optional.get().setCorreoAdministrador(empresaRequest.getCorreoAdministrador());
+            optional.get().setTitulorepresentante(empresaRequest.getTitulorepresentante());
             optional.get().setCiudad(empresaRequest.getCiudad());
             optional.get().setDireccion(empresaRequest.getDireccion());
             optional.get().setDescripcionEmpresa(empresaRequest.getDescripcionEmpresa());
@@ -165,9 +163,7 @@ public class EmpresaService{
         eb.setCelularRepresentante(empresaRequest.getCelularRepresentante());
         eb.setFechaCreacion(empresaRequest.getFechaCreacion());
         eb.setCoordinadorVinculacion(getIdCoordinador(empresaRequest.getIdCoordinador()));
-//        eb.setNombreAdministrador(empresaRequest.getNombreAdministrador());
-//        eb.setCedulaAdministrador(empresaRequest.getCedulaAdministrador());
-//        eb.setCorreoAdministrador(empresaRequest.getCorreoAdministrador());
+        eb.setTitulorepresentante(empresaRequest.getTitulorepresentante());
         eb.setCiudad(empresaRequest.getCiudad());
         eb.setDireccion(empresaRequest.getDireccion());
         eb.setDescripcionEmpresa(empresaRequest.getDescripcionEmpresa());
@@ -175,7 +171,7 @@ public class EmpresaService{
             empresaRepository.save(eb);
             return true;
         } catch (Exception ex) {
-            throw new BadRequestException("No se guardó la empresa beneficiaria" + ex);
+            throw new BadRequestException("No se guardó la empresa" + ex);
         }
 
 
@@ -213,9 +209,7 @@ public class EmpresaService{
             response.setCelularRepresentante(e.getCelularRepresentante());
             response.setFechaCreacion(e.getFechaCreacion());
             response.setNombreCoordinador(getNombreCoordinador(e.getCoordinadorVinculacion().getId()));
-//            response.setNombreAdministrador(entidad.getNombreAdministrador());
-//            response.setCedulaAdministrador(entidad.getCedulaAdministrador());
-//            response.setCorreoAdministrador(entidad.getCorreoAdministrador());
+            response.setTitulorepresentante(e.getTitulorepresentante());
             response.setCiudad(e.getCiudad());
             response.setDireccion(e.getDireccion());
             response.setDescripcionEmpresa(e.getDescripcionEmpresa());

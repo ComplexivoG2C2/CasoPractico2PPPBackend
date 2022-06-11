@@ -26,29 +26,30 @@ public class ProyectoPPP implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String codigo;
-
     private String nombre;
+    private int participantes;
 
-    private String lineaaccion;
+    private String cargosolicitante;
+    private String nombresolicitante;
+    private String nombreEmpresa;
+    private Long empresa;
 
+    private String carrera;
     private String codigocarrera;
 
     private boolean estado;
 
-    private int horas;
-
-    private Long empresa;
-
     @Temporal(TemporalType.DATE)
     private Date fechaat;
+
+
+
+
 
     @Column(length = 10485760)
     private String documento;
 
-    @Column(name = "programa_vinculacion")
-    private String programaVinculacion;
 
     @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinColumn(name = "id_director", referencedColumnName = "id")
@@ -86,7 +87,7 @@ public class ProyectoPPP implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date fechaFin;
 
-    private int participantes;
+    private int horas;
 
     @PostLoad
     private void verifyEndDate() {
