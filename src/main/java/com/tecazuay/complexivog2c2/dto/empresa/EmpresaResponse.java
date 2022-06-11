@@ -38,7 +38,7 @@ public class EmpresaResponse implements Serializable {
 
     private String direccion;
 
-
+    private String titulorepresentante;
     private String descripcionEmpresa;
 
     private Long idCoordinador;
@@ -59,7 +59,7 @@ public class EmpresaResponse implements Serializable {
 
 
 
-    public EmpresaResponse(Long id, String nombre,String emailEmpresa, String clave,  String token, String representante, String celularRepresentante) {
+    public EmpresaResponse(Long id, String nombre,String emailEmpresa, String clave,  String token, String representante, String celularRepresentante, String titulorepresentante) {
         this.id = id;
         this.nombre=nombre;
         this.emailEmpresa = emailEmpresa;
@@ -67,6 +67,7 @@ public class EmpresaResponse implements Serializable {
         this.token = token;
         this.representante=representante;
         this.celularRepresentante=celularRepresentante;
+        this.titulorepresentante=titulorepresentante;
     }
 
 

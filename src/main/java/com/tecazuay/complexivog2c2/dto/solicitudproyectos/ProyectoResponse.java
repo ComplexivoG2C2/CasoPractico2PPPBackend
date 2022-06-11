@@ -17,34 +17,26 @@ import java.util.List;
 public class ProyectoResponse implements Serializable {
 
     private Long id;
-
     private String codigo;
-
+    private String nombre;
     private int participantes;
 
-    private String nombre;
-
-    private String lineaaccion;
-
+    private String cargosolicitante;
+    private String nombresolicitante;
+    private String nombreEmpresa;
+    private Long empresa;
     private String carrera;
-
     private String codigocarrera;
-
     private boolean estado;
-
     private Date fechaat;
 
-    private String nombreEmpresa;
-
-    private Long empresa;
-
     private String nombretutoremp;
-
     private String nombreresponsable;
-
     private String documento;
-
-    private String programaVinculacion;
+    private String plazoEjecucion;
+    private Date fechaInicio;
+    private Date fechaFin;
+    private int horas;
 
     private List<ActividadeslistProyecto> actividadeslistProyectos;
 
@@ -54,12 +46,6 @@ public class ProyectoResponse implements Serializable {
 
     private List<ActividadesEmpresalistProyecto> actividadesEmpresaProyecto;
 
-    private String plazoEjecucion;
 
-    private Date fechaInicio;
-
-    private Date fechaFin;
-
-    private int horas;
 
 }

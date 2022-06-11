@@ -11,30 +11,30 @@ import java.util.List;
 public class ProyectoRequest implements Serializable {
 
     private Long id;
-
-    private int participantes;
-
     private String codigo;
 
     private String nombre;
+    private int participantes;
 
-    private String lineaaccion;
 
+    private String cargosolicitante;
+    private String nombresolicitante;
+    private String nombreEmpresa;
+    private Long empresa;
+
+    private String carrera;
     private String codigocarrera;
 
     private boolean estado;
 
     private Date fechaat;
 
-    private Long empresa;
 
     private String tutorempProyecto;
 
     private Long responsablePPP;
 
     private String documento;
-
-    private String programaVinculacion;
 
     private List<ActividadeslistProyecto> actividadeslistProyectos;
 
