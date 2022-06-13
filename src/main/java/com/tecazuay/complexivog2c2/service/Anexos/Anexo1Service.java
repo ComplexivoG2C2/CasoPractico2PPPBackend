@@ -112,7 +112,6 @@ public class Anexo1Service {
 
     }
 
-    //Listar todos los anexos1
     public List<Anexo1Response> listAnexoProyecto(Long id) {
         Optional<ProyectoPPP> op = proyectoRepository.findById(id);
         if (op.isPresent()) {

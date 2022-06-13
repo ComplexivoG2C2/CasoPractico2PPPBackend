@@ -8,6 +8,6 @@ import java.util.Date;
 public class ActividadesAnexo2Request implements Serializable {
     private Long id;
     private String descripcion;
-    private Date inicio;
-    private Date fin;
+//    private Date inicio;
+//    private Date fin;
 }

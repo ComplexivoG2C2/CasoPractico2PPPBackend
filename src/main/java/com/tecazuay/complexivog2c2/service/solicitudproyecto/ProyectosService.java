@@ -115,12 +115,12 @@ public class ProyectosService {
     @Autowired
     private Anexo1Service anexo1Service;
 
-    /**
-     * Metodo para crear un solicitudproyecto en la base
-     *
-     * @param proyectoRequest
-     * @param responsablePPP
-     */
+    @Autowired
+    private ObjetivosRepository objetivosRepository;
+
+
+
+
     public void saveProyecto(ProyectoRequest proyectoRequest, ResponsablePPP responsablePPP) {
         ProyectoPPP proyectoPPP = new ProyectoPPP();
         proyectoPPP.setCodigo(proyectoRequest.getCodigo());
@@ -128,24 +128,24 @@ public class ProyectosService {
         proyectoPPP.setFechaat(proyectoRequest.getFechaat());
         proyectoPPP.setResponsablePPP(responsablePPP);
         proyectoPPP.setEstado(proyectoRequest.isEstado());
-        proyectoPPP.setCarrera(proyectoRequest.getCarrera());
         proyectoPPP.setCodigocarrera(proyectoRequest.getCodigocarrera());
-        proyectoPPP.setCargosolicitante(proyectoRequest.getCargosolicitante());
+        proyectoPPP.setCarrera(proyectoRequest.getCarrera());
         proyectoPPP.setEmpresa(proyectoRequest.getEmpresa());
-        proyectoPPP.setNombreEmpresa(proyectoRequest.getNombreEmpresa());
+        proyectoPPP.setNombreempresa(proyectoRequest.getNombreempresa());
         proyectoPPP.setNombresolicitante(proyectoRequest.getNombresolicitante());
+        proyectoPPP.setCargosolicitante(proyectoRequest.getCargosolicitante());
+        proyectoPPP.setDocumento(proyectoRequest.getDocumento());
         proyectoPPP.setPlazoEjecucion(proyectoRequest.getPlazoEjecucion());
         proyectoPPP.setFechaInicio(proyectoRequest.getFechaInicio());
         proyectoPPP.setFechaFin(proyectoRequest.getFechaFin());
-        proyectoPPP.setDocumento(proyectoRequest.getDocumento());
         proyectoPPP.setParticipantes(proyectoRequest.getParticipantes());
         proyectoPPP.setHoras(proyectoRequest.getHoras());
         try {
             ProyectoPPP saved = proyectoRepository.save(proyectoPPP);
-            saveActicvidadesEmpresa(proyectoRequest.getActividadesEmpresaProyecto().stream().map(actlistProyecto ->
+            saveObjetivosEspecificos(proyectoRequest.getActividadesEmpresaProyecto().stream().map(objetivosEspeciicoslistProyecto ->
             {
                 ActividadesempresaProyecto a = new ActividadesempresaProyecto();
-                a.setDescripcion(actlistProyecto.getDescripcion());
+                a.setDescripcion(objetivosEspeciicoslistProyecto.getDescripcion());
                 a.setProyectoPPP(saved);
                 return a;
             }).collect(Collectors.toList()), saved);
@@ -154,8 +154,6 @@ public class ProyectosService {
                 throw new BadRequestException("No existe el coordinador de la carrera: " + proyectoRequest.getCodigocarrera());
             }
 
-            // DocenteRolesList rolesList = delegadosToRolesList(proyectoRequest.getTutorAcademicoDelegados());
-            //rolesList.setIdProyecto(saved.getId());
 
             Optional<CoordinadorCarrera> coordinadorCarrera = coordinadorRepository.findByCedula(proyectoRequest.getCoordinadorCedula());
 
@@ -163,10 +161,10 @@ public class ProyectosService {
 //                throw new BadRequestException("No se encontró al coordinador de carrera con cédula: " + coordinadorCedula);
 //            }
 //            saveRoles(proyectoRequest.getDocentesDelegados(), saved.getId(), coordinadorCarrera.get());
-            // saveRolesApoyo(rolesList, coordinadorCarrera.get());
+
         } catch (Exception ex) {
             ex.printStackTrace();
-            throw new BadRequestException("No se guardó la solicitud" + ex);
+            throw new BadRequestException("No se guardó el proyecto" + ex);
         }
     }
 
@@ -178,7 +176,7 @@ public class ProyectosService {
 
         Optional<DocenteRequest> directorRequest = docentes.stream().filter(d -> d.getCargo().equalsIgnoreCase("DP")).findAny();
         if (directorRequest.isPresent()) {
-            TutorEmpProyectoRequest request = new TutorEmpProyectoRequest();
+           TutorEmpProyectoRequest request = new TutorEmpProyectoRequest();
             request.setCedula(directorRequest.get().getCedula());
             request.setEstado(true);
             request.setIdProyecto(idProyecto);
@@ -224,8 +222,8 @@ public class ProyectosService {
                                 throw new BadRequestException("Ya se encuentra asignado como Coordinador de Carrera");
                             }
                             if (tutorEmpProyectoRepository.existsByCedulaAndEstado(docenteRequest.getCedula(), true)) {
-                                log.info("Ya existe un DP con esa cedula {}", docenteRequest.getCedula());
-                                throw new BadRequestException("Ya se encuentra asignado como Tutor empresarial");
+                                log.info("Ya existe un TE con esa cedula {}", docenteRequest.getCedula());
+                                throw new BadRequestException("Ya se encuentra asignado como Director de Proyecto");
                             }
                             if (responsablePPPRepository.existsByCedulaAndEstado(docenteRequest.getCedula(), true)) {
                                 log.info("Ya existe un RPPP con esa cedula {}", docenteRequest.getCedula());
@@ -238,10 +236,10 @@ public class ProyectosService {
                             Optional<ProyectoPPP> optional = proyectoRepository.findById(docenteRolesList.getIdProyecto());
                             if (optional.isPresent()) {
                                 if (tutorAcademicoRepository.existsByProyectoPPPAndCedula(optional.get(), docenteRequest.getCedula())) {
-                                    throw new BadRequestException("Ya se encuentra asignado a este Proyecto");
+                                    throw new BadRequestException("Ya se encuentra asignado a esta empresa");
                                 }
                                 if (docenteAllRepository.existsByCedula(docenteRequest.getCedula())) {
-                                    TutorAcademicoDelegados da = new TutorAcademicoDelegados();
+                                   TutorAcademicoDelegados da = new TutorAcademicoDelegados();
                                     da.setCedula(docenteRequest.getCedula());
                                     da.setCoordinadorCarrera(coordinadorCarrera);
                                     da.setEstado(docenteRequest.isEstado());
@@ -256,14 +254,14 @@ public class ProyectosService {
         listDocentesApoyo.removeIf(Objects::isNull);
 
         if (tutorAcademicoRepository.saveAll(listDocentesApoyo).size() > 0) {
-            listDocentesApoyo.stream().forEach(docentesApoyoDelegados -> {
-                Optional<Usuario> getEmail = usuarioRepository.findByCedula(docentesApoyoDelegados.getCedula());
+            listDocentesApoyo.stream().forEach(docentestutorDelegados -> {
+                Optional<Usuario> getEmail = usuarioRepository.findByCedula(docentestutorDelegados.getCedula());
                 if (getEmail.isPresent()) {
                     EmailBody e = new EmailBody();
                     e.setEmail(List.of(getEmail.get().getEmail()));
                     e.setContent("Usted ha sido designado como docente de apoyo");
                     e.setText2(" Ingrese al sistema dando clic en el siguiente botón:");
-                    e.setSubject("Designación para solicitudproyectos de vinculación");
+                    e.setSubject("Designación para proyectos de vinculación");
                     emailService.sendEmail(e);
                 } else {
                     System.out.println("NO HAY EL EMAIL");
@@ -276,24 +274,24 @@ public class ProyectosService {
     }
 
 
-    private void saveActicvidadesEmpresa(List<ActividadesempresaProyecto> request, ProyectoPPP proyectoPPP) {
-        List<ActividadesempresaProyecto> actividades = request.stream().map(o -> {
-            ActividadesempresaProyecto act = new ActividadesempresaProyecto();
-            act.setDescripcion(o.getDescripcion());
-            act.setProyectoPPP(proyectoPPP);
-            return act;
+    private void saveObjetivosEspecificos(List<ActividadesempresaProyecto> request, ProyectoPPP proyectoPPP) {
+        List<ActividadesempresaProyecto> objetivos = request.stream().map(o -> {
+           ActividadesempresaProyecto objetivo = new ActividadesempresaProyecto();
+            objetivo.setDescripcion(o.getDescripcion());
+            objetivo.setProyectoPPP(proyectoPPP);
+            return objetivo;
         }).collect(Collectors.toList());
         try {
-            actividadesEmpresaRepository.saveAll(actividades);
+            actividadesEmpresaRepository.saveAll(objetivos);
         } catch (Exception e) {
             log.error("Error");
-            throw new BadRequestException("Error al guardar actividades");
+            throw new BadRequestException("Error al guardar objetivo específico");
         }
     }
 
 
     /**
-     * Llamar desde controlador y enviar un solicitudproyecto al metodo de saveProyecto
+     * Llamar desde controlador y enviar un proyecto al metodo de saveProyecto
      *
      * @param proyectoRequest
      * @return
@@ -304,12 +302,7 @@ public class ProyectosService {
         return true;
     }
 
-    /**
-     * Obtener para obtener el repsonsable previamente asignado
-     *
-     * @param id
-     * @return
-     */
+
     public ResponsablePPP getIdResponsable(Long id) {
         Optional<ResponsablePPP> optional = responsablePPPRepository.findById(id);
         if (optional.isPresent()) {
@@ -319,12 +312,7 @@ public class ProyectosService {
         throw new BadRequestException("No existe el responsable");
     }
 
-    /**
-     * Metodo para actualizar solicitudproyectos
-     *
-     * @param proyectoRequest
-     * @return
-     */
+
     public boolean updateProyecto(ProyectoRequest proyectoRequest) {
         ProyectoPPP proyectoPPP = getProyecto(proyectoRequest.getId());
         proyectoPPP.setEstado(proyectoRequest.isEstado());
@@ -353,19 +341,20 @@ public class ProyectosService {
         proyectoPPP.setCodigo(proyectoRequest.getCodigo());
         proyectoPPP.setNombre(proyectoRequest.getNombre());
         proyectoPPP.setFechaat(proyectoRequest.getFechaat());
-        proyectoPPP.setCarrera(proyectoRequest.getCarrera());
+        proyectoPPP.setCodigocarrera(proyectoRequest.getCodigocarrera());
+        proyectoPPP.setEmpresa(proyectoRequest.getEmpresa());
+        proyectoPPP.setNombresolicitante(proyectoRequest.getNombresolicitante());
         proyectoPPP.setCodigocarrera(proyectoRequest.getCodigocarrera());
         proyectoPPP.setCargosolicitante(proyectoRequest.getCargosolicitante());
-        proyectoPPP.setNombresolicitante(proyectoRequest.getNombresolicitante());
-        proyectoPPP.setEmpresa(proyectoRequest.getEmpresa());
+        proyectoPPP.setDocumento(proyectoRequest.getDocumento());
         proyectoPPP.setPlazoEjecucion(proyectoRequest.getPlazoEjecucion());
         proyectoPPP.setFechaInicio(proyectoRequest.getFechaInicio());
         proyectoPPP.setFechaFin(proyectoRequest.getFechaFin());
         proyectoPPP.setParticipantes(proyectoRequest.getParticipantes());
         proyectoPPP.setHoras(proyectoRequest.getHoras());
-        proyectoPPP.setDocumento(proyectoRequest.getDocumento());
+
         ProyectoPPP saved = proyectoRepository.save(proyectoPPP);
-//        updateObjetivosEspecificos(proyectoRequest.getId(), proyectoRequest.getActividadesempresaProyecto());
+        updateObjetivosEspecificos(proyectoRequest.getId(), proyectoRequest.getActividadesEmpresaProyecto());
 
         String coordinadorCedula = findCordinador(proyectoRequest.getCodigocarrera());
         if (coordinadorCedula.isEmpty()) {
@@ -382,40 +371,59 @@ public class ProyectosService {
         return true;
     }
 
+    public boolean updatetutoresacademicos(ProyectoRequest proyectoRequest) {
+        ProyectoPPP proyectoPPP = getProyecto(proyectoRequest.getId());
+
+        ProyectoPPP saved = proyectoRepository.save(proyectoPPP);
+        updateObjetivosEspecificos(proyectoRequest.getId(), proyectoRequest.getActividadesEmpresaProyecto());
+
+        String coordinadorCedula = findCordinador(proyectoRequest.getCodigocarrera());
+        if (coordinadorCedula.isEmpty()) {
+            throw new BadRequestException("No existe el coordinador de la carrera: " + proyectoRequest.getCodigocarrera());
+        }
+        Optional<CoordinadorCarrera> coordinadorCarrera = coordinadorRepository.findByCedula(proyectoRequest.getCoordinadorCedula());
+        if (coordinadorCarrera.isEmpty()) {
+            throw new BadRequestException("No se encontró al coordinador de carrera con cédula: " + coordinadorCedula);
+        }
+        saveRoles(proyectoRequest.getDocentesDelegados(), saved.getId(), coordinadorCarrera.get());
+
+        return true;
+    }
+
     @Transactional
-//    public void updateObjetivosEspecificos(Long id, List<ActividadesEmpresalistProyecto> requisitos) {
-//        Optional<ProyectoPPP> optional = proyectoRepository.findById(id);
-//        if (optional.isPresent()) {
-//            List<ActividadesempresaProyecto> proyecto = optional.get().getActividadesempresaProyecto();
-//            proyecto.forEach(r -> {
-//                Optional<ActividadesEmpresalistProyecto> exists = requisitos
-//                        .stream()
-//                        .filter(req -> req.getDescripcion().equalsIgnoreCase(r.getDescripcion()))
-//                        .findAny();
-//                if (exists.isEmpty()) {
-//                    objectivosEspecificosRepository.delete(r);
-//                }
-//            });
-//            requisitos.forEach(request -> {
-//                String descripcion = request.getDescripcion();
-//                Optional<ActividadesempresaProyecto> exists = proyecto
-//                        .stream()
-//                        .filter(r -> r.getDescripcion().equalsIgnoreCase(descripcion))
-//                        .findAny();
-//                if (exists.isEmpty()) {
-//                    ActividadesempresaProyecto save = new ActividadesempresaProyecto();
-//                    save.setProyectoPPP(optional.get());
-//                    save.setDescripcion(request.getDescripcion());
-//                    objectivosEspecificosRepository.save(save);
-//                }
-//            });
-//        } else {
-//            throw new BadRequestException("El solicitudproyecto con id: " + id + ", no existe");
-//        }
-//    }
+    public void updateObjetivosEspecificos(Long id, List<ActividadesEmpresalistProyecto> requisitos) {
+        Optional<ProyectoPPP> optional = proyectoRepository.findById(id);
+        if (optional.isPresent()) {
+            List<ActividadesempresaProyecto> proyecto = optional.get().getActividadesempresaProyecto();
+            proyecto.forEach(r -> {
+                Optional<ActividadesEmpresalistProyecto> exists = requisitos
+                        .stream()
+                        .filter(req -> req.getDescripcion().equalsIgnoreCase(r.getDescripcion()))
+                        .findAny();
+                if (exists.isEmpty()) {
+                    actividadesEmpresaRepository.delete(r);
+                }
+            });
+            requisitos.forEach(request -> {
+                String descripcion = request.getDescripcion();
+                Optional<ActividadesempresaProyecto> exists = proyecto
+                        .stream()
+                        .filter(r -> r.getDescripcion().equalsIgnoreCase(descripcion))
+                        .findAny();
+                if (exists.isEmpty()) {
+                    ActividadesempresaProyecto save = new ActividadesempresaProyecto();
+                    save.setProyectoPPP(optional.get());
+                    save.setDescripcion(request.getDescripcion());
+                    actividadesEmpresaRepository.save(save);
+                }
+            });
+        } else {
+            throw new BadRequestException("El proyecto con id: " + id + ", no existe");
+        }
+    }
 
     /**
-     * obtenemos el solicitudproyecto por id para actualizar
+     * obtenemos el proyecto por id para actualizar
      *
      * @param id
      * @return
@@ -425,11 +433,11 @@ public class ProyectosService {
         if (optional.isPresent()) {
             return optional.get();
         }
-        throw new BadRequestException("No existe un solicitudproyecto");
+        throw new BadRequestException("No existe un proyecto");
     }
 
     /**
-     * Lista todos los solicitudproyectos
+     * Lista todos los proyectos
      *
      * @return
      */
@@ -443,7 +451,7 @@ public class ProyectosService {
     private List<TutorAcademicoResponse> getDocenteApoyo(ProyectoPPP proyectoPPP) {
         List<TutorAcademicoDelegados> lista = tutorAcademicoRepository.findAllByProyectoPPP(proyectoPPP);
         return lista.stream().map(docentesApoyoDelegados -> {
-            TutorAcademicoResponse d = new TutorAcademicoResponse();
+           TutorAcademicoResponse d = new TutorAcademicoResponse();
             d.setId(docentesApoyoDelegados.getId());
             d.setCedula(docentesApoyoDelegados.getCedula());
             d.setEstado(docentesApoyoDelegados.isEstado());
@@ -463,7 +471,7 @@ public class ProyectosService {
     }
 
     /**
-     * Metodo para listar las actividades de un solicitudproyecto
+     * Metodo para listar las actividades de un proyecto
      *
      * @param proyectoPPP
      * @return
@@ -478,7 +486,7 @@ public class ProyectosService {
     }
 
     /**
-     * Metodo para listar las requisitos de un solicitudproyecto
+     * Metodo para listar las requisitos de un proyecto
      *
      * @param proyectoPPP
      * @return
@@ -493,17 +501,17 @@ public class ProyectosService {
         }).collect(Collectors.toList());
     }
 
-//    private List<ActividadesEmpresalistProyecto> getObjetivosEspecificosByProyecto(ProyectoPPP proyectoPPP) {
-//        List<ActividadesempresaProyecto> listRe = objetivosRepository.findAllByProyectoPPP(proyectoPPP);
-//        return listRe.stream().map(one -> {
-//            ActividadesEmpresalistProyecto a = new ActividadesEmpresalistProyecto();
-//            a.setDescripcion(one.getDescripcion());
-//            return a;
-//        }).collect(Collectors.toList());
-//    }
+    private List<ActividadesEmpresalistProyecto> getActividadesEmpreSAByProyecto(ProyectoPPP proyectoPPP) {
+        List<ActividadesempresaProyecto> listRe = objetivosRepository.findAllByProyectoPPP(proyectoPPP);
+        return listRe.stream().map(one -> {
+            ActividadesEmpresalistProyecto a = new ActividadesEmpresalistProyecto();
+            a.setDescripcion(one.getDescripcion());
+            return a;
+        }).collect(Collectors.toList());
+    }
 
     /**
-     * Metodo para mostrar el nombre de Carrera al momento de listar solicitudproyectos
+     * Metodo para mostrar el nombre de Carrera al momento de listar proyectos
      *
      * @param codigo
      * @return
@@ -534,7 +542,7 @@ public class ProyectosService {
     }
 
     /**
-     * Metodo para obtener le nombre del director en el metodo listar
+     * Metodo para obtener le nombre del tutor empresarial en el metodo listar
      *
      * @param id
      * @return
@@ -559,21 +567,21 @@ public class ProyectosService {
             materiasList.setId(optional.get().getId());
             materiasList.setCodigo(optional.get().getCodigo());
             materiasList.setNombre(optional.get().getNombre());
-            materiasList.setCargosolicitante(optional.get().getCargosolicitante());
-            materiasList.setNombresolicitante(optional.get().getNombresolicitante());
             materiasList.setCodigocarrera(optional.get().getCodigocarrera());
             materiasList.setCarrera(getNombreCarrea(optional.get().getCodigocarrera()));
             materiasList.setEstado(optional.get().isEstado());
-            materiasList.setNombreEmpresa(optional.get().getEmpresa().toString());
+            materiasList.setNombreempresa(optional.get().getEmpresa().toString());
             materiasList.setNombreresponsable(nombreResponsable(optional.get().getResponsablePPP().getId()));
             materiasList.setEmpresa(optional.get().getEmpresa());
+            materiasList.setNombresolicitante(optional.get().getNombresolicitante());
+            materiasList.setCargosolicitante(optional.get().getCargosolicitante());
+            materiasList.setDocumento(optional.get().getDocumento());
             materiasList.setHoras(optional.get().getHoras());
             materiasList.setParticipantes(optional.get().getParticipantes());
             materiasList.setFechaFin(optional.get().getFechaFin());
             materiasList.setFechaInicio(optional.get().getFechaInicio());
             materiasList.setPlazoEjecucion(optional.get().getPlazoEjecucion());
-            materiasList.setDocumento(optional.get().getDocumento());
-            if (optional.get().getTutorEmp() != null) {
+                if (optional.get().getTutorEmp() != null) {
                 materiasList.setNombretutoremp(nombreDirector(optional.get().getTutorEmp().getId()));
             } else {
                 materiasList.setNombretutoremp("");
@@ -581,7 +589,7 @@ public class ProyectosService {
             materiasList.setTutorAcademicoResponse(getDocenteApoyo(optional.get()));
             materiasList.setActividadeslistProyectos(getActividadeByProject(optional.get()));
             materiasList.setRequisitoslistProyectos(getRequisitosByProject(optional.get()));
-//            materiasList.setActividadesempresaProyecto(getObjetivosEspecificosByProyecto(optional.get()));
+            materiasList.setActividadesEmpresaProyecto(getActividadesEmpreSAByProyecto(optional.get()));
 
             materiasList.setFechaat(optional.get().getFechaat());
             return materiasList;
@@ -595,20 +603,20 @@ public class ProyectosService {
             tutorAcademicoRepository.deleteById(id);
             return;
         }
-        throw new BadRequestException("El docente de apoyo con el id: " + id + ", no existe");
+        throw new BadRequestException("El tutor academico con el id: " + id + ", no existe");
     }
 
     @Transactional
     public void deleteProyecoById(Long id) {
         Optional<ProyectoPPP> optional = proyectoRepository.findById(id);
         if (optional.isEmpty()) {
-            throw new BadRequestException("El solicitudproyecto con id: " + id + ", no existe");
+            throw new BadRequestException("El proyecto con id: " + id + ", no existe");
         }
         optional.get().getTutorAcademicoDelegados()
                 .forEach(d -> docentesService.deleteDocenteApoyoById(d.getId()));
 
-//        optional.get().getActividadesempresaProyecto()
-//                .forEach(o -> objectivosEspecificosRepository.deleteById(o.getId()));
+        optional.get().getActividadesempresaProyecto()
+                .forEach(o -> actividadesEmpresaRepository.deleteById(o.getId()));
 
         if (optional.get().getAnexo1() != null)
             anexo1Service.deleteAnexosList(optional.get().getAnexo1());
@@ -647,7 +655,7 @@ public class ProyectosService {
                 }
             });
         } else {
-            throw new BadRequestException("El solicitudproyecto con id: " + id + ", no existe");
+            throw new BadRequestException("El proyecto con id: " + id + ", no existe");
         }
     }
 
@@ -682,7 +690,7 @@ public class ProyectosService {
                 }
             });
         } else {
-            throw new BadRequestException("El solicitudproyecto con id: " + id + ", no existe");
+            throw new BadRequestException("El proyecto con id: " + id + ", no existe");
         }
     }
 
@@ -697,14 +705,14 @@ public class ProyectosService {
                 materiasList.setId(optional.get().getId());
                 materiasList.setCodigo(optional.get().getCodigo());
                 materiasList.setNombre(optional.get().getNombre());
-                materiasList.setCargosolicitante(optional.get().getCargosolicitante());
-                materiasList.setNombresolicitante(optional.get().getNombresolicitante());
                 materiasList.setCodigocarrera(optional.get().getCodigocarrera());
                 materiasList.setCarrera(getNombreCarrea(optional.get().getCodigocarrera()));
                 materiasList.setEstado(optional.get().isEstado());
-                materiasList.setNombreEmpresa(optional.get().getEmpresa().toString());
+                materiasList.setNombreempresa(optional.get().getEmpresa().toString());
                 materiasList.setNombreresponsable(nombreResponsable(optional.get().getResponsablePPP().getId()));
                 materiasList.setEmpresa(optional.get().getEmpresa());
+                materiasList.setNombresolicitante(optional.get().getNombresolicitante());
+                materiasList.setCargosolicitante(optional.get().getCargosolicitante());
                 materiasList.setDocumento(optional.get().getDocumento());
                 materiasList.setHoras(optional.get().getHoras());
                 materiasList.setParticipantes(optional.get().getParticipantes());
@@ -719,14 +727,14 @@ public class ProyectosService {
                 materiasList.setTutorAcademicoResponse(getDocenteApoyo(optional.get()));
                 materiasList.setActividadeslistProyectos(getActividadeByProject(optional.get()));
                 materiasList.setRequisitoslistProyectos(getRequisitosByProject(optional.get()));
-//                materiasList.setActividadesempresaProyecto(getObjetivosEspecificosByProyecto(optional.get()));
+                materiasList.setActividadesEmpresaProyecto(getActividadesEmpreSAByProyecto(optional.get()));
                 materiasList.setFechaat(optional.get().getFechaat());
                 response.add(materiasList);
                 return response;
             }
             throw new ResponseNotFoundException("Proyecto PPP", "id", op.get().getProyectoPPP().getId() + "");
         }
-        throw new ResponseNotFoundException("Docente tutor ", "cedula", cedula);
+        throw new ResponseNotFoundException("Docente apoyo ", "cedula", cedula);
     }
 
     public ProyectoResponse getProyectoCIApoyo(String cedula) {
@@ -738,12 +746,12 @@ public class ProyectosService {
             }
             throw new ResponseNotFoundException("Proyecto PPP", "id", op.get().getProyectoPPP().getId() + "");
         } else {
-            throw new ResponseNotFoundException("Docente tutor ", "cedula", cedula);
+            throw new ResponseNotFoundException("tutor academico ", "cedula", cedula);
         }
     }
 
     @Transactional(readOnly = true)
-    public List<ProyectoResponse> allByDirectorCedula(String cedula) {
+    public List<ProyectoResponse> allByTutorempCedula(String cedula) {
         Optional<TutorEmp> optional = tutorEmpProyectoRepository.findByCedula(cedula);
         if (optional.isPresent()) {
             return optional.get()
@@ -752,7 +760,7 @@ public class ProyectosService {
                     .map(this::toProyectoResponse)
                     .collect(Collectors.toList());
         }
-        throw new BadRequestException("El tutor emp con cédula: " + cedula + ", no existe");
+        throw new BadRequestException("El tutor empresarial con cédula: " + cedula + ", no existe");
     }
 
     @Transactional(readOnly = true)
@@ -763,7 +771,7 @@ public class ProyectosService {
                     .map(d -> toProyectoResponse(d.getProyectoPPP()))
                     .collect(Collectors.toList());
         }
-        throw new BadRequestException("El docente tutor con cédula:" + cedula + " no existe");
+        throw new BadRequestException("tutor academico con cédula:" + cedula + " no existe");
     }
 
     private ProyectoResponse toProyectoResponse(ProyectoPPP proyectoPPP) {
@@ -772,13 +780,14 @@ public class ProyectosService {
         response.setId(proyectoPPP.getId());
         response.setCodigo(proyectoPPP.getCodigo());
         response.setNombre(proyectoPPP.getNombre());
-        response.setCargosolicitante(proyectoPPP.getCargosolicitante());
-        response.setNombresolicitante(proyectoPPP.getNombresolicitante());
         response.setCarrera(getNombreCarrea(proyectoPPP.getCodigocarrera()));
         response.setEstado(proyectoPPP.isEstado());
-        response.setNombreEmpresa(proyectoPPP.getEmpresa().toString());
+        response.setNombreempresa(proyectoPPP.getEmpresa().toString());
         response.setNombreresponsable(nombreResponsable(proyectoPPP.getResponsablePPP().getId()));
         response.setEmpresa(proyectoPPP.getEmpresa());
+        response.setNombresolicitante(proyectoPPP.getNombresolicitante());
+        response.setCargosolicitante(proyectoPPP.getCargosolicitante());
+        response.setCodigocarrera(proyectoPPP.getCodigocarrera());
         response.setDocumento(proyectoPPP.getDocumento());
         response.setHoras(proyectoPPP.getHoras());
         response.setFechaInicio(proyectoPPP.getFechaInicio());
@@ -794,10 +803,12 @@ public class ProyectosService {
         response.setTutorAcademicoResponse(getDocenteApoyo(proyectoPPP));
         response.setActividadeslistProyectos(getActividadeByProject(proyectoPPP));
         response.setRequisitoslistProyectos(getRequisitosByProject(proyectoPPP));
-//        response.setActividadesempresaProyecto(getObjetivosEspecificosByProyecto(proyectoPPP));
+        response.setActividadesEmpresaProyecto(getActividadesEmpreSAByProyecto(proyectoPPP));
         response.setFechaat(proyectoPPP.getFechaat());
         return response;
     }
+
+
 
 
 }

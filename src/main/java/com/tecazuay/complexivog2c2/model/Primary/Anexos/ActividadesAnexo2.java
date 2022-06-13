@@ -22,11 +22,11 @@ public class ActividadesAnexo2 implements Serializable {
 
     private String descripcion;
 
-    @Temporal(TemporalType.DATE)
-    private Date inicio;
-
-    @Temporal(TemporalType.DATE)
-    private Date fin;
+//    @Temporal(TemporalType.DATE)
+//    private Date inicio;
+//
+//    @Temporal(TemporalType.DATE)
+//    private Date fin;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="id_anexo", referencedColumnName = "id")

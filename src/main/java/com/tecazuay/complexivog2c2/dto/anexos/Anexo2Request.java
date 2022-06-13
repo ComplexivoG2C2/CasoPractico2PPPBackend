@@ -16,7 +16,7 @@ public class Anexo2Request implements Serializable {
     private String ciclo;
     private String carrera;
     private String nombreProyecto;
-    private String entidadBeneficiaria;
+    private String empresa;
     //private String actividadesProyecto;
    // private String materias;
     private Date fechaMaxRecepcion;

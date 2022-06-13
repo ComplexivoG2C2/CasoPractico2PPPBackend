@@ -32,7 +32,7 @@ public class ProyectoPPP implements Serializable {
 
     private String cargosolicitante;
     private String nombresolicitante;
-    private String nombreEmpresa;
+    private String nombreempresa;
     private Long empresa;
 
     private String carrera;
@@ -42,10 +42,6 @@ public class ProyectoPPP implements Serializable {
 
     @Temporal(TemporalType.DATE)
     private Date fechaat;
-
-
-
-
 
     @Column(length = 10485760)
     private String documento;

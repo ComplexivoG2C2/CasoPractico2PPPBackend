@@ -19,7 +19,7 @@ public class ProyectoRequest implements Serializable {
 
     private String cargosolicitante;
     private String nombresolicitante;
-    private String nombreEmpresa;
+    private String nombreempresa;
     private Long empresa;
 
     private String carrera;

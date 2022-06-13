@@ -37,9 +37,13 @@ public class ProyectosRestController {
     @PutMapping("/update")
     public ResponseEntity<?> update(@RequestBody ProyectoRequest proyectoRequest) {
         proyectosService.updateProyecto2MS(proyectoRequest);
-        return new ResponseEntity<>(new Mensaje("PROYECTO ACTUALIZADO"), HttpStatus.CREATED);
+        return new ResponseEntity<>(new Mensaje("ACTUALIZADO"), HttpStatus.CREATED);
     }
-
+    @PutMapping("/agregartutoresacademicos")
+    public ResponseEntity<?> updatetutoresacademicos(@RequestBody ProyectoRequest proyectoRequest) {
+        proyectosService.updatetutoresacademicos(proyectoRequest);
+        return new ResponseEntity<>(new Mensaje("ACTUALIZADO"), HttpStatus.CREATED);
+    }
     @GetMapping("/{id}")
     public ResponseEntity<ProyectoResponse> listProyectosById(@PathVariable Long id) {
         ProyectoResponse proyectoResponses = proyectosService.listaProyectoById(id);
@@ -78,7 +82,7 @@ public class ProyectosRestController {
 
     @GetMapping("/tutoremp/{cedula}")
     public ResponseEntity<?> byDirectorCedula(@PathVariable String cedula) {
-        return new ResponseEntity<>(proyectosService.allByDirectorCedula(cedula), HttpStatus.OK);
+        return new ResponseEntity<>(proyectosService.allByTutorempCedula(cedula), HttpStatus.OK);
     }
 
     @GetMapping("/tutoracademico/{cedula}")

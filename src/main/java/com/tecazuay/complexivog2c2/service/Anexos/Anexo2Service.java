@@ -57,8 +57,8 @@ public class Anexo2Service {
         Optional<ProyectoPPP> optional = proyectoRepository.findById(request.getIdProyectoPPP());
 
         if (optional.isPresent()) {
-            if (!optional.get().isEstado())
-                throw new BadRequestException("El proceso a finalizado");
+//            if (!optional.get().isEstado())
+//                throw new BadRequestException("El proceso a finalizado");
 
             if (!anexo2Repository.existsByProyectoPPP(optional.get())) {
                 Anexo2 anexo2 = new Anexo2();
@@ -69,7 +69,7 @@ public class Anexo2Service {
                 anexo2.setCarrera(request.getCarrera());
                 anexo2.setCiclo(request.getCiclo());
                 anexo2.setNombreProyecto(request.getNombreProyecto());
-                anexo2.setEmpresa(request.getEntidadBeneficiaria());
+                anexo2.setEmpresa(request.getEmpresa());
                 anexo2.setFechaMaxRecepcion(request.getFechaMaxRecepcion());
                 anexo2.setNombreResponsable(request.getNombreResponsable());
                 anexo2.setEmailDocente(request.getEmailDocente());
@@ -83,8 +83,6 @@ public class Anexo2Service {
                 request.getActividades().stream().forEach(a -> {
                     ActividadesAnexo2 actividadesAnexo2 = new ActividadesAnexo2();
                     actividadesAnexo2.setDescripcion(a.getDescripcion());
-                    actividadesAnexo2.setInicio(a.getInicio());
-                    actividadesAnexo2.setFin(a.getFin());
                     list.add(actividadesAnexo2);
                 });
 
@@ -121,7 +119,7 @@ public class Anexo2Service {
             anexo2.setCarrera(request.getCarrera());
             anexo2.setCiclo(request.getCiclo());
             anexo2.setNombreProyecto(request.getNombreProyecto());
-            anexo2.setEmpresa(request.getEntidadBeneficiaria());
+            anexo2.setEmpresa(request.getEmpresa());
             anexo2.setFechaMaxRecepcion(request.getFechaMaxRecepcion());
             anexo2.setNombreResponsable(request.getNombreResponsable());
             anexo2.setEmailDocente(request.getEmailDocente());
@@ -170,8 +168,6 @@ public class Anexo2Service {
                     ActividadesAnexo2 save = new ActividadesAnexo2();
                     save.setAnexo2(optional.get());
                     save.setDescripcion(request.getDescripcion());
-                    save.setInicio(request.getInicio());
-                    save.setFin(request.getFin());
                     actividadesAnexo2Repository.save(save);
                 }
             });
@@ -275,9 +271,7 @@ public class Anexo2Service {
             List<ActividadesAnexo2Request> list = a.getActividadesAnexo2s().stream().map(ac -> {
                 ActividadesAnexo2Request request = new ActividadesAnexo2Request();
                 request.setDescripcion(ac.getDescripcion());
-                request.setFin(ac.getFin());
                 request.setId(ac.getId());
-                request.setInicio(ac.getInicio());
                 return request;
             }).collect(Collectors.toList());
             response.setActividades(list);
@@ -311,9 +305,7 @@ public class Anexo2Service {
                 List<ActividadesAnexo2Request> list = a.get().getActividadesAnexo2s().stream().map(ac -> {
                     ActividadesAnexo2Request request = new ActividadesAnexo2Request();
                     request.setDescripcion(ac.getDescripcion());
-                    request.setFin(ac.getFin());
                     request.setId(ac.getId());
-                    request.setInicio(ac.getInicio());
                     return request;
                 }).collect(Collectors.toList());
                 response.setActividades(list);
