@@ -4,14 +4,12 @@ import com.tecazuay.complexivog2c2.dto.docentes.TutorEmpCedulaResponse;
 import com.tecazuay.complexivog2c2.dto.docentes.designaciones.TutorEmpProyectoRequest;
 import com.tecazuay.complexivog2c2.dto.docentes.designaciones.TutorEmpProyectoResponse;
 import com.tecazuay.complexivog2c2.dto.email.EmailBody;
-import com.tecazuay.complexivog2c2.dto.empresa.EmpresaRequest;
+import com.tecazuay.complexivog2c2.dto.tutorEmpresarial.tutorEmpresarialRequest;
+import com.tecazuay.complexivog2c2.dto.tutorEmpresarial.tutorEmpresarialResponse;
 import com.tecazuay.complexivog2c2.exception.BadRequestException;
 import com.tecazuay.complexivog2c2.exception.ResponseNotFoundException;
 import com.tecazuay.complexivog2c2.model.Primary.coordinadores.CoordinadorCarrera;
-import com.tecazuay.complexivog2c2.model.Primary.coordinadores.CoordinadorVinculacion;
-import com.tecazuay.complexivog2c2.model.Primary.desigaciones.ResponsablePPP;
 import com.tecazuay.complexivog2c2.model.Primary.desigaciones.TutorEmp;
-import com.tecazuay.complexivog2c2.model.Primary.empresa.Empresa;
 import com.tecazuay.complexivog2c2.model.Primary.solicitudproyecto.ProyectoPPP;
 import com.tecazuay.complexivog2c2.model.Primary.usuario.Usuario;
 import com.tecazuay.complexivog2c2.model.Secondary.personas.VPersonasppp;
@@ -27,6 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class TutorEmpService {
@@ -50,20 +49,23 @@ public class TutorEmpService {
     private ProyectoRepository proyectoRepository;
 
 
-//    public boolean save(TutorEmpProyectoRequest teRequest) {
-//        TutorEmp eb = new TutorEmp();
-//        eb.setCedula(teRequest.getCedula());
-//        CoordinadorCarrera cc = getCedula(teRequest.getCoordinador_id());
-//        eb.setCoordinadorCarrera(cc);
-//
-//        eb.setEstado(teRequest.isEstado());
-//        try {
-//            tutorEmpProyectoRepository.save(eb);
-//            return true;
-//        } catch (Exception ex) {
-//            throw new BadRequestException("No se guardó tutor empreasrial" + ex);
-//        }
-//    }
+    public boolean save(tutorEmpresarialRequest teRequest) {
+
+        TutorEmp eb = new TutorEmp();
+        eb.setCedula(teRequest.getCedula());
+        eb.setNombres(teRequest.getNombres());
+        eb.setApellidos(teRequest.getApellidos());
+        eb.setCorreo(teRequest.getCorreo());
+        eb.setClave(teRequest.getClave());
+        eb.setFecha_designacion(teRequest.getFecha_designacion());
+        eb.setEstado(teRequest.isEstado());
+        try {
+            tutorEmpProyectoRepository.save(eb);
+            return true;
+        } catch (Exception ex) {
+            throw new BadRequestException("No se guardó tutor empreasrial" + ex);
+        }
+    }
 //    public TutorEmp getIdPPP(Long id) {
 //        Optional<TutorEmp> optional = tutorEmpProyectoRepository.findById(id);
 //        if (optional.isPresent()) {
@@ -200,5 +202,22 @@ public class TutorEmpService {
 
         String cedula = optional.get().getTutorEmp().getCedula();
         return new TutorEmpCedulaResponse(cedula);
+    }
+
+    public List<tutorEmpresarialResponse> listTutor() {
+        List<TutorEmp> lista = tutorEmpProyectoRepository.findAll();
+        return lista.stream().map(tutores -> {
+            tutorEmpresarialResponse te = new tutorEmpresarialResponse();
+            te.setId(tutores.getId());
+            te.setCedula(tutores.getCedula());
+            te.setNombres(tutores.getNombres());
+            te.setApellidos(tutores.getApellidos());
+            te.setCorreo(tutores.getCorreo());
+            te.setClave(tutores.getClave());
+            te.setEstado(tutores.getEstado());
+            te.setFecha_designacion(tutores.getFecha_designacion());
+
+            return te;
+        }).collect(Collectors.toList());
     }
 }

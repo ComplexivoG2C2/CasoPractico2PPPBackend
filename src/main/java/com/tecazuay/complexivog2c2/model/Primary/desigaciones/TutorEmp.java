@@ -1,6 +1,7 @@
 package com.tecazuay.complexivog2c2.model.Primary.desigaciones;
 
 
+import com.tecazuay.complexivog2c2.model.Primary.empresa.Empresa;
 import com.tecazuay.complexivog2c2.model.Primary.solicitudproyecto.ProyectoPPP;
 import com.tecazuay.complexivog2c2.model.Primary.usuario.Usuario;
 import com.tecazuay.complexivog2c2.model.Primary.coordinadores.CoordinadorCarrera;
@@ -28,6 +29,10 @@ public class TutorEmp implements Serializable {
 
     private String cedula;
 
+    private String apellidos;
+
+    private String nombres;
+
     private boolean estado;
 
     @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
@@ -46,8 +51,23 @@ public class TutorEmp implements Serializable {
     }
 
     //Llave Foranea
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @JoinColumn(name = "empresa_id", referencedColumnName = "id")
+    private Empresa empresa;
+
+    private String correo;
+
+    private String clave;
+
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "usuario_id", referencedColumnName = "id")
     private Usuario usuario;
 
+    public boolean getEstado() {
+        return this.estado;
+    }
+
+//    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+//    @JoinColumn(name = "proyecto_id", referencedColumnName = "id")
+//    private ProyectoPPP proyecto;
 }
