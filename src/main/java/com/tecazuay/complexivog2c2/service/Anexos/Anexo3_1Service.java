@@ -131,7 +131,6 @@ public class Anexo3_1Service {
         throw new BadRequestException("No existe la solicitud: " + proyectoId);
     }
 
-
     //Listar todos los anexos3.1
     @Transactional
     public List<Anexo3_1Response> listAnexoProyecto(Long id) {
