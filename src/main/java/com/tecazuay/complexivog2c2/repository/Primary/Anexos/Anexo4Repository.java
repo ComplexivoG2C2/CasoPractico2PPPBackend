@@ -9,7 +9,7 @@ import java.util.Optional;
 
 public interface Anexo4Repository extends JpaRepository<Anexo4,Long > {
 
-    Optional<Anexo4>findByProyectoPPP(ProyectoPPP proyectoPPP);
+    Optional<Anexo4>findAllByProyectoPPP(ProyectoPPP proyectoPPP);
 
     Boolean existsByProyectoPPP(ProyectoPPP proyectoPPP);
 

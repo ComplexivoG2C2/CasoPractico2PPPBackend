@@ -8,6 +8,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 @Data
 public class Anexo4Request implements Serializable {
@@ -32,4 +33,8 @@ public class Anexo4Request implements Serializable {
     private String carrera;
 
     private String nombreResponsable;
+
+    private String codigoAnexo;
+
+    private List<ListaEstudiantesAnexo4Request> listaEstudiantes;
 }

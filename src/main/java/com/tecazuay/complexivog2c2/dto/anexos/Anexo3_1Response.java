@@ -4,13 +4,14 @@ import lombok.Data;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 
 @Data
-public class Anexo4Response implements Serializable {
+public class Anexo3_1Response implements Serializable {
     private Long id;
 
     private Date fechaRespuesta;
+
+    private String tituloRepresentanteEmp;
 
     private String nombreRepresentanteEmp;
 
@@ -20,17 +21,16 @@ public class Anexo4Response implements Serializable {
 
     private Date fechaSolicitudEmp;
 
-    private String documento; //Byte[] a String
-
-    private Long idProyectoPPP;
-
-    private int num_proceso;
+    private String nombreResponsable;
 
     private String carrera;
 
-    private String nombreResponsable;
+    private Long idProyectoPPP;
 
+    private String documento;
+
+    // private String docx;
     private String codigoAnexo;
-
-    private List<ListaEstudiantesAnexo4Request> listaEstudiantes;
+    private int num_proceso;
 }
+

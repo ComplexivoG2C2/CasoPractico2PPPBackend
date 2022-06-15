@@ -1,6 +1,5 @@
 package com.tecazuay.complexivog2c2.model.Primary.Anexos;
 
-import com.tecazuay.complexivog2c2.model.Primary.desigaciones.ResponsablePPP;
 import com.tecazuay.complexivog2c2.model.Primary.solicitudproyecto.ProyectoPPP;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -10,15 +9,15 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 
 @Entity
-@Table(name = "anexo4")
+@Table(name = "anexo3_1")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Anexo4 implements Serializable {
+public class Anexo3_1 implements Serializable {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -27,10 +26,11 @@ public class Anexo4 implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date fechaRespuesta;
 
+    @Column(name = "titulo_representante_emp")
+    private String tituloRepresentanteEmp;
+
     @Column(name = "nombre_representante_emp")
     private String nombreRepresentanteEmp;
-
-    private String carrera;
 
     @Column(name = "cargo_empresa")
     private String cargoEmpresa;
@@ -42,24 +42,19 @@ public class Anexo4 implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date fechaSolicitudEmp;
 
-    @Column(length = 10485760)
-    private String documento;
-//
-//    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-//    @JoinColumn(name = "id_responsable", referencedColumnName = "id")
-//    private ResponsablePPP responsablePPP;
+    @Column(name = "nombre_responsable")
+    private String nombreResponsable;
+
+    private String carrera;
 
     @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinColumn(name = "proyecto_id", referencedColumnName = "id")
     private ProyectoPPP proyectoPPP;
 
-    @OneToMany(targetEntity = ListaEstudiantesAnexo4.class, mappedBy = "anexo4")
-    private List<ListaEstudiantesAnexo4> listaEstudiantesAnexo4;
-
     private String codigoAnexo;
 
-    @Column(name = "nombre_responsable")
-    private String nombreResponsable;
+    @Column(length = 10485760)
+    private String documento;
 
     private int num_proceso;
 }

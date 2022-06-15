@@ -55,11 +55,9 @@ public class Anexo2Service {
 
     public boolean save(Anexo2Request request) {
         Optional<ProyectoPPP> optional = proyectoRepository.findById(request.getIdProyectoPPP());
-
         if (optional.isPresent()) {
 //            if (!optional.get().isEstado())
 //                throw new BadRequestException("El proceso a finalizado");
-
             if (!anexo2Repository.existsByProyectoPPP(optional.get())) {
                 Anexo2 anexo2 = new Anexo2();
                 anexo2.setSiglasCarrera(request.getSiglasCarrera());

@@ -247,7 +247,7 @@ public class AuthService implements UserDetailsService {
         }
         Optional<TutorEmp> director = tutorEmpProyectoRepository.findByCedula(cedula);
         if (director.isPresent()) {
-            if (director.get().isEstado()) {
+            if (director.get().getEstado()) {
                 return rolesRepository.findByCodigo("TE").get();
             }
 
