@@ -13,6 +13,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Table(name = "tutor_empresarial")
 @Entity
@@ -50,4 +51,7 @@ public class TutorEmp implements Serializable {
     @JoinColumn(name = "usuario_id", referencedColumnName = "id")
     private Usuario usuario;
 
+    public Optional<TutorEmp> findById(Long id) {
+        return null;
+    }
 }
