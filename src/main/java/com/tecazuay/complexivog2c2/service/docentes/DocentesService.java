@@ -9,7 +9,7 @@ import com.tecazuay.complexivog2c2.exception.ResponseNotFoundException;
 import com.tecazuay.complexivog2c2.model.Primary.coordinadores.CoordinadorCarrera;
 import com.tecazuay.complexivog2c2.model.Primary.desigaciones.TutorAcademicoDelegados;
 import com.tecazuay.complexivog2c2.model.Primary.desigaciones.ResponsablePPP;
-import com.tecazuay.complexivog2c2.model.Primary.proyecto.ProyectoPPP;
+import com.tecazuay.complexivog2c2.model.Primary.solicitudproyecto.ProyectoPPP;
 import com.tecazuay.complexivog2c2.model.Primary.usuario.Usuario;
 import com.tecazuay.complexivog2c2.model.Secondary.docentes.VDocentespppall;
 import com.tecazuay.complexivog2c2.repository.Primary.autoridades.AutoridadesRepository;
@@ -18,7 +18,7 @@ import com.tecazuay.complexivog2c2.repository.Primary.designaciones.CoordinadorV
 import com.tecazuay.complexivog2c2.repository.Primary.designaciones.TutorEmpProyectoRepository;
 import com.tecazuay.complexivog2c2.repository.Primary.designaciones.TutorAcademicoRepository;
 import com.tecazuay.complexivog2c2.repository.Primary.designaciones.ResponsablePPPRepository;
-import com.tecazuay.complexivog2c2.repository.Primary.proyecto.ProyectoRepository;
+import com.tecazuay.complexivog2c2.repository.Primary.solicitudproyecto.ProyectoRepository;
 import com.tecazuay.complexivog2c2.repository.Primary.usuario.UsuarioRepository;
 import com.tecazuay.complexivog2c2.repository.Secondary.carreras.CarrerasRepository;
 import com.tecazuay.complexivog2c2.repository.Secondary.carreras.VCarrerasDocentesRepository;
@@ -159,7 +159,7 @@ public class DocentesService {
                     e.setEmail(List.of(getEmail.get().getEmail()));
                     e.setContent("Usted ha sido designado como docente de apoyo");
                     e.setText2(" Ingrese al sistema dando clic en el siguiente botón:");
-                    e.setSubject("Designación para proyectos de vinculación");
+                    e.setSubject("Designación para solicitudproyectos de vinculación");
                     emailService.sendEmail(e);
                 } else {
                     System.out.println("NO HAY EL EMAIL");

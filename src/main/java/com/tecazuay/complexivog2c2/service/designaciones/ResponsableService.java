@@ -127,7 +127,7 @@ public class ResponsableService implements Serializable {
             e.setEmail(List.of(optional.get().getEmail()));
             e.setContent("Usted ha sido designado como Responsable de Prácticas Pre Profesionales");
             e.setText2(" Ingrese al sistema dando clic en el siguiente botón:");
-            e.setSubject("Designación para proyectos de vinculación");
+            e.setSubject("Designación para solicitudproyectos de vinculación");
             emailService.sendEmail(e);
         }
     }

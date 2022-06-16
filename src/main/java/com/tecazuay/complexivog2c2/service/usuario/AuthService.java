@@ -28,7 +28,7 @@ import com.tecazuay.complexivog2c2.repository.Primary.designaciones.TutorEmpProy
 import com.tecazuay.complexivog2c2.repository.Primary.designaciones.TutorAcademicoRepository;
 import com.tecazuay.complexivog2c2.repository.Primary.designaciones.ResponsablePPPRepository;
 import com.tecazuay.complexivog2c2.repository.Primary.empresa.EmpresaRepository;
-import com.tecazuay.complexivog2c2.repository.Primary.proyecto.ProyectoRepository;
+import com.tecazuay.complexivog2c2.repository.Primary.solicitudproyecto.ProyectoRepository;
 import com.tecazuay.complexivog2c2.repository.Primary.roles.RolesRepository;
 import com.tecazuay.complexivog2c2.repository.Primary.usuario.UsuarioRepository;
 import com.tecazuay.complexivog2c2.repository.Secondary.alumnos.VAlumnosRepository;
@@ -39,6 +39,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -75,6 +76,8 @@ public class AuthService implements UserDetailsService {
     private JwtUtil jwtUtil;
     @Autowired
     private AuthenticationManager authenticationManager;
+    @Autowired
+    private AuthenticationManager authenticationManagerempresa;
     @Autowired
     private AlumnosRepository alumnosRepository;
     @Autowired
@@ -286,6 +289,7 @@ public class AuthService implements UserDetailsService {
     }
 
 
+
     private boolean getPersonaFenix(String cedula) {
         return personasRepository.existsByCedula(cedula);
     }
@@ -302,16 +306,14 @@ public class AuthService implements UserDetailsService {
         Optional<Usuario> usuario = usuarioRepository.findByEmail(email);
         Optional<Empresa> empresa = empresaRepository.findByEmailEmpresa(email);
 
-
          if(empresa.isPresent()){
              return new org.springframework.security.core.userdetails.User(empresa.get().getEmailEmpresa(), empresa.get().getEmailEmpresa(), new ArrayList<>());
 
-         }else
-        if(usuario.isPresent()){
+         }else if(usuario.isPresent()){
             return new org.springframework.security.core.userdetails.User(usuario.get().getEmail(), usuario.get().getEmail(), new ArrayList<>());
         }
          else {
-             return new org.springframework.security.core.userdetails.User(usuario.get().getEmail(), usuario.get().getEmail(), new ArrayList<>());
+            throw new BadRequestException("logout)");
          }
 
     }
@@ -366,13 +368,6 @@ public class AuthService implements UserDetailsService {
 
 
 
-
-
-
-
-
-
-
     private boolean getEmpresa(String emailEmpresa) {
 
         return  empresaRepository.existsByEmailEmpresa(emailEmpresa);
@@ -420,7 +415,7 @@ public class AuthService implements UserDetailsService {
             if(empresa!=null){
                 try {
                 if(empresaRequest.getClave().equals(empresa.getClave())){
-                    return  new EmpresaResponse(empresa.getId(), empresa.getEmailEmpresa(),empresa.getClave(),generateTokenLogin2(empresaRequest));
+                    return  new EmpresaResponse(empresa.getId(),empresa.getNombre(), empresa.getEmailEmpresa(),empresa.getClave(),generateTokenLoginempresa(empresaRequest),empresa.getRepresentante(),empresa.getCelularRepresentante(),empresa.getTitulorepresentante());
                 }else{
                     throw new Exception("La contraseña es incorrecta");
                 }
@@ -440,14 +435,14 @@ public class AuthService implements UserDetailsService {
         return null;
     }
 
-    public String generateTokenLogin2(EmpresaRequest empresaRequest) throws Exception {
+    public String generateTokenLoginempresa(EmpresaRequest empresaRequest) throws Exception {
         try {
-            authenticationManager.authenticate(
+            authenticationManagerempresa.authenticate(
                     new UsernamePasswordAuthenticationToken(empresaRequest.getEmailEmpresa(), empresaRequest.getEmailEmpresa())
             );
         } catch (Exception ex) {
-            log.error("INVALID: error al generar token la empresa con email: {}", empresaRequest.getEmailEmpresa());
-            throw new Exception("INAVALID");
+            log.error("IVALID: error al generar token la empresa con email: {}", empresaRequest.getEmailEmpresa());
+            throw new Exception("INVALID");
         }
         return jwtUtil.generateToken(empresaRequest.getEmailEmpresa());
     }

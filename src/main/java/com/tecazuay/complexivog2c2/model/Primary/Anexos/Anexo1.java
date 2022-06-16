@@ -1,6 +1,6 @@
 package com.tecazuay.complexivog2c2.model.Primary.Anexos;
 
-import com.tecazuay.complexivog2c2.model.Primary.proyecto.ProyectoPPP;
+import com.tecazuay.complexivog2c2.model.Primary.solicitudproyecto.ProyectoPPP;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -61,7 +61,7 @@ public class Anexo1 implements Serializable {
 
     @Column(length = 10485760)
     private String documento;
-
+//creacion de rama oscar
     @Column(name = "num_proceso")
     private Integer numProceso;
 

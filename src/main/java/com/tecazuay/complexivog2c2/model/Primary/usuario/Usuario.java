@@ -56,7 +56,7 @@ public class Usuario implements Serializable {
 
     @OneToOne(mappedBy = "usuario")
     private Alumnos alumnos;
-
+//rama
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="rol_id", referencedColumnName = "id")
     private Roles roles;

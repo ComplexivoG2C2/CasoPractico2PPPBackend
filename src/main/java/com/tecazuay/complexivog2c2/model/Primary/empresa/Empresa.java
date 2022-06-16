@@ -60,6 +60,9 @@ public class Empresa {
     @Column(name="descripcion_empresa",length = 10485760)
     private String descripcionEmpresa;
 
+    @Column(name="titulorepresentante",length = 10485760)
+    private String titulorepresentante;
+//Rama
     @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinColumn(name="coordinadorV_id", referencedColumnName = "id")
     private CoordinadorVinculacion coordinadorVinculacion;

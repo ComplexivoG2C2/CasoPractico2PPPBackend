@@ -49,7 +49,7 @@ public class Anexo1Controller {
         return new ResponseEntity<>(anexos, HttpStatus.OK);
     }
 
-    @DeleteMapping("/proyecto/{id}")
+    @DeleteMapping("/solicitudproyecto/{id}")
     public ResponseEntity<?> deleteByProjectId(@PathVariable Long id) {
         anexo1Service.deleteAllByProyectId(id);
         return new ResponseEntity<>(new Mensaje("Anexos 1 eliminados"), HttpStatus.OK);

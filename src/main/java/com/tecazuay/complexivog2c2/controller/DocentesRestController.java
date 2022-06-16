@@ -43,22 +43,16 @@ public class DocentesRestController {
         return new ResponseEntity<List<DocentesMateriasList>>(docentes, HttpStatus.OK);
     }
 
-    /**
-     * Guardar docentes de apoyo
-     *
-     * @param docenteRolesList
-     * @return
-     */
     @PostMapping("/save/apoyo")
     public ResponseEntity<?> saveApoyo(@RequestBody DocenteRolesList docenteRolesList) {
         docentesService.saveRoles(docenteRolesList);
-        return new ResponseEntity<>(new Mensaje("Docentes de Apoyo Guardados"), HttpStatus.CREATED);
+        return new ResponseEntity<>(new Mensaje("Tutores academicos Guardados"), HttpStatus.CREATED);
     }
 
     @PostMapping("/save/director")
     public ResponseEntity<?> saveDirector(@RequestBody TutorEmpProyectoRequest tutorEmpProyectoRequest) {
-        tutorEmpService.saveRolDirector(tutorEmpProyectoRequest);
-        return new ResponseEntity<>(new Mensaje("Directo de Proyecto Guardado"), HttpStatus.CREATED);
+        tutorEmpService.saveRolTutoremp(tutorEmpProyectoRequest);
+        return new ResponseEntity<>(new Mensaje("Tutor empresarial Guardado"), HttpStatus.CREATED);
     }
 
     @PostMapping("/save/responsable")
@@ -104,10 +98,10 @@ public class DocentesRestController {
     @DeleteMapping("/director/{id}")
     public ResponseEntity<?> deleteDirector(@PathVariable Long id) {
         tutorEmpService.deleteById(id);
-        return new ResponseEntity<>(new Mensaje("Director de proyecto eliminado"), HttpStatus.OK);
+        return new ResponseEntity<>(new Mensaje("Director de solicitudproyecto eliminado"), HttpStatus.OK);
     }
 
-    @GetMapping("/proyecto/{id}/director/cedula")
+    @GetMapping("/solicitudproyecto/{id}/director/cedula")
     public ResponseEntity<?> getCedulaDirectorByIdProyecto(@PathVariable Long id) {
         return new ResponseEntity<>(tutorEmpService.getCedulaDirectorByProject(id), HttpStatus.OK);
     }
