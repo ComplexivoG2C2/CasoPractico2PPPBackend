@@ -1,5 +1,7 @@
 package com.tecazuay.complexivog2c2.model.Primary.empresa;
 
+import com.tecazuay.complexivog2c2.model.Primary.convenios.RegistroConvenios;
+import com.tecazuay.complexivog2c2.model.Primary.coordinadores.CoordinadorVinculacion;
 import com.tecazuay.complexivog2c2.model.Primary.coordinadores.CoordinadorVinculacion;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -67,7 +69,8 @@ public class Empresa {
     @JoinColumn(name="coordinadorV_id", referencedColumnName = "id")
     private CoordinadorVinculacion coordinadorVinculacion;
 
-
-
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @JoinColumn(name="empresa_id", referencedColumnName = "id")
+    private RegistroConvenios empresa;
 
 }
