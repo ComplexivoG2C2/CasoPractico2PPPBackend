@@ -25,6 +25,6 @@ public interface TutorEmpProyectoRepository extends JpaRepository<TutorEmp, Long
     Boolean existsByCedulaAndEstado(String cedula, Boolean estado);
 
     Boolean existsByProyectoPPP(ProyectoPPP proyectoppp);
-
+    Boolean existsByEmpresa(Empresa empresa);
     //boolean existsById(Long id);
 }

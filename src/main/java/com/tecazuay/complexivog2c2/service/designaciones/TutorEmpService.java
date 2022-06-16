@@ -1,5 +1,6 @@
 package com.tecazuay.complexivog2c2.service.designaciones;
 
+import com.tecazuay.complexivog2c2.dto.anexos.Anexo31Request;
 import com.tecazuay.complexivog2c2.dto.docentes.TutorEmpCedulaResponse;
 import com.tecazuay.complexivog2c2.dto.docentes.designaciones.TutorEmpProyectoRequest;
 import com.tecazuay.complexivog2c2.dto.docentes.designaciones.TutorEmpProyectoResponse;
@@ -8,13 +9,16 @@ import com.tecazuay.complexivog2c2.dto.tutorEmpresarial.tutorEmpresarialRequest;
 import com.tecazuay.complexivog2c2.dto.tutorEmpresarial.tutorEmpresarialResponse;
 import com.tecazuay.complexivog2c2.exception.BadRequestException;
 import com.tecazuay.complexivog2c2.exception.ResponseNotFoundException;
+import com.tecazuay.complexivog2c2.model.Primary.Anexos.Anexo31;
 import com.tecazuay.complexivog2c2.model.Primary.coordinadores.CoordinadorCarrera;
 import com.tecazuay.complexivog2c2.model.Primary.desigaciones.TutorEmp;
+import com.tecazuay.complexivog2c2.model.Primary.empresa.Empresa;
 import com.tecazuay.complexivog2c2.model.Primary.solicitudproyecto.ProyectoPPP;
 import com.tecazuay.complexivog2c2.model.Primary.usuario.Usuario;
 import com.tecazuay.complexivog2c2.model.Secondary.personas.VPersonasppp;
 import com.tecazuay.complexivog2c2.repository.Primary.coordinadorCarrera.CoordinadorRepository;
 import com.tecazuay.complexivog2c2.repository.Primary.designaciones.TutorEmpProyectoRepository;
+import com.tecazuay.complexivog2c2.repository.Primary.empresa.EmpresaRepository;
 import com.tecazuay.complexivog2c2.repository.Primary.solicitudproyecto.ProyectoRepository;
 import com.tecazuay.complexivog2c2.repository.Primary.usuario.UsuarioRepository;
 import com.tecazuay.complexivog2c2.repository.Secondary.personas.PersonasRepository;
@@ -44,28 +48,59 @@ public class TutorEmpService {
 
     @Autowired
     private EmailService emailService;
+    @Autowired
+    private EmpresaRepository empresaRepository;
 
     @Autowired
     private ProyectoRepository proyectoRepository;
 
+//
+//    public boolean save(tutorEmpresarialRequest teRequest) {
+//
+//        TutorEmp eb = new TutorEmp();
+//        eb.setCedula(teRequest.getCedula());
+//        eb.setNombres(teRequest.getNombres());
+//        eb.setApellidos(teRequest.getApellidos());
+//        eb.setCorreo(teRequest.getCorreo());
+//        eb.setClave(teRequest.getClave());
+//        eb.setFecha_designacion(teRequest.getFecha_designacion());
+//        eb.setEstado(teRequest.isEstado());
+//        try {
+//            tutorEmpProyectoRepository.save(eb);
+//            return true;
+//        } catch (Exception ex) {
+//            throw new BadRequestException("No se guardó tutor empreasrial" + ex);
+//        }
+//    }
+//
+
 
     public boolean save(tutorEmpresarialRequest teRequest) {
+        Optional<Empresa> optional = empresaRepository.findById(teRequest.getEmpresa_id());
+        if (optional.isPresent()) {
 
-        TutorEmp eb = new TutorEmp();
-        eb.setCedula(teRequest.getCedula());
-        eb.setNombres(teRequest.getNombres());
-        eb.setApellidos(teRequest.getApellidos());
-        eb.setCorreo(teRequest.getCorreo());
-        eb.setClave(teRequest.getClave());
-        eb.setFecha_designacion(teRequest.getFecha_designacion());
-        eb.setEstado(teRequest.isEstado());
-        try {
-            tutorEmpProyectoRepository.save(eb);
-            return true;
-        } catch (Exception ex) {
-            throw new BadRequestException("No se guardó tutor empreasrial" + ex);
+                TutorEmp eb = new TutorEmp();
+                eb.setCedula(teRequest.getCedula());
+                eb.setNombres(teRequest.getNombres());
+                eb.setApellidos(teRequest.getApellidos());
+                eb.setCorreo(teRequest.getCorreo());
+                eb.setClave(teRequest.getClave());
+                eb.setFecha_designacion(teRequest.getFecha_designacion());
+                eb.setEstado(teRequest.isEstado());
+                eb.setEmpresa(optional.get());
+
+                try {
+                    tutorEmpProyectoRepository.save(eb);
+                    return true;
+                } catch (Exception ex) {
+                    throw new BadRequestException("No se guardó el tutor empresarial" + ex);
+                }
         }
+        throw new BadRequestException("No existe empresa con id: " + teRequest.getEmpresa_id());
     }
+
+
+
 //    public TutorEmp getIdPPP(Long id) {
 //        Optional<TutorEmp> optional = tutorEmpProyectoRepository.findById(id);
 //        if (optional.isPresent()) {
