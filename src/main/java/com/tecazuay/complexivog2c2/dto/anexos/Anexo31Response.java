@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 @Data
-public class Anexo3_1Response implements Serializable {
+public class Anexo31Response implements Serializable {
     private Long id;
 
     private Date fechaRespuesta;

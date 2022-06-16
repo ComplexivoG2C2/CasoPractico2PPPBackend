@@ -389,6 +389,18 @@ public class ProyectosService {
 
         return true;
     }
+    public boolean updateestado(ProyectoRequest proyectoRequest) {
+        try {
+            ProyectoPPP proyectoPPP = getProyecto(proyectoRequest.getId());
+            proyectoPPP.setEstado(proyectoRequest.isEstado());
+
+            ProyectoPPP saved = proyectoRepository.save(proyectoPPP);
+            return true;
+        }catch (Exception e){
+            throw new BadRequestException("no se actualizo estado: " + e);
+        }
+    }
+
 
     @Transactional
     public void updateObjetivosEspecificos(Long id, List<ActividadesEmpresalistProyecto> requisitos) {

@@ -44,6 +44,11 @@ public class ProyectosRestController {
         proyectosService.updatetutoresacademicos(proyectoRequest);
         return new ResponseEntity<>(new Mensaje("ACTUALIZADO"), HttpStatus.CREATED);
     }
+    @PutMapping("/estado")
+    public ResponseEntity<?> updateestado(@RequestBody ProyectoRequest proyectoRequest) {
+        proyectosService.updateestado(proyectoRequest);
+        return new ResponseEntity<>(new Mensaje("ACTUALIZADO"), HttpStatus.CREATED);
+    }
     @GetMapping("/{id}")
     public ResponseEntity<ProyectoResponse> listProyectosById(@PathVariable Long id) {
         ProyectoResponse proyectoResponses = proyectosService.listaProyectoById(id);

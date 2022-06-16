@@ -1,14 +1,14 @@
 package com.tecazuay.complexivog2c2.dto.anexos;
 
 
+
 import lombok.Data;
 
-import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
 @Data
-public class Anexo3_1Request implements Serializable {
+public class Anexo31Request implements Serializable {
     private Long id;
 
     private Date fechaRespuesta;

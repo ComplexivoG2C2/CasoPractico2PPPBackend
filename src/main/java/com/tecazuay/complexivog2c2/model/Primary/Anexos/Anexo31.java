@@ -11,12 +11,12 @@ import java.io.Serializable;
 import java.util.Date;
 
 @Entity
-@Table(name = "anexo3_1")
+@Table(name = "anexo31")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Anexo3_1 implements Serializable {
+public class Anexo31 implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -58,3 +58,4 @@ public class Anexo3_1 implements Serializable {
 
     private int num_proceso;
 }
+
