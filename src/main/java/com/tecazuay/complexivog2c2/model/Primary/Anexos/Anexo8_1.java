@@ -1,5 +1,6 @@
 package com.tecazuay.complexivog2c2.model.Primary.Anexos;
 
+import com.tecazuay.complexivog2c2.model.Primary.solicitudproyecto.ProyectoPPP;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -39,6 +40,12 @@ public class Anexo8_1 implements Serializable {
     private String nombreResponsable;
 
     private String carrera;
+
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @JoinColumn(name = "proyecto_id", referencedColumnName = "id")
+    private ProyectoPPP proyectoPPP;
+
+    private String codigoAnexo;
 
     @Column(length = 10485760)
     private String documento;

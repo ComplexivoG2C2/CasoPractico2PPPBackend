@@ -31,4 +31,5 @@ public class ActividadesAnexo2 implements Serializable {
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="id_anexo", referencedColumnName = "id")
     private Anexo2 anexo2;
+
 }
