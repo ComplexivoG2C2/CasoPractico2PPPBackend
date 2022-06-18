@@ -67,6 +67,14 @@ public class UsuarioRestController {
         }
         return new ResponseEntity<>(carrera,HttpStatus.OK);
     }
+    @GetMapping("/obtenercarrera/{cedula}")
+    public ResponseEntity<CarreraAlumnoResponse> getAlumnocarrera (@PathVariable String cedula){
+        CarreraAlumnoResponse carrera = authService.enviarAlumno(cedula);
+        if(carrera == null){
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(carrera,HttpStatus.OK);
+    }
 
     @GetMapping("/usuario/{cedula}")
     public ResponseEntity<?> getUsuarioByCedula(@PathVariable String cedula) {

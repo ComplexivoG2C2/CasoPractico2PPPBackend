@@ -45,6 +45,12 @@ public class Anexo2Controller {
         return new ResponseEntity<List<Anexo2Response>>(anexos, HttpStatus.OK);
     }
 
+    @GetMapping("listarconvocatorias/all")
+    public ResponseEntity<List<Anexo2Response>> listAllc() {
+        List<Anexo2Response> anexos = anexo2Service.listAll();
+        return new ResponseEntity<List<Anexo2Response>>(anexos, HttpStatus.OK);
+    }
+
     @GetMapping("/codigo/{codeca}")
     public ResponseEntity<Anexo2Codigo> ane(@PathVariable String codeca){
         Anexo2Codigo anexo= new Anexo2Codigo();
