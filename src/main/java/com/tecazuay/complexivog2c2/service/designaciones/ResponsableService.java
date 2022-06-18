@@ -47,15 +47,7 @@ public class ResponsableService implements Serializable {
     @Autowired
     private TutorAcademicoRepository tutorAcademicoRepository;
 
-    /**
-     * Método para designación de responsable de PP, valiamos que exista el docente según la cédula
-     * En caso de que un docente se haya registrado antes de ser designado
-     * al momento de ser designado se envia un correo electrónico
-     * El email para enviar el correo se obtiene a través de la cédula
-     *
-     * @param DirectorProyectoRequest
-     * @return
-     */
+
     public boolean saveRolResposable(ResponsableRequest responsableRequest) {
 
         if (coordinadorRepository.existsByCedula(responsableRequest.getCedula())) {
@@ -115,11 +107,7 @@ public class ResponsableService implements Serializable {
 
     }
 
-    /**
-     * Metodo para validar que existe en la tabla usuario y enviar correo electrónico
-     *
-     * @param directorProyecto
-     */
+
     public void enviarCorreos(ResponsablePPP responsablePPP) {
         Optional<Usuario> optional = usuarioRepository.findByCedula(responsablePPP.getCedula());
         if (optional.isPresent()) {

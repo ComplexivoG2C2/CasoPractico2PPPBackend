@@ -3,7 +3,6 @@ package com.tecazuay.complexivog2c2.model.Primary.solicitudproyecto;
 
 import com.tecazuay.complexivog2c2.model.Primary.Anexos.*;
 import com.tecazuay.complexivog2c2.model.Primary.desigaciones.TutorAcademicoDelegados;
-import com.tecazuay.complexivog2c2.model.Primary.desigaciones.TutorEmp;
 import com.tecazuay.complexivog2c2.model.Primary.desigaciones.ResponsablePPP;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -45,12 +44,6 @@ public class ProyectoPPP implements Serializable {
 
     @Column(length = 10485760)
     private String documento;
-
-
-    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-    @JoinColumn(name = "id_director", referencedColumnName = "id")
-    private TutorEmp tutorEmp;
-
 
 
     @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
@@ -107,7 +100,6 @@ public class ProyectoPPP implements Serializable {
         if (this.fechaFin.before(new Date())) {
             this.estado = false;
             this.tutorAcademicoDelegados.forEach(d -> d.setEstado(false));
-            this.tutorEmp.setEstado(false);
         }
     }
 }

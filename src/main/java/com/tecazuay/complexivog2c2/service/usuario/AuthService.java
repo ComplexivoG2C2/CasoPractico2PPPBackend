@@ -14,7 +14,6 @@ import com.tecazuay.complexivog2c2.model.Primary.autoridades.Autoridades;
 import com.tecazuay.complexivog2c2.model.Primary.coordinadores.CoordinadorCarrera;
 import com.tecazuay.complexivog2c2.model.Primary.coordinadores.CoordinadorVinculacion;
 import com.tecazuay.complexivog2c2.model.Primary.desigaciones.TutorAcademicoDelegados;
-import com.tecazuay.complexivog2c2.model.Primary.desigaciones.TutorEmp;
 import com.tecazuay.complexivog2c2.model.Primary.desigaciones.ResponsablePPP;
 import com.tecazuay.complexivog2c2.model.Primary.empresa.Empresa;
 import com.tecazuay.complexivog2c2.model.Primary.roles.Roles;
@@ -24,11 +23,9 @@ import com.tecazuay.complexivog2c2.repository.Primary.alumnos.AlumnosRepository;
 import com.tecazuay.complexivog2c2.repository.Primary.autoridades.AutoridadesRepository;
 import com.tecazuay.complexivog2c2.repository.Primary.coordinadorCarrera.CoordinadorRepository;
 import com.tecazuay.complexivog2c2.repository.Primary.designaciones.CoordinadorVinculacionRepository;
-import com.tecazuay.complexivog2c2.repository.Primary.designaciones.TutorEmpProyectoRepository;
 import com.tecazuay.complexivog2c2.repository.Primary.designaciones.TutorAcademicoRepository;
 import com.tecazuay.complexivog2c2.repository.Primary.designaciones.ResponsablePPPRepository;
 import com.tecazuay.complexivog2c2.repository.Primary.empresa.EmpresaRepository;
-import com.tecazuay.complexivog2c2.repository.Primary.solicitudproyecto.ProyectoRepository;
 import com.tecazuay.complexivog2c2.repository.Primary.roles.RolesRepository;
 import com.tecazuay.complexivog2c2.repository.Primary.usuario.UsuarioRepository;
 import com.tecazuay.complexivog2c2.repository.Secondary.alumnos.VAlumnosRepository;
@@ -39,7 +36,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -65,8 +61,6 @@ public class AuthService implements UserDetailsService {
     @Autowired
     private CoordinadorVinculacionRepository coordinadorVinculacionRepository;
     @Autowired
-    private TutorEmpProyectoRepository tutorEmpProyectoRepository;
-    @Autowired
     private TutorAcademicoRepository tutorAcademicoRepository;
     @Autowired
     private ResponsablePPPRepository responsablePPPRepository;
@@ -77,18 +71,14 @@ public class AuthService implements UserDetailsService {
     @Autowired
     private AuthenticationManager authenticationManager;
     @Autowired
-    private AuthenticationManager authenticationManagerempresa;
-    @Autowired
     private AlumnosRepository alumnosRepository;
     @Autowired
     private VAlumnosRepository vAlumnosRepository;
-
-
+    ///para la empresa login:
     @Autowired
     private EmpresaRepository empresaRepository;
     @Autowired
-    private ProyectoRepository proyectoRepository;
-
+    private AuthenticationManager  authenticationManagerempresa;
 
 
     @Transactional
@@ -117,15 +107,10 @@ public class AuthService implements UserDetailsService {
                             cv.setUsuario(usuario);
                             coordinadorVinculacionRepository.save(cv);
                             break;
-                        case "TA":
+                        case "DA":
                             TutorAcademicoDelegados da = tutorAcademicoRepository.findByCedula(usuario.getCedula()).orElse(new TutorAcademicoDelegados());
                             da.setUsuario(usuario);
                             tutorAcademicoRepository.save(da);
-                            break;
-                        case "TE":
-                            TutorEmp dp = tutorEmpProyectoRepository.findByCedula(usuario.getCedula()).orElse(new TutorEmp());
-                            dp.setUsuario(usuario);
-                            tutorEmpProyectoRepository.save(dp);
                             break;
                         case "RPPP":
                             ResponsablePPP rp = responsablePPPRepository.findByCedulaAndEstado(usuario.getCedula(), true).orElse(new ResponsablePPP());
@@ -147,6 +132,15 @@ public class AuthService implements UserDetailsService {
         return null;
     }
 
+    /**
+     * Registrarse por primera vez, recibe correo,cedula,foto, rol de acuerdo al Fénix y la base bd_vinculacion
+     * se valida de que el usuario no exista y se valida que exista en la tabla Personas del Fénix
+     * se nevia a guardar en la respectiva tabla de bd_vinculación segúnn el rol
+     *
+     * @param registerRequest
+     * @return UserResponse (todos los datos incluido el token)
+     * @throws Exception
+     */
     @Transactional
     public UserResponse signup(RegisterRequest registerRequest) throws Exception {
         Usuario newUser = new Usuario();
@@ -178,17 +172,11 @@ public class AuthService implements UserDetailsService {
                                 cv.setCedula(usuario.getCedula());
                                 coordinadorVinculacionRepository.save(cv);
                                 break;
-                            case "TA":
+                            case "DA":
                                 TutorAcademicoDelegados da = tutorAcademicoRepository.findByCedula(usuario.getCedula()).orElse(new TutorAcademicoDelegados());
                                 da.setUsuario(usuario);
                                 da.setCedula(usuario.getCedula());
                                 tutorAcademicoRepository.save(da);
-                                break;
-                            case "TE":
-                                TutorEmp dp = tutorEmpProyectoRepository.findByCedula(usuario.getCedula()).orElse(new TutorEmp());
-                                dp.setUsuario(usuario);
-                                dp.setCedula(usuario.getCedula());
-                                tutorEmpProyectoRepository.save(dp);
                                 break;
                             case "RPPP":
                                 ResponsablePPP rp = responsablePPPRepository.findByCedulaAndEstado(usuario.getCedula(), true).orElse(new ResponsablePPP());
@@ -221,7 +209,12 @@ public class AuthService implements UserDetailsService {
         }
     }
 
-
+    /**
+     * Obtiene el usuario de acuerdo al campo email
+     *
+     * @param email
+     * @return UserResponse
+     */
     public UserResponse getUser(String email) {
         Optional<Usuario> optional = usuarioRepository.findByEmail(email);
         if (optional.isPresent()) {
@@ -231,7 +224,13 @@ public class AuthService implements UserDetailsService {
         throw new ResponseNotFoundException("Usuario", "email", email);
     }
 
-
+    /**
+     * Al momento de registrarse se verifica el rol, y si existe en un tabla de bd_vinculacion
+     * de acuerdo a una previa asignación, caso contrario, se obtiene el rol según Fénix
+     *
+     * @param cedula
+     * @return Rol
+     */
     private Roles getRol(String cedula) {
         if (autoridadesRepository.existsByCedula(cedula)) {
             return rolesRepository.findByCodigo("AUT").get();
@@ -245,17 +244,10 @@ public class AuthService implements UserDetailsService {
                 return rolesRepository.findByCodigo("CV").get();
             }
         }
-        Optional<TutorEmp> director = tutorEmpProyectoRepository.findByCedula(cedula);
-        if (director.isPresent()) {
-            if (director.get().getEstado()) {
-                return rolesRepository.findByCodigo("TE").get();
-            }
-
-        }
         Optional<TutorAcademicoDelegados> apoyo = tutorAcademicoRepository.findByCedula(cedula);
         if (apoyo.isPresent()) {
             if (apoyo.get().isEstado()) {
-                return rolesRepository.findByCodigo("TA").get();
+                return rolesRepository.findByCodigo("DA").get();
             }
         }
         if (responsablePPPRepository.existsByCedulaAndEstado(cedula, true)) {
@@ -277,7 +269,12 @@ public class AuthService implements UserDetailsService {
         throw new BadRequestException("La cedula ingresada no existe");
     }
 
-
+    /**
+     * Se obtiene el nombre de la persona de acuerdo a la cédula desde Fénix
+     *
+     * @param cedula
+     * @return Nombre
+     */
     private String getNombre(String cedula) {
         Optional<VPersonasppp> listaUsers = personasRepository.findByCedula(cedula);
         if (listaUsers.isPresent()) {
@@ -288,39 +285,61 @@ public class AuthService implements UserDetailsService {
 
     }
 
-
-
+    /**
+     * Comprobamos si existe la persona en el Fénix de acuerdo a la cedula
+     *
+     * @param cedula
+     * @return Boolean (true-false)
+     */
     private boolean getPersonaFenix(String cedula) {
         return personasRepository.existsByCedula(cedula);
     }
 
-
+    /**
+     * Comprobamos si existe la persona en la tabla usuario de acuerdo a la cedula
+     * en la base bd_vinculacion
+     *
+     * @param cedula
+     * @return Boolean (true-false)
+     */
     private boolean getUsuarioPPP(String cedula) {
         return usuarioRepository.existsByCedula(cedula);
     }
 
-
+    /**
+     * Asiga un token a un suario de acuerdo al email
+     * username=email
+     * password=email
+     *
+     * @param email
+     * @return
+     * @throws UsernameNotFoundException
+     */
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 
         Optional<Usuario> usuario = usuarioRepository.findByEmail(email);
         Optional<Empresa> empresa = empresaRepository.findByEmailEmpresa(email);
 
-         if(empresa.isPresent()){
-             return new org.springframework.security.core.userdetails.User(empresa.get().getEmailEmpresa(), empresa.get().getEmailEmpresa(), new ArrayList<>());
+        if(empresa.isPresent()){
+            return new org.springframework.security.core.userdetails.User(empresa.get().getEmailEmpresa(), empresa.get().getEmailEmpresa(), new ArrayList<>());
 
-         }else if(usuario.isPresent()){
+        }else if(usuario.isPresent()){
             return new org.springframework.security.core.userdetails.User(usuario.get().getEmail(), usuario.get().getEmail(), new ArrayList<>());
         }
-         else {
+        else {
             throw new BadRequestException("logout)");
-         }
+        }
 
     }
 
-
-
-
+    /**
+     * Generamos y autenticamos el token para el metodo de Login
+     *
+     * @param userRequest
+     * @return
+     * @throws Exception
+     */
     public String generateTokenLogin(UserRequest userRequest) throws Exception {
         try {
             authenticationManager.authenticate(
@@ -333,7 +352,13 @@ public class AuthService implements UserDetailsService {
         return jwtUtil.generateToken(userRequest.getEmail());
     }
 
-
+    /**
+     * Generamos y autenticamos el token para el metodo de SignUp
+     *
+     * @param registerRequest
+     * @return
+     * @throws Exception
+     */
     public String generateTokenSignUp(RegisterRequest registerRequest) throws Exception {
         try {
             authenticationManager.authenticate(
@@ -368,63 +393,44 @@ public class AuthService implements UserDetailsService {
 
 
 
+
+
+
+
+
+
+
+    ///empresa
+
+
+
+
     private boolean getEmpresa(String emailEmpresa) {
 
         return  empresaRepository.existsByEmailEmpresa(emailEmpresa);
     }
 
 
-    //INICIAR SESIÓN Sin try catch
-
-//    @Transactional
-//    public EmpresaResponse login2(EmpresaRequest empresaRequest) throws Exception {
-//        Optional<Empresa> optional = empresaRepository.findByEmailEmpresa(empresaRequest.getEmailEmpresa());
-//        if (optional.isPresent() ) {
-//            try {
-//
-//                Empresa empresa = optional.get();
-//                if(empresa!=null){
-//                    try {
-//                        if(empresaRequest.getClave().equals(empresa.getClave())){
-//                            return  new EmpresaResponse(empresa.getId(), empresa.getEmailEmpresa(),empresa.getClave(),generateTokenLogin2(empresaRequest));
-//                        }else{
-//                            throw new Exception("La contraseña es incorrecta");
-//                        }
-//                    } catch (Exception e) {
-//                        log.error("Error login: " + e.getMessage());
-//                    }
-//                }else{
-//                    throw new Exception("Empresa null login");
-//                }
-//            } catch (Exception e) {
-//                log.error("Error login: " + e.getMessage());
-//            }
-//        }else{
-//            log.info("EMAIL NO EXISTE");
-//        }
-//        log.info("AFUERA LOGIN");
-//        return null;
-//    }
     @Transactional
     public EmpresaResponse login2(EmpresaRequest empresaRequest) throws Exception {
         Optional<Empresa> optional = empresaRepository.findByEmailEmpresa(empresaRequest.getEmailEmpresa());
         if (optional.isPresent() ) {
             try {
 
-            Empresa empresa = optional.get();
-            if(empresa!=null){
-                try {
-                if(empresaRequest.getClave().equals(empresa.getClave())){
-                    return  new EmpresaResponse(empresa.getId(),empresa.getNombre(), empresa.getEmailEmpresa(),empresa.getClave(),generateTokenLoginempresa(empresaRequest),empresa.getRepresentante(),empresa.getCelularRepresentante(),empresa.getTitulorepresentante());
+                Empresa empresa = optional.get();
+                if(empresa!=null){
+                    try {
+                        if(empresaRequest.getClave().equals(empresa.getClave())){
+                            return  new EmpresaResponse(empresa.getId(),empresa.getNombre(), empresa.getEmailEmpresa(),empresa.getClave(),generateTokenLoginempresa(empresaRequest),empresa.getRepresentante(),empresa.getCelularRepresentante(),empresa.getTitulorepresentante());
+                        }else{
+                            throw new Exception("La contraseña es incorrecta");
+                        }
+                    } catch (Exception e) {
+                        log.error("Error login: " + e.getMessage());
+                    }
                 }else{
-                    throw new Exception("La contraseña es incorrecta");
+                    throw new Exception("Empresa null login");
                 }
-                } catch (Exception e) {
-                    log.error("Error login: " + e.getMessage());
-                }
-            }else{
-                throw new Exception("Empresa null login");
-            }
             } catch (Exception e) {
                 log.error("Error login: " + e.getMessage());
             }
