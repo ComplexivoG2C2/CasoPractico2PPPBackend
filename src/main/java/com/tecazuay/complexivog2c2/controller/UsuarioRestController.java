@@ -3,6 +3,8 @@ package com.tecazuay.complexivog2c2.controller;
 import com.tecazuay.complexivog2c2.dto.carreraAlumano.CarreraAlumnoResponse;
 import com.tecazuay.complexivog2c2.dto.empresa.EmpresaRequest;
 import com.tecazuay.complexivog2c2.dto.empresa.EmpresaResponse;
+import com.tecazuay.complexivog2c2.dto.tutorEmpresarial.tutorEmpresarialRequest;
+import com.tecazuay.complexivog2c2.dto.tutorEmpresarial.tutorEmpresarialResponse;
 import com.tecazuay.complexivog2c2.dto.usuarios.RegisterRequest;
 import com.tecazuay.complexivog2c2.dto.usuarios.UserRequest;
 import com.tecazuay.complexivog2c2.dto.usuarios.UserResponse;
@@ -32,11 +34,23 @@ public class UsuarioRestController {
     }
     @PostMapping("/login2")
     public ResponseEntity<EmpresaResponse> login(@RequestBody EmpresaRequest empRequest) throws Exception {
+        System.out.println("Entra en Login 2");
         EmpresaResponse empResponse = authService.login2(empRequest);
         if (empResponse == null){
             return new ResponseEntity(new Mensaje("No existe"), HttpStatus.NOT_FOUND);
         }else {
             return new ResponseEntity<EmpresaResponse>(empResponse, HttpStatus.OK);
+        }
+    }
+
+    @PostMapping("/logintutor")
+    public ResponseEntity<tutorEmpresarialResponse> loginT(@RequestBody tutorEmpresarialRequest tutRequest) throws Exception {
+        System.out.println("Entra en Login 3");
+        tutorEmpresarialResponse tutorResponse = authService.login3(tutRequest);
+        if (tutorResponse == null){
+            return new ResponseEntity(new Mensaje("No existe"), HttpStatus.NOT_FOUND);
+        }else {
+            return new ResponseEntity<tutorEmpresarialResponse>(tutorResponse, HttpStatus.OK);
         }
     }
 

@@ -30,8 +30,6 @@ public class Usuario implements Serializable {
 
     private String email;
 
-
-
     private String urlFoto;
 
     private String cedula;
@@ -44,9 +42,6 @@ public class Usuario implements Serializable {
 
     @OneToOne(mappedBy = "usuario")
     private CoordinadorVinculacion coordinadorVinculacion;
-
-    @OneToOne(mappedBy = "usuario")
-    private TutorEmp tutorEmp;
 
     @OneToOne(mappedBy = "usuario")
     private TutorAcademicoDelegados tutorAcademicoDelegados;

@@ -5,12 +5,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.io.Serializable;
 import java.util.Date;
 
 @Getter
 @Setter
 @Data
-public class tutorEmpresarialResponse {
+@NoArgsConstructor
+public class tutorEmpresarialResponse implements Serializable {
     private Long id;
 
     private String cedula;
@@ -31,18 +33,22 @@ public class tutorEmpresarialResponse {
 
     private String clave;
 
-    public tutorEmpresarialResponse() {
-    }
+    private String token;
 
-    public tutorEmpresarialResponse(Long id, String cedula, String apellidos, String nombres, boolean estado, String coordinador_id, Date fecha_designacion, Long empresa_id, String correo, String clave) {
+    public tutorEmpresarialResponse(Long id, String cedula, String apellidos, String nombres, boolean estado, Date fecha_designacion, String correo, String clave, String token) {
         this.id = id;
         this.cedula = cedula;
         this.apellidos = apellidos;
         this.nombres = nombres;
         this.estado = estado;
-        this.coordinador_id = coordinador_id;
         this.fecha_designacion = fecha_designacion;
-        this.empresa_id = empresa_id;
+        this.correo = correo;
+        this.clave = clave;
+        this.token = token;
+    }
+
+    public tutorEmpresarialResponse(Long id, String correo, String clave) {
+        this.id = id;
         this.correo = correo;
         this.clave = clave;
     }

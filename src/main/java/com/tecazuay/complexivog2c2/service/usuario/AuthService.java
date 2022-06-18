@@ -3,6 +3,8 @@ package com.tecazuay.complexivog2c2.service.usuario;
 import com.tecazuay.complexivog2c2.dto.carreraAlumano.CarreraAlumnoResponse;
 import com.tecazuay.complexivog2c2.dto.empresa.EmpresaRequest;
 import com.tecazuay.complexivog2c2.dto.empresa.EmpresaResponse;
+import com.tecazuay.complexivog2c2.dto.tutorEmpresarial.tutorEmpresarialRequest;
+import com.tecazuay.complexivog2c2.dto.tutorEmpresarial.tutorEmpresarialResponse;
 import com.tecazuay.complexivog2c2.dto.usuarios.RegisterRequest;
 import com.tecazuay.complexivog2c2.dto.usuarios.UserEmailResponse;
 import com.tecazuay.complexivog2c2.dto.usuarios.UserRequest;
@@ -78,6 +80,9 @@ public class AuthService implements UserDetailsService {
     private AuthenticationManager authenticationManager;
     @Autowired
     private AuthenticationManager authenticationManagerempresa;
+
+    @Autowired
+    private AuthenticationManager authenticationManagertutor;
     @Autowired
     private AlumnosRepository alumnosRepository;
     @Autowired
@@ -305,13 +310,17 @@ public class AuthService implements UserDetailsService {
 
         Optional<Usuario> usuario = usuarioRepository.findByEmail(email);
         Optional<Empresa> empresa = empresaRepository.findByEmailEmpresa(email);
-
+//        Optional<TutorEmp> tutor = tutorEmpProyectoRepository.findBycorreo(email);
          if(empresa.isPresent()){
              return new org.springframework.security.core.userdetails.User(empresa.get().getEmailEmpresa(), empresa.get().getEmailEmpresa(), new ArrayList<>());
 
-         }else if(usuario.isPresent()){
-            return new org.springframework.security.core.userdetails.User(usuario.get().getEmail(), usuario.get().getEmail(), new ArrayList<>());
-        }
+         }
+//         else if(tutor.isPresent()){
+//            return new org.springframework.security.core.userdetails.User(tutor.get().getCorreo(), tutor.get().getCorreo(), new ArrayList<>());
+//        }
+         else if(usuario.isPresent()){
+             return new org.springframework.security.core.userdetails.User(usuario.get().getEmail(), usuario.get().getEmail(), new ArrayList<>());
+         }
          else {
             throw new BadRequestException("logout)");
          }
@@ -435,6 +444,39 @@ public class AuthService implements UserDetailsService {
         return null;
     }
 
+
+    @Transactional
+    public tutorEmpresarialResponse login3(tutorEmpresarialRequest tutorRequest) throws Exception {
+        log.info("Entra");
+        Optional<TutorEmp> optional = tutorEmpProyectoRepository.findBycorreo(tutorRequest.getCorreo());
+        if (optional.isPresent() ) {
+            try {
+                TutorEmp tutor = optional.get();
+                if(tutor!=null){
+                    log.debug(tutor.getCorreo());
+                    try {
+                        if(tutorRequest.getClave().equals(tutor.getClave())){
+                            return  new tutorEmpresarialResponse(tutor.getId(),tutor.getCedula(), tutor.getApellidos(),tutor.getNombres(),tutor.getEstado(), tutor.getFecha_designacion(),tutor.getCorreo(), tutor.getClave() ,generateTokenLoginTutor(tutorRequest));
+                        }else{
+                            throw new Exception("La contraseña es incorrecta");
+                        }
+                    } catch (Exception e) {
+                        log.error("Error login: " + e.getMessage());
+                    }
+                }else{
+                    log.debug(tutor.getCorreo());
+                    throw new Exception("Empresa null login");
+                }
+            } catch (Exception e) {
+                log.error("Error login: " + e.getMessage());
+            }
+        }else{
+            log.info("EMAIL NO EXISTE");
+        }
+        log.info("AFUERA LOGIN");
+        return null;
+    }
+
     public String generateTokenLoginempresa(EmpresaRequest empresaRequest) throws Exception {
         try {
             authenticationManagerempresa.authenticate(
@@ -447,6 +489,18 @@ public class AuthService implements UserDetailsService {
         return jwtUtil.generateToken(empresaRequest.getEmailEmpresa());
     }
 
+    public String generateTokenLoginTutor(tutorEmpresarialRequest tutorRequest) throws Exception {
+        try {
+            authenticationManagertutor.authenticate(
+                    new UsernamePasswordAuthenticationToken(tutorRequest.getCorreo(), tutorRequest.getCorreo())
+            );
+        } catch (Exception ex) {
+            log.error("IVALID: error al generar token la empresa con email: {}", tutorRequest.getCorreo());
+            throw new Exception("INVALID");
+        }
+        return jwtUtil.generateToken(tutorRequest.getCorreo());
+    }
+
 
 
     public EmpresaResponse getEmp(String emailEmpresa) {
@@ -456,6 +510,15 @@ public class AuthService implements UserDetailsService {
             return new EmpresaResponse(empresa.getId(), empresa.getEmailEmpresa(), empresa.getClave());
         }
         throw new ResponseNotFoundException("Empresa", "emailEmpresa", emailEmpresa);
+    }
+
+    public tutorEmpresarialResponse getTut(String correo) {
+        Optional<TutorEmp> optional = tutorEmpProyectoRepository.findBycorreo(correo);
+        if (optional.isPresent() ) {
+            TutorEmp tutor = optional.get();
+            return new tutorEmpresarialResponse(tutor.getId(), tutor.getCorreo(), tutor.getClave());
+        }
+        throw new ResponseNotFoundException("Tutor", "correoTutor", correo);
     }
 
 

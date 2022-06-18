@@ -26,5 +26,5 @@ public interface TutorEmpProyectoRepository extends JpaRepository<TutorEmp, Long
 
     Boolean existsByProyectoPPP(ProyectoPPP proyectoppp);
     Boolean existsByEmpresa(Empresa empresa);
-    //boolean existsById(Long id);
+    Optional<TutorEmp> findBycorreo(String correo);
 }
