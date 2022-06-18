@@ -22,6 +22,23 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class TutorEmp implements Serializable {
+    @Override
+    public String toString() {
+        return "TutorEmp{" +
+                "id=" + id +
+                ", cedula='" + cedula + '\'' +
+                ", apellidos='" + apellidos + '\'' +
+                ", nombres='" + nombres + '\'' +
+                ", estado=" + estado +
+                ", coordinadorCarrera=" + coordinadorCarrera +
+                ", fecha_designacion=" + fecha_designacion +
+                ", proyectoPPP=" + proyectoPPP +
+                ", empresa=" + empresa +
+                ", correo='" + correo + '\'' +
+                ", clave='" + clave + '\'' +
+                ", usuario=" + usuario +
+                '}';
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

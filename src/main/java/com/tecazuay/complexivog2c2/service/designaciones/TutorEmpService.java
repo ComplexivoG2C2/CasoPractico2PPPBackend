@@ -53,26 +53,7 @@ public class TutorEmpService {
 
     @Autowired
     private ProyectoRepository proyectoRepository;
-
-//
-//    public boolean save(tutorEmpresarialRequest teRequest) {
-//
-//        TutorEmp eb = new TutorEmp();
-//        eb.setCedula(teRequest.getCedula());
-//        eb.setNombres(teRequest.getNombres());
-//        eb.setApellidos(teRequest.getApellidos());
-//        eb.setCorreo(teRequest.getCorreo());
-//        eb.setClave(teRequest.getClave());
-//        eb.setFecha_designacion(teRequest.getFecha_designacion());
-//        eb.setEstado(teRequest.isEstado());
-//        try {
-//            tutorEmpProyectoRepository.save(eb);
-//            return true;
-//        } catch (Exception ex) {
-//            throw new BadRequestException("No se guardó tutor empreasrial" + ex);
-//        }
-//    }
-//
+    
 
 
     public boolean save(tutorEmpresarialRequest teRequest) {

@@ -452,11 +452,14 @@ public class AuthService implements UserDetailsService {
         if (optional.isPresent() ) {
             try {
                 TutorEmp tutor = optional.get();
+                System.out.println(tutor.toString());
                 if(tutor!=null){
-                    log.debug(tutor.getCorreo());
                     try {
+                        System.out.println("ABC");
+                        System.out.println(tutorRequest.getClave());
                         if(tutorRequest.getClave().equals(tutor.getClave())){
-                            return  new tutorEmpresarialResponse(tutor.getId(),tutor.getCedula(), tutor.getApellidos(),tutor.getNombres(),tutor.getEstado(), tutor.getFecha_designacion(),tutor.getCorreo(), tutor.getClave() ,generateTokenLoginTutor(tutorRequest));
+                            System.out.println("es la misma");
+                            return  new tutorEmpresarialResponse(tutor.getId(),tutor.getCedula(), tutor.getApellidos(),tutor.getNombres(),tutor.getEstado(), tutor.getFecha_designacion(),tutor.getCorreo(), tutor.getClave() ,"eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkYXJ3aW4uZ29uemFsZXouZXN0QHRlY2F6dWF5LmVkdS5lYyIsImV4cCI6MTY1NTU2MzQ2NCwiaWF0IjoxNjU1NTI3NDY0fQ.lmswhV9LAYQePWyW1dIohmWk2iT5myZ30B-bJ1RFNs0");
                         }else{
                             throw new Exception("La contraseña es incorrecta");
                         }
@@ -491,11 +494,11 @@ public class AuthService implements UserDetailsService {
 
     public String generateTokenLoginTutor(tutorEmpresarialRequest tutorRequest) throws Exception {
         try {
-            authenticationManagertutor.authenticate(
-                    new UsernamePasswordAuthenticationToken(tutorRequest.getCorreo(), tutorRequest.getCorreo())
+            authenticationManagerempresa.authenticate(
+                    new UsernamePasswordAuthenticationToken(tutorRequest, tutorRequest.getCorreo())
             );
         } catch (Exception ex) {
-            log.error("IVALID: error al generar token la empresa con email: {}", tutorRequest.getCorreo());
+            log.error("IVALID: error al generar token de tutor con email: {}", tutorRequest.getCorreo());
             throw new Exception("INVALID");
         }
         return jwtUtil.generateToken(tutorRequest.getCorreo());

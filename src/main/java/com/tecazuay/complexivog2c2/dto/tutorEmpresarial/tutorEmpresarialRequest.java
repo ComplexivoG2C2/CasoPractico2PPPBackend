@@ -42,4 +42,9 @@ public class tutorEmpresarialRequest implements Serializable {
         this.correo = correo;
         this.clave = clave;
     }
+
+    public tutorEmpresarialRequest(String correo, String clave) {
+        this.correo = correo;
+        this.clave = clave;
+    }
 }

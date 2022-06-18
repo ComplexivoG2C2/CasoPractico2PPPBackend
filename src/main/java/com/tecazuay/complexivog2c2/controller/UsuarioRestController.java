@@ -15,7 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin(origins= {"http://localhost:4200"})
+@CrossOrigin(origins= "*")
 @RestController
 @RequestMapping("/api/auth")
 public class UsuarioRestController {
@@ -44,7 +44,7 @@ public class UsuarioRestController {
     }
 
     @PostMapping("/logintutor")
-    public ResponseEntity<tutorEmpresarialResponse> loginT(@RequestBody tutorEmpresarialRequest tutRequest) throws Exception {
+    public ResponseEntity<tutorEmpresarialResponse> login(@RequestBody tutorEmpresarialRequest tutRequest) throws Exception {
         System.out.println("Entra en Login 3");
         tutorEmpresarialResponse tutorResponse = authService.login3(tutRequest);
         if (tutorResponse == null){
