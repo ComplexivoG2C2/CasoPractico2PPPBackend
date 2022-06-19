@@ -1,10 +1,7 @@
-package com.tecazuay.complexivog2c2.model.Primary.desigaciones;
-
+package com.tecazuay.complexivog2c2.model.Primary.Anexos;
 
 import com.tecazuay.complexivog2c2.model.Primary.empresa.Empresa;
 import com.tecazuay.complexivog2c2.model.Primary.solicitudproyecto.ProyectoPPP;
-import com.tecazuay.complexivog2c2.model.Primary.usuario.Usuario;
-import com.tecazuay.complexivog2c2.model.Primary.coordinadores.CoordinadorCarrera;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -30,13 +27,11 @@ public class TutorEmp implements Serializable {
                 ", apellidos='" + apellidos + '\'' +
                 ", nombres='" + nombres + '\'' +
                 ", estado=" + estado +
-                ", coordinadorCarrera=" + coordinadorCarrera +
                 ", fecha_designacion=" + fecha_designacion +
                 ", proyectoPPP=" + proyectoPPP +
                 ", empresa=" + empresa +
                 ", correo='" + correo + '\'' +
                 ", clave='" + clave + '\'' +
-                ", usuario=" + usuario +
                 '}';
     }
 
@@ -52,15 +47,8 @@ public class TutorEmp implements Serializable {
 
     private boolean estado;
 
-    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-    @JoinColumn(name = "coordinador_id", referencedColumnName = "id")
-    private CoordinadorCarrera coordinadorCarrera;
-
     @Temporal(TemporalType.DATE)
     private Date fecha_designacion;
-
-    @OneToMany(targetEntity = ProyectoPPP.class, mappedBy = "tutorEmp")
-    private List<ProyectoPPP> proyectoPPP;
 
     @PrePersist
     public void crear_fecha() {
@@ -76,15 +64,12 @@ public class TutorEmp implements Serializable {
 
     private String clave;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "usuario_id", referencedColumnName = "id")
-    private Usuario usuario;
 
     public boolean getEstado() {
         return this.estado;
     }
 
-//    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-//    @JoinColumn(name = "proyecto_id", referencedColumnName = "id")
-//    private ProyectoPPP proyecto;
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @JoinColumn(name = "proyecto_id", referencedColumnName = "id")
+    private ProyectoPPP proyectoPPP;
 }

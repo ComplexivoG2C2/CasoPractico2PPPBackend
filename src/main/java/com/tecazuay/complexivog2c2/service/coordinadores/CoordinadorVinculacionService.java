@@ -12,7 +12,6 @@ import com.tecazuay.complexivog2c2.model.Secondary.docentes.VDocentesByIdppp;
 import com.tecazuay.complexivog2c2.model.Secondary.personas.VPersonasppp;
 import com.tecazuay.complexivog2c2.repository.Primary.autoridades.AutoridadesRepository;
 import com.tecazuay.complexivog2c2.repository.Primary.designaciones.CoordinadorVinculacionRepository;
-import com.tecazuay.complexivog2c2.repository.Primary.designaciones.TutorEmpProyectoRepository;
 import com.tecazuay.complexivog2c2.repository.Primary.designaciones.TutorAcademicoRepository;
 import com.tecazuay.complexivog2c2.repository.Primary.designaciones.ResponsablePPPRepository;
 import com.tecazuay.complexivog2c2.repository.Primary.usuario.UsuarioRepository;
@@ -30,7 +29,6 @@ import java.util.stream.Collectors;
 @Slf4j
 @Service
 public class CoordinadorVinculacionService {
-
     @Autowired
     private CoordinadorVinculacionRepository coordinadorVinculacionRepository;
     @Autowired
@@ -45,8 +43,7 @@ public class CoordinadorVinculacionService {
     private CoordinadorVRepository coordinadorVRepository;
     @Autowired
     private TutorAcademicoRepository tutorAcademicoRepository;
-    @Autowired
-    private TutorEmpProyectoRepository tutorEmpProyectoRepository;
+
     @Autowired
     private ResponsablePPPRepository responsablePPPRepository;
     @Autowired
@@ -71,11 +68,8 @@ public class CoordinadorVinculacionService {
             log.info("Ya existe un CC con esa cedula {}",vinculacionRequest.getCedula());
             throw new BadRequestException("Ya se encuentra asignado como Coordinador de Carrera");
         }if(tutorAcademicoRepository.existsByCedulaAndEstado(vinculacionRequest.getCedula(),true)){
-                log.info("Ya existe un DA con esa cedula {}",vinculacionRequest.getCedula());
+            log.info("Ya existe un DA con esa cedula {}",vinculacionRequest.getCedula());
             throw new BadRequestException("Ya se encuentra asignado como Docente de Apoyo");
-        }if(tutorEmpProyectoRepository.existsByCedulaAndEstado(vinculacionRequest.getCedula(),true)){
-            log.info("Ya existe un DP con esa cedula {}",vinculacionRequest.getCedula());
-            throw new BadRequestException("Ya se encuentra asignado como Director de Proyecto");
         }if(responsablePPPRepository.existsByCedulaAndEstado(vinculacionRequest.getCedula(),true)){
             log.info("Ya existe un RPPP con esa cedula {}",vinculacionRequest.getCedula());
             throw new BadRequestException("Ya se encuentra asignado como Responsable de Practicas");
@@ -100,7 +94,7 @@ public class CoordinadorVinculacionService {
             EmailBody e = new EmailBody();
             e.setEmail(List.of(getEmail.get().getEmail()));
             e.setContent("Usted ha sido designado como coordinador de vinculación" );
-            e.setSubject("Designación para solicitudproyectos de vinculación");
+            e.setSubject("Designación para proyectos de vinculación");
             e.setText2("Ingrese al sistema dando clic en el siguiente botón:");
             emailService.sendEmail(e);
         }else{
@@ -116,13 +110,13 @@ public class CoordinadorVinculacionService {
      */
     public boolean act_estado(VinculacionRequest vinculacionRequest){
         Optional<CoordinadorVinculacion> optional=coordinadorVinculacionRepository.findByCedula(vinculacionRequest.getCedula());
-                if(optional.isPresent()){
-                    CoordinadorVinculacion cv = optional.get();
-                    cv.setEstado(vinculacionRequest.isEstado());
-                    coordinadorVinculacionRepository.save(cv);
-                    return true;
-                }
-                return false;
+        if(optional.isPresent()){
+            CoordinadorVinculacion cv = optional.get();
+            cv.setEstado(vinculacionRequest.isEstado());
+            coordinadorVinculacionRepository.save(cv);
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -187,9 +181,9 @@ public class CoordinadorVinculacionService {
      * @return
      */
     public String getNombreCoordinador(String cedula){
-            Optional<VPersonasppp> optionalP = personasRepository.findByCedula(cedula);
-            if(optionalP.isPresent()){
-                return optionalP.get().getNombres();
+        Optional<VPersonasppp> optionalP = personasRepository.findByCedula(cedula);
+        if(optionalP.isPresent()){
+            return optionalP.get().getNombres();
         }
         return " ";
     }
@@ -200,10 +194,10 @@ public class CoordinadorVinculacionService {
      * @return
      */
     public String getApellidoCoordinador(String cedula){
-            Optional<VPersonasppp> optionalP = personasRepository.findByCedula(cedula);
-            if(optionalP.isPresent()){
-                return optionalP.get().getApellidos();
-            }
+        Optional<VPersonasppp> optionalP = personasRepository.findByCedula(cedula);
+        if(optionalP.isPresent()){
+            return optionalP.get().getApellidos();
+        }
         return " ";
     }
 

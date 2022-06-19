@@ -12,7 +12,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
-@Table(name = "tutores_academicos")
+@Table(name = "tutor_academico")
 @Entity
 @Getter
 @Setter

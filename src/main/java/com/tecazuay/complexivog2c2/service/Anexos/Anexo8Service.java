@@ -9,7 +9,6 @@ import com.tecazuay.complexivog2c2.model.Primary.solicitudproyecto.ProyectoPPP;
 import com.tecazuay.complexivog2c2.repository.Primary.Anexos.Anexo8Repository;
 import com.tecazuay.complexivog2c2.repository.Primary.alumnos.AlumnosRepository;
 import com.tecazuay.complexivog2c2.repository.Primary.designaciones.ResponsablePPPRepository;
-import com.tecazuay.complexivog2c2.repository.Primary.designaciones.TutorEmpProyectoRepository;
 import com.tecazuay.complexivog2c2.repository.Primary.solicitudproyecto.ProyectoRepository;
 import com.tecazuay.complexivog2c2.repository.Secondary.personas.PersonasRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,8 +28,8 @@ public class Anexo8Service {
     private ProyectoRepository proyectoRepository;
     @Autowired
     private PersonasRepository personasRepository;
-    @Autowired
-    private TutorEmpProyectoRepository tutorempRepository;
+
+
     @Autowired
     private ResponsablePPPRepository responsablePPPRepository;
     @Autowired

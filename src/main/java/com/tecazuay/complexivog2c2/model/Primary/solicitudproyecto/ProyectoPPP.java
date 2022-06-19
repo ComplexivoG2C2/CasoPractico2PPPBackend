@@ -3,7 +3,6 @@ package com.tecazuay.complexivog2c2.model.Primary.solicitudproyecto;
 
 import com.tecazuay.complexivog2c2.model.Primary.Anexos.*;
 import com.tecazuay.complexivog2c2.model.Primary.desigaciones.TutorAcademicoDelegados;
-import com.tecazuay.complexivog2c2.model.Primary.desigaciones.TutorEmp;
 import com.tecazuay.complexivog2c2.model.Primary.desigaciones.ResponsablePPP;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -48,12 +47,6 @@ public class ProyectoPPP implements Serializable {
 
 
     @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-    @JoinColumn(name = "id_director", referencedColumnName = "id")
-    private TutorEmp tutorEmp;
-
-
-
-    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinColumn(name = "id_responsable", referencedColumnName = "id")
     private ResponsablePPP responsablePPP;
 
@@ -72,8 +65,17 @@ public class ProyectoPPP implements Serializable {
     @OneToMany(targetEntity = Anexo4.class, mappedBy = "proyectoPPP")
     private List<Anexo4> anexo4;
 
+    @OneToMany(targetEntity = Anexo6.class, mappedBy = "proyectoPPP")
+    private List<Anexo6> anexo6;
+
     @OneToMany(targetEntity = Anexo8.class, mappedBy = "proyectoPPP")
     private List<Anexo8> anexo8;
+
+    @OneToMany(targetEntity = Anexo9.class, mappedBy = "proyectoPPP")
+    private List<Anexo9> anexo9;
+
+    @OneToMany(targetEntity = TutorEmp.class, mappedBy = "proyectoPPP")
+    private List<TutorEmp> tutoremp;
 
     @OneToMany(targetEntity = ActividadesProyecto.class, mappedBy = "proyectoPPP", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     private List<ActividadesProyecto> actividadesProyecto;
@@ -107,7 +109,6 @@ public class ProyectoPPP implements Serializable {
         if (this.fechaFin.before(new Date())) {
             this.estado = false;
             this.tutorAcademicoDelegados.forEach(d -> d.setEstado(false));
-            this.tutorEmp.setEstado(false);
         }
     }
 }
