@@ -1,14 +1,14 @@
 package com.tecazuay.complexivog2c2.service.usuario;
 
+import com.tecazuay.complexivog2c2.dto.anexos.TutorEmpRequest;
+import com.tecazuay.complexivog2c2.dto.anexos.TutorEmpResponse;
 import com.tecazuay.complexivog2c2.dto.carreraAlumano.CarreraAlumnoResponse;
 import com.tecazuay.complexivog2c2.dto.empresa.EmpresaRequest;
 import com.tecazuay.complexivog2c2.dto.empresa.EmpresaResponse;
-import com.tecazuay.complexivog2c2.dto.usuarios.RegisterRequest;
-import com.tecazuay.complexivog2c2.dto.usuarios.UserEmailResponse;
-import com.tecazuay.complexivog2c2.dto.usuarios.UserRequest;
-import com.tecazuay.complexivog2c2.dto.usuarios.UserResponse;
+import com.tecazuay.complexivog2c2.dto.usuarios.*;
 import com.tecazuay.complexivog2c2.exception.BadRequestException;
 import com.tecazuay.complexivog2c2.exception.ResponseNotFoundException;
+import com.tecazuay.complexivog2c2.model.Primary.Anexos.TutorEmp;
 import com.tecazuay.complexivog2c2.model.Primary.alumnos.Alumnos;
 import com.tecazuay.complexivog2c2.model.Primary.autoridades.Autoridades;
 import com.tecazuay.complexivog2c2.model.Primary.coordinadores.CoordinadorCarrera;
@@ -19,6 +19,7 @@ import com.tecazuay.complexivog2c2.model.Primary.empresa.Empresa;
 import com.tecazuay.complexivog2c2.model.Primary.roles.Roles;
 import com.tecazuay.complexivog2c2.model.Primary.usuario.Usuario;
 import com.tecazuay.complexivog2c2.model.Secondary.personas.VPersonasppp;
+import com.tecazuay.complexivog2c2.repository.Primary.Anexos.TutorEmpProyectoRepository;
 import com.tecazuay.complexivog2c2.repository.Primary.alumnos.AlumnosRepository;
 import com.tecazuay.complexivog2c2.repository.Primary.autoridades.AutoridadesRepository;
 import com.tecazuay.complexivog2c2.repository.Primary.coordinadorCarrera.CoordinadorRepository;
@@ -79,6 +80,12 @@ public class AuthService implements UserDetailsService {
     private EmpresaRepository empresaRepository;
     @Autowired
     private AuthenticationManager  authenticationManagerempresa;
+    @Autowired
+    private AuthenticationManager  authenticationManagertutor;
+
+    ///tutor emp
+    @Autowired
+    private TutorEmpProyectoRepository tutorEmpProyectoRepository;
 
 
     @Transactional
@@ -320,12 +327,15 @@ public class AuthService implements UserDetailsService {
 
         Optional<Usuario> usuario = usuarioRepository.findByEmail(email);
         Optional<Empresa> empresa = empresaRepository.findByEmailEmpresa(email);
-
+        Optional<TutorEmp> tutorEmp = tutorEmpProyectoRepository.findBycorreo(email);
         if(empresa.isPresent()){
             return new org.springframework.security.core.userdetails.User(empresa.get().getEmailEmpresa(), empresa.get().getEmailEmpresa(), new ArrayList<>());
 
         }else if(usuario.isPresent()){
             return new org.springframework.security.core.userdetails.User(usuario.get().getEmail(), usuario.get().getEmail(), new ArrayList<>());
+        }
+        else if(tutorEmp.isPresent()){
+            return new org.springframework.security.core.userdetails.User(tutorEmp.get().getCorreo(), tutorEmp.get().getCorreo(), new ArrayList<>());
         }
         else {
             throw new BadRequestException("logout)");
@@ -463,6 +473,65 @@ public class AuthService implements UserDetailsService {
         }
         throw new ResponseNotFoundException("Empresa", "emailEmpresa", emailEmpresa);
     }
+
+
+    /////////////////login tutor empresarial
+    @Transactional
+    public TutorEmpResponse login3(TutorEmpRequest tutorRequest) throws Exception {
+        log.info("Entra");
+        Optional<TutorEmp> optional = tutorEmpProyectoRepository.findBycorreo(tutorRequest.getCorreo());
+        if (optional.isPresent()) {
+                try {
+
+                    TutorEmp tutor = optional.get();
+                    if (tutor != null) {
+                        try {
+                            if (tutorRequest.getClave().equals(tutor.getClave())) {
+                                return new TutorEmpResponse(tutor.getId(), tutor.getCedula(), tutor.getApellidos(), tutor.getNombres(), tutor.getEstado(), tutor.getFecha_designacion(), tutor.getCorreo(), tutor.getClave(), generateTokenLoginTutor(tutorRequest));
+
+                            } else {
+                                throw new Exception("La contraseña es incorrecta");
+                            }
+                        } catch (Exception e) {
+                            log.error("Error login: " + e.getMessage());
+                        }
+                    } else {
+                        throw new Exception("Empresa null login");
+                    }
+                } catch (Exception e) {
+                    log.error("Error login: " + e.getMessage());
+                }
+            } else {
+                log.info("EMAIL NO EXISTE");
+            }
+            log.info("AFUERA LOGIN");
+            return null;
+        }
+
+    public String generateTokenLoginTutor(TutorEmpRequest tutorRequest) throws Exception {
+        try {
+            authenticationManagertutor.authenticate(
+                    new UsernamePasswordAuthenticationToken(tutorRequest.getCorreo(), tutorRequest.getCorreo())
+            );
+        } catch (Exception ex) {
+            log.error("IVALID: error al generar token de tutor con email: {}", tutorRequest.getCorreo());
+            throw new Exception("INVALID");
+        }
+        return jwtUtil.generateToken(tutorRequest.getCorreo());
+    }
+
+
+
+    public TutorEmpResponse getTut(String correo) {
+        Optional<TutorEmp> optional = tutorEmpProyectoRepository.findBycorreo(correo);
+        if (optional.isPresent() ) {
+            TutorEmp tutor = optional.get();
+            return new TutorEmpResponse(tutor.getId(), tutor.getCorreo(), tutor.getClave());
+        }
+        throw new ResponseNotFoundException("Tutor", "correoTutor", correo);
+    }
+
+
 
 
 }

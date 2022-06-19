@@ -29,8 +29,6 @@ public class Usuario implements Serializable {
 
     private String email;
 
-
-
     private String urlFoto;
 
     private String cedula;

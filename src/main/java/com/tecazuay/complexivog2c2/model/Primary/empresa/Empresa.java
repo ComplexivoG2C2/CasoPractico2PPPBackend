@@ -1,5 +1,6 @@
 package com.tecazuay.complexivog2c2.model.Primary.empresa;
 
+import com.tecazuay.complexivog2c2.model.Primary.Anexos.TutorEmp;
 import com.tecazuay.complexivog2c2.model.Primary.coordinadores.CoordinadorVinculacion;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -8,6 +9,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Table(name="empresa")
 @Entity
@@ -67,7 +69,8 @@ public class Empresa {
     @JoinColumn(name="coordinadorV_id", referencedColumnName = "id")
     private CoordinadorVinculacion coordinadorVinculacion;
 
-
+    @OneToMany(targetEntity = TutorEmp.class, mappedBy = "empresa")
+    private List<TutorEmp> tutoremp;
 
 
 }

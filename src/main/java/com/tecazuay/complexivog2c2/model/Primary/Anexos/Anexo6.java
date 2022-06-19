@@ -56,7 +56,7 @@ public class Anexo6 implements Serializable {
     private String documento;
 
     @OneToMany(targetEntity = AlumnosAnexo6.class, mappedBy = "anexo6")
-    private List<AlumnosAnexo6> alumnosAnexo5s;
+    private List<AlumnosAnexo6> alumnosAnexo6s;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "proyecto_id", referencedColumnName = "id")

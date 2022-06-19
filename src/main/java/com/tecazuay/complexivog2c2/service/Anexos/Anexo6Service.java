@@ -225,7 +225,7 @@ public class Anexo6Service {
         Optional<Anexo6> optional = anexo6Repository.findById(id);
 
         if (optional.isPresent()) {
-            List<AlumnosAnexo6> proyecto = optional.get().getAlumnosAnexo5s();
+            List<AlumnosAnexo6> proyecto = optional.get().getAlumnosAnexo6s();
             proyecto.forEach(r -> {
                 Optional<AlumnosAnexo6Request> exists = requisitos
                         .stream()
@@ -272,7 +272,7 @@ public class Anexo6Service {
             response.setNombreProyecto(a.getNombreProyecto());
             response.setDocumento(a.getDocumento());
             response.setNum_proceso(a.getNum_proceso());
-            List<AlumnosAnexo6Request> list = a.getAlumnosAnexo5s().stream().map(ac -> {
+            List<AlumnosAnexo6Request> list = a.getAlumnosAnexo6s().stream().map(ac -> {
                 AlumnosAnexo6Request request = new AlumnosAnexo6Request();
                 request.setId(ac.getId());
                 request.setCedulaEstudiante(ac.getCedulaEstudiante());
@@ -302,7 +302,7 @@ public class Anexo6Service {
                 response.setFechaRecepcion(a.getFechaRecepcion());
                 response.setCedulaDocenteApoyo(a.getCedulaDocenteApoyo());
                 response.setNum_proceso(a.getNum_proceso());
-                List<AlumnosAnexo6Request> list = a.getAlumnosAnexo5s().stream().map(ac -> {
+                List<AlumnosAnexo6Request> list = a.getAlumnosAnexo6s().stream().map(ac -> {
                     AlumnosAnexo6Request request = new AlumnosAnexo6Request();
                     request.setNombreEstudiante(ac.getNombreEstudiante());
                     request.setCedulaEstudiante(ac.getCedulaEstudiante());
@@ -317,7 +317,7 @@ public class Anexo6Service {
 
         }
 
-        throw new BadRequestException("No existe el proyecto: " + proyectoId);
+        throw new BadRequestException("No existe la solicitud: " + proyectoId);
     }
 
     //Listar por id de Anexo
@@ -338,7 +338,7 @@ public class Anexo6Service {
             response.setNombreProyecto(a.get().getNombreProyecto());
             response.setDocumento(a.get().getDocumento());
             response.setNum_proceso(a.get().getNum_proceso());
-            List<AlumnosAnexo6Request> list = a.get().getAlumnosAnexo5s().stream().map(ac -> {
+            List<AlumnosAnexo6Request> list = a.get().getAlumnosAnexo6s().stream().map(ac -> {
                 AlumnosAnexo6Request request = new AlumnosAnexo6Request();
                 request.setNombreEstudiante(ac.getNombreEstudiante());
                 request.setCedulaEstudiante(ac.getCedulaEstudiante());
@@ -368,7 +368,7 @@ public class Anexo6Service {
             response.setDocumento(a.getDocumento());
             response.setNombreProyecto(a.getNombreProyecto());
             response.setNum_proceso(a.getNum_proceso());
-            List<AlumnosAnexo6Request> list = a.getAlumnosAnexo5s().stream().map(ac -> {
+            List<AlumnosAnexo6Request> list = a.getAlumnosAnexo6s().stream().map(ac -> {
                 AlumnosAnexo6Request request = new AlumnosAnexo6Request();
                 request.setId(ac.getId());
                 request.setCedulaEstudiante(ac.getCedulaEstudiante());
