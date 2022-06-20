@@ -25,6 +25,7 @@ public class TutorEmpRequest implements Serializable {
 
         private String clave;
 
+        private Long idProyectoPPP;
         public TutorEmpRequest() {
         }
 
