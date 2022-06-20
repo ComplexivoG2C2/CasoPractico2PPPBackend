@@ -64,7 +64,6 @@ public class Anexo7Service {
         if (optional.isPresent()) {
             if (!optional.get().isEstado())
                 throw new BadRequestException("El proceso a finalizado");
-            if (!anexo7Repository.existsByProyectoPPP(optional.get())) {
                 Anexo7 anexo7=new Anexo7();
                 anexo7.setFechaReunion(request.getFechaReunion());
                 anexo7.setNombreResponsable(request.getNombreResponsable());
@@ -76,8 +75,12 @@ public class Anexo7Service {
                 anexo7.setCortesia(request.getCortesia());
                 anexo7.setLugarReunion(request.getLugarReunion());
                 anexo7.setNombreEstudiante(request.getNombreEstudiante());
+                anexo7.setCedulaEstudiante(request.getCedulaEstudiante());
+                anexo7.setCedulaTutoracademico(request.getCedulaTutoracademico());
+                anexo7.setNombreTutoracademico(request.getNombreTutoracademico());
                 anexo7.setCiclo(request.getCiclo());
                 anexo7.setHorasCumplidas(request.getHorasCumplidas());
+                anexo7.setSiglascarrera(request.getSiglascarrera());
 
                 anexo7.setFechainicio(request.getFechainicio());
                 anexo7.setFechafin(request.getFechafin());
@@ -129,9 +132,7 @@ public class Anexo7Service {
                     throw new BadRequestException("No se enviÃ³ el email");
                 }
 
-            } else {
-                throw new BadRequestException("Ya existe el anexo con ese id de proyecto");
-            }
+
         }
         throw new BadRequestException("No existe el proyecto con id: " + request.getIdProyectoPPP());
     }
@@ -217,10 +218,15 @@ public class Anexo7Service {
             response.setTituloTutorEmp(a.getTituloTutorEmp());
             response.setNombreTutorEmp(a.getNombreTutorEmp());
             response.setNombreEmpresa(a.getNombreEmpresa());
+            response.setSiglascarrera(a.getSiglascarrera());
 
             response.setCortesia(a.getCortesia());
             response.setLugarReunion(a.getLugarReunion());
             response.setNombreEstudiante(a.getNombreEstudiante());
+            response.setCedulaEstudiante(a.getCedulaEstudiante());
+            response.setCedulaTutoracademico(a.getCedulaTutoracademico());
+            response.setNombreTutoracademico(a.getNombreTutoracademico());
+
             response.setCiclo(a.getCiclo());
             response.setHorasCumplidas(a.getHorasCumplidas());
 
@@ -283,10 +289,16 @@ public class Anexo7Service {
                 response.setTituloTutorEmp(a.get().getTituloTutorEmp());
                 response.setNombreTutorEmp(a.get().getNombreTutorEmp());
                 response.setNombreEmpresa(a.get().getNombreEmpresa());
+                response.setSiglascarrera(a.get().getSiglascarrera());
+
+                response.setCedulaTutoracademico(a.get().getCedulaTutoracademico());
+                response.setNombreTutoracademico(a.get().getNombreTutoracademico());
 
                 response.setCortesia(a.get().getCortesia());
                 response.setLugarReunion(a.get().getLugarReunion());
                 response.setNombreEstudiante(a.get().getNombreEstudiante());
+                response.setCedulaEstudiante(a.get().getCedulaEstudiante());
+
                 response.setCiclo(a.get().getCiclo());
                 response.setHorasCumplidas(a.get().getHorasCumplidas());
 
