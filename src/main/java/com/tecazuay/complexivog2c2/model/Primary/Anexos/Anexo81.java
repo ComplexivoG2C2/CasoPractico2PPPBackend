@@ -11,7 +11,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 @Entity
-@Table(name = "anexo8_1")
+@Table(name = "anexo81")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -32,6 +32,12 @@ public class Anexo81 implements Serializable {
 
     @Column(name = "nombre_estudiante")
     private String nombreEstudiante;
+    @Column(name = "cedula_estudiante")
+    private String cedulaEstudiante;
+    @Column(name = "cedula_tutoracademico")
+    private String cedulaTutoracademico;
+    @Column(name = "nombre_tutoracademico")
+    private String nombreTutoracademico;
 
     @Column(name = "nombre_empresa")
     private String nombreEmpresa;

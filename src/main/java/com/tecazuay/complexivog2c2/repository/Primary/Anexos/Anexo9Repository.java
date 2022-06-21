@@ -15,4 +15,8 @@ public interface Anexo9Repository  extends JpaRepository<Anexo9,Long> {
     List<Anexo9> findAllByProyectoPPP(ProyectoPPP proyectoPPP);
 
     boolean existsByProyectoPPPAndCedulaEstudiante(ProyectoPPP proyectoPPP, String cedulaEstudiante);
+    Optional<Anexo9> findByProyectoPPPAndCedulaEstudiante(ProyectoPPP proyectoPPP, String cedulaEstudiante);
 }
+
+
+

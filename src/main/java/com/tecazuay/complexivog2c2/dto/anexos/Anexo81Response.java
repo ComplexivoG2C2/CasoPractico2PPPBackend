@@ -16,7 +16,9 @@ public class Anexo81Response implements Serializable {
     private String cortesia;
 
     private String nombreEstudiante;
-
+    private String cedulaEstudiante;
+    private String cedulaTutoracademico;
+    private String nombreTutoracademico;
     private String nombreEmpresa;
 
     private String nombreResponsable;

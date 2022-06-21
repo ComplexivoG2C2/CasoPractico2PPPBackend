@@ -1,5 +1,7 @@
 package com.tecazuay.complexivog2c2.service.Anexos;
 
+import com.tecazuay.complexivog2c2.dto.anexos.AlumnosAnexo6Request;
+import com.tecazuay.complexivog2c2.dto.anexos.Anexo6Response;
 import com.tecazuay.complexivog2c2.dto.anexos.Anexo81Request;
 import com.tecazuay.complexivog2c2.dto.anexos.Anexo81Response;
 import com.tecazuay.complexivog2c2.exception.BadRequestException;
@@ -46,13 +48,15 @@ public class Anexo81Service {
             if (!optional.get().isEstado())
                 throw new BadRequestException("El proceso a finalizado");
 
-            if (!anexo8_1Repository.existsByProyectoPPP(optional.get())) {
                 Anexo81 anexo8_1 = new Anexo81();
                 anexo8_1.setFechaNotificacion(request.getFechaNotificacion());
                 anexo8_1.setTutorAcademico(request.getTutorAcademico());
                 anexo8_1.setCortesia(request.getCortesia());
                 anexo8_1.setNombreEstudiante(request.getNombreEstudiante());
                 anexo8_1.setNombreEmpresa(request.getNombreEmpresa());
+                anexo8_1.setCedulaEstudiante(request.getCedulaEstudiante());
+                anexo8_1.setCedulaTutoracademico(request.getCedulaTutoracademico());
+                anexo8_1.setNombreTutoracademico(request.getNombreTutoracademico());
                 anexo8_1.setNombreResponsable(request.getNombreResponsable());
                 anexo8_1.setCarrera(request.getCarrera());
                 anexo8_1.setProyectoPPP(optional.get());
@@ -68,9 +72,7 @@ public class Anexo81Service {
                 } catch (Exception ex) {
                     throw new BadRequestException("No se envio el email");
                 }
-            } else {
-                throw new BadRequestException("Ya existe el anexo con ese id desolicitud");
-            }
+
         }
         throw new BadRequestException("No existe la solicitud con id: " + request.getIdProyectoPPP());
     }
@@ -87,6 +89,10 @@ public class Anexo81Service {
             anexo8_1.setTutorAcademico(request.getTutorAcademico());
             anexo8_1.setCortesia(request.getCortesia());
             anexo8_1.setNombreEstudiante(request.getNombreEstudiante());
+            anexo8_1.setCedulaEstudiante(request.getCedulaEstudiante());
+            anexo8_1.setCedulaTutoracademico(request.getCedulaTutoracademico());
+            anexo8_1.setNombreTutoracademico(request.getNombreTutoracademico());
+
             anexo8_1.setNombreEmpresa(request.getNombreEmpresa());
             anexo8_1.setNombreResponsable(request.getNombreResponsable());
             anexo8_1.setCarrera(request.getCarrera());
@@ -114,6 +120,9 @@ public class Anexo81Service {
                 response.setTutorAcademico(a.get().getTutorAcademico());
                 response.setCortesia(a.get().getCortesia());
                 response.setNombreEstudiante(a.get().getNombreEstudiante());
+                response.setCedulaTutoracademico(a.get().getCedulaTutoracademico());
+                response.setNombreTutoracademico(a.get().getNombreTutoracademico());
+                response.setCedulaEstudiante(a.get().getCedulaEstudiante());
                 response.setNombreEmpresa(a.get().getNombreEmpresa());
                 response.setNombreResponsable(a.get().getNombreResponsable());
                 response.setCarrera(a.get().getCarrera());
@@ -141,6 +150,9 @@ public class Anexo81Service {
                 an.setTutorAcademico(anexo8_1.getTutorAcademico());
                 an.setCortesia(anexo8_1.getCortesia());
                 an.setNombreEstudiante(anexo8_1.getNombreEstudiante());
+                an.setCedulaEstudiante(anexo8_1.getCedulaEstudiante());
+                an.setNombreTutoracademico(anexo8_1.getNombreEstudiante());
+                an.setCedulaTutoracademico(anexo8_1.getCedulaTutoracademico());
                 an.setNombreEmpresa(anexo8_1.getNombreEmpresa());
                 an.setNombreResponsable(anexo8_1.getNombreResponsable());
                 an.setCarrera(anexo8_1.getCarrera());
@@ -163,6 +175,9 @@ public class Anexo81Service {
             response.setTutorAcademico(a.getTutorAcademico());
             response.setCortesia(a.getCortesia());
             response.setNombreEstudiante(a.getNombreEstudiante());
+            response.setNombreTutoracademico(a.getNombreTutoracademico());
+            response.setCedulaTutoracademico(a.getCedulaTutoracademico());
+            response.setCedulaEstudiante(a.getCedulaEstudiante());
             response.setNombreEmpresa(a.getNombreEmpresa());
             response.setNombreResponsable(a.getNombreResponsable());
             response.setCarrera(a.getCarrera());
@@ -180,6 +195,27 @@ public class Anexo81Service {
             throw new BadRequestException("El anexo8.1 con id: " + id + ", no existe");
         }
         anexo8_1Repository.deleteById(id);
+    }
+    @Transactional
+    public List<Anexo81Response> findAllByCedula(String cedula) {
+        return anexo8_1Repository.findAllByCedulaTutoracademico(cedula).stream().map(a -> {
+            Anexo81Response response = new Anexo81Response();
+            response.setId(a.getId());
+            response.setFechaNotificacion(a.getFechaNotificacion());
+            response.setTutorAcademico(a.getTutorAcademico());
+            response.setCortesia(a.getCortesia());
+            response.setNombreEstudiante(a.getNombreEstudiante());
+            response.setNombreTutoracademico(a.getNombreTutoracademico());
+            response.setCedulaTutoracademico(a.getCedulaTutoracademico());
+            response.setCedulaEstudiante(a.getCedulaEstudiante());
+            response.setNombreEmpresa(a.getNombreEmpresa());
+            response.setNombreResponsable(a.getNombreResponsable());
+            response.setCarrera(a.getCarrera());
+            response.setDocumento(a.getDocumento());
+            response.setSiglascarrera(a.getSiglascarrera());
+            response.setIdProyectoPPP(a.getProyectoPPP().getId());
+            return response;
+        }).collect(Collectors.toList());
     }
 
 }

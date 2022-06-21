@@ -1,5 +1,4 @@
 package com.tecazuay.complexivog2c2.controller.Anexos;
-
 import com.tecazuay.complexivog2c2.dto.anexos.Anexo81Request;
 import com.tecazuay.complexivog2c2.dto.anexos.Anexo81Response;
 import com.tecazuay.complexivog2c2.exception.Mensaje;
@@ -42,5 +41,10 @@ public class Anexo81Controller {
         anexo81Service.deleteAnexo81ById(id);
         return new ResponseEntity<>(new Mensaje("Anexo 8.1  eliminado"), HttpStatus.OK);
 
+    }
+    @GetMapping("/tutoracademico/{cedula}")
+    public ResponseEntity<List<Anexo81Response>> findAllByCedula(@PathVariable String cedula) {
+        List<Anexo81Response> anexos = anexo81Service.findAllByCedula(cedula);
+        return new ResponseEntity<List<Anexo81Response>>(anexos, HttpStatus.OK);
     }
 }

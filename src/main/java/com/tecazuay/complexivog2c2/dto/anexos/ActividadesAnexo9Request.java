@@ -12,7 +12,6 @@ public class ActividadesAnexo9Request implements Serializable {
     private Long id;
     private Date fecha;
     private String descripcionActividad;
-    private String lugar;
     private String horallegada;
     private String horasalida;
     private int numHoras;

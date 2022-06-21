@@ -3,6 +3,7 @@ package com.tecazuay.complexivog2c2.controller.Anexos;
 
 import com.tecazuay.complexivog2c2.dto.anexos.Anexo7Request;
 import com.tecazuay.complexivog2c2.dto.anexos.Anexo7Response;
+import com.tecazuay.complexivog2c2.dto.solicitudproyectos.ProyectoResponse;
 import com.tecazuay.complexivog2c2.exception.Mensaje;
 import com.tecazuay.complexivog2c2.service.Anexos.Anexo7Service;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +33,11 @@ public class Anexo7Controller {
         Anexo7Response anexos = anexo7Service.anexoIdProyecto(proyectoId);
         return new ResponseEntity<>(anexos, HttpStatus.OK);
     }
-
+    @GetMapping("listarporid/{id}")
+    public ResponseEntity<Anexo7Response> listan7sById(@PathVariable Long id) {
+        Anexo7Response an = anexo7Service.anexoBYIdan7(id);
+        return new ResponseEntity<>(an, HttpStatus.OK);
+    }
     @GetMapping("/all")
     public ResponseEntity<List<Anexo7Response>> listAll() {
         List<Anexo7Response> anexos = anexo7Service.listAll();

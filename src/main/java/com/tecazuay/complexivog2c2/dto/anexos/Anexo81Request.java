@@ -2,6 +2,7 @@ package com.tecazuay.complexivog2c2.dto.anexos;
 
 import lombok.Data;
 
+import javax.persistence.Column;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -16,7 +17,9 @@ public class Anexo81Request implements Serializable {
     private String cortesia;
 
     private String nombreEstudiante;
-
+    private String cedulaEstudiante;
+    private String cedulaTutoracademico;
+    private String nombreTutoracademico;
     private String nombreEmpresa;
 
     private String nombreResponsable;
