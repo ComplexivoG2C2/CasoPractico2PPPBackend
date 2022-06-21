@@ -29,7 +29,6 @@ public class ProyectoRequest implements Serializable {
 
     private Date fechaat;
 
-
     private String tutorempProyecto;
 
     private Long responsablePPP;
@@ -40,8 +39,6 @@ public class ProyectoRequest implements Serializable {
 
     private List<RequisitoslistProyecto> requisitoslistProyectos;
 
-    //FALTA COORDINADOR DE CARERRA EL ID
-   // private List<TutorAcademicoDelegados> docentesApoyoDelegados;
 
     private List<ActividadesEmpresalistProyecto> actividadesEmpresaProyecto;
 

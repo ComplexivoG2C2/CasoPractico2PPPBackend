@@ -1,5 +1,6 @@
 package com.tecazuay.complexivog2c2.repository.Primary.Anexos;
 
+import com.tecazuay.complexivog2c2.model.Primary.Anexos.Anexo81;
 import com.tecazuay.complexivog2c2.model.Primary.Anexos.Anexo9;
 import com.tecazuay.complexivog2c2.model.Primary.solicitudproyecto.ProyectoPPP;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -16,6 +17,8 @@ public interface Anexo9Repository  extends JpaRepository<Anexo9,Long> {
 
     boolean existsByProyectoPPPAndCedulaEstudiante(ProyectoPPP proyectoPPP, String cedulaEstudiante);
     Optional<Anexo9> findByProyectoPPPAndCedulaEstudiante(ProyectoPPP proyectoPPP, String cedulaEstudiante);
+
+//    List<Anexo9> findAllByCedulaTutoracademico(String cedula);
 }
 
 

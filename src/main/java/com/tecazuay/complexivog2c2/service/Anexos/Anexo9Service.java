@@ -2,6 +2,7 @@ package com.tecazuay.complexivog2c2.service.Anexos;
 
 
 import com.tecazuay.complexivog2c2.dto.anexos.ActividadesAnexo9Request;
+import com.tecazuay.complexivog2c2.dto.anexos.Anexo81Response;
 import com.tecazuay.complexivog2c2.dto.anexos.Anexo9Request;
 import com.tecazuay.complexivog2c2.dto.anexos.Anexo9Response;
 import com.tecazuay.complexivog2c2.exception.BadRequestException;
@@ -335,6 +336,38 @@ public class Anexo9Service {
                 throw new BadRequestException("Error al actualizar actividad anexo 8 con id: " + request.getId());
             }
         }
-        throw new ResponseNotFoundException("Anexo8", "id", idAnexo + "");
+        throw new ResponseNotFoundException("Anexo9", "id", idAnexo + "");
     }
+//
+//    @Transactional
+//    public List<Anexo9Response> findAllByCedula(String cedula) {
+//        return anexo9Repository.findAllByCedulaTutoracademico(cedula).stream().map(a -> {
+//            Anexo9Response response = new Anexo9Response();
+//            response.setId(a.getId());
+//            response.setNombreProyecto(a.getNombreProyecto());
+//            response.setNombreEmpresa(a.getNombreEmpresa());
+//            response.setNombreEstudiante(a.getNombreEstudiante());
+//            response.setCedulaEstudiante(a.getCedulaEstudiante());
+//            response.setNombreRepresentanteemp(a.getNombreRepresentanteemp());
+//            response.setNombreTutorAcademico(a.getNombreTutorAcademico());
+//            response.setNombreTutoremp(a.getNombreTutoremp());
+//            response.setCedulaTutoremp(a.getCedulaTutoremp());
+//            response.setTotalHoras(a.getTotalHoras());
+//            response.setDocumento(a.getDocumento());
+//
+//            List<ActividadesAnexo9Request> list = a.getActividadesAnexo9s().stream().map(ac -> {
+//                ActividadesAnexo9Request request = new ActividadesAnexo9Request();
+//                request.setId(ac.getId());
+//                request.setFecha(ac.getFecha());
+//                request.setDescripcionActividad(ac.getDescripcionActividad());
+//                request.setHorallegada(ac.getHorallegada());
+//                request.setHorasalida(ac.getHorasalida());
+//                request.setNumHoras(ac.getNumHoras());
+//                return request;
+//            }).collect(Collectors.toList());
+//            response.setActividades(list);
+//            response.setIdProyectoPPP(a.getProyectoPPP().getId());
+//            return response;
+//        }).collect(Collectors.toList());
+//    }
 }
