@@ -313,10 +313,7 @@ public class Anexo6Service {
                 response.setIdProyectoPPP(a.getProyectoPPP().getId());
                 return response;
             }).collect(Collectors.toList());
-
-
         }
-
         throw new BadRequestException("No existe la solicitud: " + proyectoId);
     }
 
