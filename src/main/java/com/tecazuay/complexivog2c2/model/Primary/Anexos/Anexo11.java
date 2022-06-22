@@ -21,11 +21,19 @@ public class Anexo11 implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "nombre_director_docente_apoyo")
+    @Column(name = "nombre_tutoracademico")
     private String nombreDirectorDocenteApoyo;
 
-    @Column(name = "cedula_director_docente_apoyo")
+    @Column(name = "cedula_tutoracademico")
     private String cedulaDirectorDocenteApoyo;
+
+    private String nombreest;
+    private String cedulaest;
+    private String nombretutoremp;
+    private String cedulaetutoremp;
+    private String carrera;
+    private String siglascarrera;
+
 
     @Column(name = "periodo_academico")
     private String periodoAcademicon;

@@ -55,6 +55,12 @@ import java.util.stream.Collectors;
                     anexo11.setCedulaDirectorDocenteApoyo(request.getCedulaDirectorDocenteApoyo());
                     anexo11.setPeriodoAcademicon(request.getPeriodoAcademicon());
                     anexo11.setEmpresa(request.getEmpresa());
+                      anexo11.setNombreest(request.getNombreest());
+                      anexo11.setCedulaest(request.getCedulaest());
+                      anexo11.setCarrera(request.getCarrera());
+                      anexo11.setSiglascarrera(request.getSiglascarrera());
+                      anexo11.setNombretutoremp(request.getNombretutoremp());
+                      anexo11.setCedulaetutoremp(request.getCedulaetutoremp());
                     anexo11.setRepresentanteLegal(request.getRepresentanteLegal());
                     anexo11.setCiclo(request.getCiclo());
                     anexo11.setObservaciones(request.getObservaciones());
@@ -206,37 +212,49 @@ import java.util.stream.Collectors;
                 anexo11.setDocumento(request.getDocumento());
                 anexo11.setNombreDirectorDocenteApoyo(request.getNombreDirectorDocenteApoyo());
                 anexo11.setCedulaDirectorDocenteApoyo(request.getCedulaDirectorDocenteApoyo());
+                anexo11.setNombreest(request.getNombreest());
+                anexo11.setCedulaest(request.getCedulaest());
+                anexo11.setCarrera(request.getCarrera());
+                anexo11.setNombretutoremp(request.getNombretutoremp());
+                anexo11.setCedulaetutoremp(request.getCedulaetutoremp());
+                anexo11.setSiglascarrera(request.getSiglascarrera());
                 anexo11.setNum_proceso(request.getNum_proceso());
                 try {
                     Anexo11 updated = anexo11Repository.save(anexo11);
                     saveEstudiantes(request.getEstudiantesVisitas(), updated);
                     saveInformesVisitas(request.getInformes(), updated);
                 } catch (Exception e) {
-                    log.error("Error al actualizar anexo13 con id: {}, ex: {}", request.getId(), e.getMessage());
-                    throw new BadRequestException("Error al actualizar anexo13 con id: " + request.getId());
+                    log.error("Error al actualizar anexo11 con id: {}, ex: {}", request.getId(), e.getMessage());
+                    throw new BadRequestException("Error al actualizar anexo11 con id: " + request.getId());
                 }
             } else {
-                throw new BadRequestException("Anexo 13 con id:" + request.getId() + ", no existe");
+                throw new BadRequestException("Anexo 11 con id:" + request.getId() + ", no existe");
             }
         }
 
         @Transactional
         public void updateSave(Anexo11Request request) {
-            Optional<Anexo11> anexo13Recuperar = anexo11Repository.findById(request.getId());
-            if (anexo13Recuperar.isPresent()) {
-                if (!anexo13Recuperar.get().getProyectoPPP().isEstado())
+            Optional<Anexo11> anexo11Recuperar = anexo11Repository.findById(request.getId());
+            if (anexo11Recuperar.isPresent()) {
+                if (!anexo11Recuperar.get().getProyectoPPP().isEstado())
                     throw new BadRequestException("El proyecto ha finalizado, no es posible modificar sus datos");
 
                 Anexo11 anexo11 = new Anexo11();
                 anexo11.setNombreDirectorDocenteApoyo(request.getNombreDirectorDocenteApoyo());
                 anexo11.setCedulaDirectorDocenteApoyo(request.getCedulaDirectorDocenteApoyo());
-                anexo11.setPeriodoAcademicon(anexo13Recuperar.get().getPeriodoAcademicon());
-                anexo11.setEmpresa(anexo13Recuperar.get().getEmpresa());
-                anexo11.setRepresentanteLegal(anexo13Recuperar.get().getRepresentanteLegal());
-                anexo11.setCiclo(anexo13Recuperar.get().getCiclo());
+                anexo11.setNombreest(request.getNombreest());
+                anexo11.setCedulaest(request.getCedulaest());
+                anexo11.setCarrera(request.getCarrera());
+                anexo11.setSiglascarrera(request.getSiglascarrera());
+                anexo11.setNombretutoremp(request.getNombretutoremp());
+                anexo11.setCedulaetutoremp(request.getCedulaetutoremp());
+                anexo11.setPeriodoAcademicon(anexo11Recuperar.get().getPeriodoAcademicon());
+                anexo11.setEmpresa(anexo11Recuperar.get().getEmpresa());
+                anexo11.setRepresentanteLegal(anexo11Recuperar.get().getRepresentanteLegal());
+                anexo11.setCiclo(anexo11Recuperar.get().getCiclo());
                 anexo11.setObservaciones(request.getObservaciones());
-                anexo11.setProyectoPPP(anexo13Recuperar.get().getProyectoPPP());
-                anexo11.setNum_proceso(anexo13Recuperar.get().getNum_proceso());
+                anexo11.setProyectoPPP(anexo11Recuperar.get().getProyectoPPP());
+                anexo11.setNum_proceso(anexo11Recuperar.get().getNum_proceso());
 
                 try {
                     Anexo11 saved = anexo11Repository.save(anexo11);
@@ -250,7 +268,7 @@ import java.util.stream.Collectors;
                     log.error("Error al guardar anexo13");
                 }
             }
-            throw new ResponseNotFoundException("Anexo13", "id", request.getId() + "");
+            throw new ResponseNotFoundException("Anexo11", "id", request.getId() + "");
         }
 
 
@@ -283,6 +301,12 @@ import java.util.stream.Collectors;
                             response.setCedulaDirectorDocenteApoyo(a.getCedulaDirectorDocenteApoyo());
                             response.setCiclo(a.getCiclo());
                             response.setEmpresa(a.getEmpresa());
+                            response.setNombreest(a.getNombreest());
+                            response.setCedulaest(a.getCedulaest());
+                            response.setNombretutoremp(a.getNombretutoremp());
+                          response.setCedulaetutoremp(a.getCedulaetutoremp());
+                            response.setCarrera(a.getCarrera());
+                            response.setSiglascarrera(a.getSiglascarrera());
                             response.setRepresentanteLegal(a.getRepresentanteLegal());
                             response.setObservaciones(a.getObservaciones());
                             response.setPeriodoAcademicon(a.getPeriodoAcademicon());

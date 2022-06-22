@@ -10,6 +10,12 @@ public class Anexo11Request implements Serializable {
     private Long id;
     private String nombreDirectorDocenteApoyo;
     private String cedulaDirectorDocenteApoyo;
+    private String nombreest;
+    private String cedulaest;
+    private String nombretutoremp;
+    private String cedulaetutoremp;
+    private String carrera;
+    private String siglascarrera;
     private String periodoAcademicon;
     private String empresa;
     private String representanteLegal;
