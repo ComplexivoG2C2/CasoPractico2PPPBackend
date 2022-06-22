@@ -16,6 +16,4 @@ public interface Anexo10Repository extends JpaRepository<Anexo10,Long > {
 
 
 
-
-
 }

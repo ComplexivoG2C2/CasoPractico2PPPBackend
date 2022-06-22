@@ -2,6 +2,9 @@ package com.tecazuay.complexivog2c2.model.Primary.solicitudproyecto;
 
 
 import com.tecazuay.complexivog2c2.model.Primary.Anexos.*;
+import com.tecazuay.complexivog2c2.model.Primary.Anexos.anexo1214y15.Anexo12;
+import com.tecazuay.complexivog2c2.model.Primary.Anexos.anexo1214y15.Anexo14;
+import com.tecazuay.complexivog2c2.model.Primary.Anexos.anexo1214y15.Anexo15;
 import com.tecazuay.complexivog2c2.model.Primary.desigaciones.TutorAcademicoDelegados;
 import com.tecazuay.complexivog2c2.model.Primary.desigaciones.ResponsablePPP;
 import lombok.AllArgsConstructor;
@@ -83,9 +86,21 @@ public class ProyectoPPP implements Serializable {
     @OneToMany(targetEntity = Anexo10.class, mappedBy = "proyectoPPP")
     private List<Anexo10> anexo10;
 
+    @OneToMany(targetEntity = Anexo11.class, mappedBy = "proyectoPPP")
+    private List<Anexo11> anexo11;
+
+    @OneToMany(targetEntity = Anexo12.class, mappedBy = "proyectoPPP")
+    private List<Anexo12> anexo12;
+
+    @OneToMany(targetEntity = Anexo14.class, mappedBy = "proyectoPPP")
+    private List<Anexo14> anexo14;
+
+    @OneToMany(targetEntity = Anexo15.class, mappedBy = "proyectoPPP")
+    private List<Anexo15> anexo15;
 
     @OneToMany(targetEntity = TutorEmp.class, mappedBy = "proyectoPPP")
     private List<TutorEmp> tutoremp;
+
 
     @OneToMany(targetEntity = ActividadesProyecto.class, mappedBy = "proyectoPPP", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     private List<ActividadesProyecto> actividadesProyecto;

@@ -153,7 +153,6 @@ public class Anexo10Service {
         if(a.isPresent()){
             Anexo10Response response = new Anexo10Response();
             response.setId(a.get().getId());
-            response.setId(a.get().getId());
             response.setCarrera(a.get().getCarrera());
             response.setSiglascarrera(a.get().getSiglascarrera());
             response.setNombreEstudiante(a.get().getNombreEstudiante());
