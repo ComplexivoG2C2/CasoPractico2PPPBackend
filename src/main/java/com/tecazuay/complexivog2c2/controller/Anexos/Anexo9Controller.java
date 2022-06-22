@@ -29,7 +29,7 @@ public class Anexo9Controller {
     @PutMapping
     public ResponseEntity<?> update(@RequestBody Anexo9Request request) {
         anexo9Service.update(request);
-        return new ResponseEntity(new Mensaje("Anexo 9 Actualizado"), HttpStatus.CREATED);
+        return new ResponseEntity(new Mensaje("Anexo 9  Actualizado"), HttpStatus.CREATED);
     }
 
     @GetMapping("/allByProyecto/{proyectoId}")

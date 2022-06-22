@@ -35,6 +35,8 @@ import java.util.Date;
 
         private String token;
 
+        private Long idProyectoPPP;
+
         public TutorEmpResponse(Long id, String cedula, String apellidos, String nombres, boolean estado, Date fecha_designacion, String correo, String clave, String token) {
             this.id = id;
             this.cedula = cedula;

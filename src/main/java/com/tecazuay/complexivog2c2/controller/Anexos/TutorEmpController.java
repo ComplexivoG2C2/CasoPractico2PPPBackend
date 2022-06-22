@@ -3,6 +3,7 @@ package com.tecazuay.complexivog2c2.controller.Anexos;
 
 import com.tecazuay.complexivog2c2.dto.anexos.TutorEmpRequest;
 import com.tecazuay.complexivog2c2.dto.anexos.TutorEmpResponse;
+import com.tecazuay.complexivog2c2.dto.solicitudproyectos.ProyectoRequest;
 import com.tecazuay.complexivog2c2.exception.Mensaje;
 import com.tecazuay.complexivog2c2.service.Anexos.TutorEmpService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,4 +32,9 @@ import java.util.List;
             List<TutorEmpResponse> tutores = tutorService.listTutor();
             return new ResponseEntity<List<TutorEmpResponse>>(tutores,HttpStatus.OK);
         }
+    @PutMapping("/actualizaridproyecto")
+    public ResponseEntity<?> updateidtutor(@RequestBody TutorEmpRequest tRequest) {
+        tutorService.updateidsolicitud(tRequest);
+        return new ResponseEntity<>(new Mensaje("ACTUALIZADO"), HttpStatus.CREATED);
+    }
     }

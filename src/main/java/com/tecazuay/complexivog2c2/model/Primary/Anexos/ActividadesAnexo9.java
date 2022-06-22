@@ -28,8 +28,6 @@ public class ActividadesAnexo9 implements Serializable {
     @Column(name = "descripcion_actividad")
     private String descripcionActividad;
 
-    @Column(name = "lugar")
-    private String lugar;
 
     @Column(name = "hora_llegada")
     private String horallegada;

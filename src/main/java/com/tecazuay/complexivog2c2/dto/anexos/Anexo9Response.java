@@ -12,7 +12,7 @@ public class Anexo9Response {
     private String nombreEstudiante;
     private String cedulaEstudiante;
     private String nombreRepresentanteemp;
-    private String nombreTutoracademico;
+    private String nombreTutorAcademico;
     private String nombreTutoremp;
     private Long idProyectoPPP;
     private String documento;

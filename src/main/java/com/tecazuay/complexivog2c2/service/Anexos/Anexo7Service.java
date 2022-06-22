@@ -1,7 +1,9 @@
 package com.tecazuay.complexivog2c2.service.Anexos;
 
 import com.tecazuay.complexivog2c2.dto.anexos.*;
+import com.tecazuay.complexivog2c2.dto.solicitudproyectos.ProyectoResponse;
 import com.tecazuay.complexivog2c2.exception.BadRequestException;
+import com.tecazuay.complexivog2c2.exception.ResponseNotFoundException;
 import com.tecazuay.complexivog2c2.model.Primary.Anexos.ActividadesAnexo7;
 import com.tecazuay.complexivog2c2.model.Primary.Anexos.ActividadesCumplirAnexo7;
 import com.tecazuay.complexivog2c2.model.Primary.Anexos.Anexo7;
@@ -64,7 +66,6 @@ public class Anexo7Service {
         if (optional.isPresent()) {
             if (!optional.get().isEstado())
                 throw new BadRequestException("El proceso a finalizado");
-            if (!anexo7Repository.existsByProyectoPPP(optional.get())) {
                 Anexo7 anexo7=new Anexo7();
                 anexo7.setFechaReunion(request.getFechaReunion());
                 anexo7.setNombreResponsable(request.getNombreResponsable());
@@ -76,8 +77,12 @@ public class Anexo7Service {
                 anexo7.setCortesia(request.getCortesia());
                 anexo7.setLugarReunion(request.getLugarReunion());
                 anexo7.setNombreEstudiante(request.getNombreEstudiante());
+                anexo7.setCedulaEstudiante(request.getCedulaEstudiante());
+                anexo7.setCedulaTutoracademico(request.getCedulaTutoracademico());
+                anexo7.setNombreTutoracademico(request.getNombreTutoracademico());
                 anexo7.setCiclo(request.getCiclo());
                 anexo7.setHorasCumplidas(request.getHorasCumplidas());
+                anexo7.setSiglascarrera(request.getSiglascarrera());
 
                 anexo7.setFechainicio(request.getFechainicio());
                 anexo7.setFechafin(request.getFechafin());
@@ -129,9 +134,7 @@ public class Anexo7Service {
                     throw new BadRequestException("No se enviÃ³ el email");
                 }
 
-            } else {
-                throw new BadRequestException("Ya existe el anexo con ese id de proyecto");
-            }
+
         }
         throw new BadRequestException("No existe el proyecto con id: " + request.getIdProyectoPPP());
     }
@@ -217,10 +220,15 @@ public class Anexo7Service {
             response.setTituloTutorEmp(a.getTituloTutorEmp());
             response.setNombreTutorEmp(a.getNombreTutorEmp());
             response.setNombreEmpresa(a.getNombreEmpresa());
+            response.setSiglascarrera(a.getSiglascarrera());
 
             response.setCortesia(a.getCortesia());
             response.setLugarReunion(a.getLugarReunion());
             response.setNombreEstudiante(a.getNombreEstudiante());
+            response.setCedulaEstudiante(a.getCedulaEstudiante());
+            response.setCedulaTutoracademico(a.getCedulaTutoracademico());
+            response.setNombreTutoracademico(a.getNombreTutoracademico());
+
             response.setCiclo(a.getCiclo());
             response.setHorasCumplidas(a.getHorasCumplidas());
 
@@ -283,10 +291,16 @@ public class Anexo7Service {
                 response.setTituloTutorEmp(a.get().getTituloTutorEmp());
                 response.setNombreTutorEmp(a.get().getNombreTutorEmp());
                 response.setNombreEmpresa(a.get().getNombreEmpresa());
+                response.setSiglascarrera(a.get().getSiglascarrera());
+
+                response.setCedulaTutoracademico(a.get().getCedulaTutoracademico());
+                response.setNombreTutoracademico(a.get().getNombreTutoracademico());
 
                 response.setCortesia(a.get().getCortesia());
                 response.setLugarReunion(a.get().getLugarReunion());
                 response.setNombreEstudiante(a.get().getNombreEstudiante());
+                response.setCedulaEstudiante(a.get().getCedulaEstudiante());
+
                 response.setCiclo(a.get().getCiclo());
                 response.setHorasCumplidas(a.get().getHorasCumplidas());
 
@@ -337,6 +351,80 @@ public class Anexo7Service {
         }
 
         throw new BadRequestException("No existe la solicitud: " + proyectoId);
+    }
+
+
+    public Anexo7Response anexoBYIdan7(Long id) {
+
+        Optional<Anexo7> a = anexo7Repository.findById(id);
+        if (a.isPresent()) {
+            Anexo7Response response = new Anexo7Response();
+
+            response.setId(a.get().getId());
+            response.setFechaReunion(a.get().getFechaReunion());
+            response.setNombreResponsable(a.get().getNombreResponsable());
+            response.setCarrera(a.get().getCarrera());
+            response.setTituloTutorEmp(a.get().getTituloTutorEmp());
+            response.setNombreTutorEmp(a.get().getNombreTutorEmp());
+            response.setNombreEmpresa(a.get().getNombreEmpresa());
+            response.setSiglascarrera(a.get().getSiglascarrera());
+
+            response.setCedulaTutoracademico(a.get().getCedulaTutoracademico());
+            response.setNombreTutoracademico(a.get().getNombreTutoracademico());
+
+            response.setCortesia(a.get().getCortesia());
+            response.setLugarReunion(a.get().getLugarReunion());
+            response.setNombreEstudiante(a.get().getNombreEstudiante());
+            response.setCedulaEstudiante(a.get().getCedulaEstudiante());
+
+            response.setCiclo(a.get().getCiclo());
+            response.setHorasCumplidas(a.get().getHorasCumplidas());
+
+            response.setFechainicio(a.get().getFechainicio());
+            response.setFechafin(a.get().getFechafin());
+            response.setHorasInicio(a.get().getHorasInicio());
+            response.setHorasFin(a.get().getHorasFin());
+
+            response.setHorasTotales(a.get().getHorasTotales());
+            response.setNombreResponsable(a.get().getNombreResponsable());
+            response.setHorasFin(a.get().getHorasFin());
+            response.setDocumento(a.get().getDocumento());
+            response.setNum_proceso(a.get().getNum_proceso());
+
+            List<ActividadesAnexo7Request> list = a.get().getActividadesAnexo7s().stream().map(ac -> {
+                ActividadesAnexo7Request request = new ActividadesAnexo7Request();
+                request.setDescripcion(ac.getDescripcion());
+                request.setId(ac.getId());
+                return request;
+            }).collect(Collectors.toList());
+
+            List<ActividadesCumplirAnexo7Request> list2 = a.get().getActividadesCumplirAnexo7s().stream().map(ac -> {
+                ActividadesCumplirAnexo7Request request = new ActividadesCumplirAnexo7Request();
+                request.setArea(ac.getArea());
+                request.setActividadRealizar(ac.getActividadRealizar());
+                request.setAsignaturaRelacionada(ac.getAsignaturaRelacionada());
+                request.setId(ac.getId());
+                return request;
+            }).collect(Collectors.toList());
+
+            List<CronogramaActividadesAnexo7Request> list3 = a.get().getCronogramaActividadesAnexo7s().stream().map(ac -> {
+                CronogramaActividadesAnexo7Request request = new CronogramaActividadesAnexo7Request();
+                request.setActividadRealizar(ac.getActividadRealizar());
+                request.setSemanas(ac.getSemanas());
+                request.setNrohoras(ac.getNrohoras());
+                request.setHorasTotales(ac.getHorasTotales());
+                request.setId(ac.getId());
+                return request;
+            }).collect(Collectors.toList());
+
+            response.setActividadesAnexo7s(list);
+            response.setActividadesCumplirAnexo7s(list2);
+            response.setCronogramaActividadesAnexo7s(list3);
+            response.setIdProyectoPPP(a.get().getProyectoPPP().getId());
+            return response;
+        }
+        throw new BadRequestException("No existe el anexo con id de la solicitud: " + id);
+
     }
 
 }

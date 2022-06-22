@@ -3,6 +3,7 @@ package com.tecazuay.complexivog2c2.dto.anexos;
 
 import lombok.Data;
 
+import javax.persistence.Column;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -30,20 +31,22 @@ public class Anexo7Response implements Serializable {
     private String cortesia;
 
     private String nombreEstudiante;
-
+    private String cedulaEstudiante;
+    private String cedulaTutoracademico;
+    private String nombreTutoracademico;
     private String ciclo;
 
     private int horasCumplidas;
 
     private List<ActividadesCumplirAnexo7Request> actividadesCumplirAnexo7s;
 
-    private Date Fechainicio;
+    private String Fechainicio;
 
     private Date Fechafin;
 
-    private int horasInicio;
-
-    private int horasFin;
+    private String horasInicio;
+    private String siglascarrera;
+    private String horasFin;
 
     private List<CronogramaActividadesAnexo7Request> cronogramaActividadesAnexo7s;
 

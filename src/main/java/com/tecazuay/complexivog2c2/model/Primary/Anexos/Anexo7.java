@@ -51,7 +51,12 @@ public class Anexo7 implements Serializable {
 
     @Column(name = "nombre_estudiante")
     private String nombreEstudiante;
-
+    @Column(name = "cedula_estudiante")
+    private String cedulaEstudiante;
+    @Column(name = "cedula_tutoracademico")
+    private String cedulaTutoracademico;
+    @Column(name = "nombre_tutoracademico")
+    private String nombreTutoracademico;
     private String ciclo;
 
     @Column(name = "horas_cumplidas")
@@ -61,18 +66,19 @@ public class Anexo7 implements Serializable {
     private List<ActividadesCumplirAnexo7> actividadesCumplirAnexo7s;
 
     @Column(name = "fecha_inicio")
-    @Temporal(TemporalType.DATE)
-    private Date Fechainicio;
+    private String Fechainicio;
 
     @Column(name = "fecha_fin")
     @Temporal(TemporalType.DATE)
     private Date Fechafin;
 
     @Column(name = "horas_inicio")
-    private int horasInicio;
+    private String horasInicio;
 
     @Column(name = "horas_fin")
-    private int horasFin;
+    private String horasFin;
+    @Column(name = "siglascarrera")
+    private String siglascarrera;
 
     @OneToMany(targetEntity = CronogramaActividadesAnexo7.class, mappedBy = "anexo7")
     private List<CronogramaActividadesAnexo7> cronogramaActividadesAnexo7s;

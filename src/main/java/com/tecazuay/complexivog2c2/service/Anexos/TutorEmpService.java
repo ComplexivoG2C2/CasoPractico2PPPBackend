@@ -1,10 +1,14 @@
 package com.tecazuay.complexivog2c2.service.Anexos;
 
+import com.tecazuay.complexivog2c2.dto.anexos.Anexo81Response;
 import com.tecazuay.complexivog2c2.dto.anexos.TutorEmpRequest;
 import com.tecazuay.complexivog2c2.dto.anexos.TutorEmpResponse;
+import com.tecazuay.complexivog2c2.dto.solicitudproyectos.ProyectoRequest;
 import com.tecazuay.complexivog2c2.exception.BadRequestException;
+import com.tecazuay.complexivog2c2.model.Primary.Anexos.Anexo81;
 import com.tecazuay.complexivog2c2.model.Primary.Anexos.TutorEmp;
 import com.tecazuay.complexivog2c2.model.Primary.empresa.Empresa;
+import com.tecazuay.complexivog2c2.model.Primary.solicitudproyecto.ProyectoPPP;
 import com.tecazuay.complexivog2c2.repository.Primary.Anexos.TutorEmpProyectoRepository;
 import com.tecazuay.complexivog2c2.repository.Primary.empresa.EmpresaRepository;
 import com.tecazuay.complexivog2c2.repository.Primary.solicitudproyecto.ProyectoRepository;
@@ -106,5 +110,47 @@ public class TutorEmpService {
 
             return te;
         }).collect(Collectors.toList());
+    }
+
+    public boolean updateidsolicitud(TutorEmpRequest tutorEmpRequest) {
+        try {
+            TutorEmp tutorEmp = gettutor(tutorEmpRequest.getId());
+            tutorEmp.setProyectoPPP(proyectoRepository.findById(tutorEmpRequest.getIdProyectoPPP()).orElse(new ProyectoPPP()));
+           TutorEmp saved = tutorEmpProyectoRepository.save(tutorEmp);
+            return true;
+        }catch (Exception e){
+            throw new BadRequestException("no se actualizo id pp de tutor: " + e);
+        }
+    }
+
+    public TutorEmp gettutor(Long id) {
+        Optional<TutorEmp> optional = tutorEmpProyectoRepository.findById(id);
+        if (optional.isPresent()) {
+            return optional.get();
+        }
+        throw new BadRequestException("No existe el tutor");
+    }
+
+
+    @Transactional
+    public List<TutorEmpResponse> listTutorporidsolicitud(Long id) {
+        Optional<ProyectoPPP> op = proyectoRepository.findById(id);
+        if (op.isPresent()) {
+            List<TutorEmp> lista = tutorEmpProyectoRepository.findAllByProyectoPPP(op.get());
+            return lista.stream().map(te -> {
+                TutorEmpResponse an = new TutorEmpResponse();
+                an.setId(te.getId());
+                an.setCedula(te.getCedula());
+                an.setNombres(te.getNombres());
+                an.setApellidos(te.getApellidos());
+                an.setCorreo(te.getCorreo());
+                an.setEstado(te.getEstado());
+                an.setFecha_designacion(te.getFecha_designacion());
+                an.setIdProyectoPPP(te.getProyectoPPP().getId());
+                return an;
+            }).collect(Collectors.toList());
+
+        }
+        throw new BadRequestException("No existe el tutor empresarial");
     }
 }
