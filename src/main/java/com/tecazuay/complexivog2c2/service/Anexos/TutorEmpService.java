@@ -3,6 +3,7 @@ package com.tecazuay.complexivog2c2.service.Anexos;
 import com.tecazuay.complexivog2c2.dto.anexos.Anexo81Response;
 import com.tecazuay.complexivog2c2.dto.anexos.TutorEmpRequest;
 import com.tecazuay.complexivog2c2.dto.anexos.TutorEmpResponse;
+import com.tecazuay.complexivog2c2.dto.solicitudproyectos.ProyectoRequest;
 import com.tecazuay.complexivog2c2.exception.BadRequestException;
 import com.tecazuay.complexivog2c2.model.Primary.Anexos.Anexo81;
 import com.tecazuay.complexivog2c2.model.Primary.Anexos.TutorEmp;
@@ -109,6 +110,25 @@ public class TutorEmpService {
 
             return te;
         }).collect(Collectors.toList());
+    }
+
+    public boolean updateidsolicitud(TutorEmpRequest tutorEmpRequest) {
+        try {
+            TutorEmp tutorEmp = gettutor(tutorEmpRequest.getId());
+            tutorEmp.setProyectoPPP(proyectoRepository.findById(tutorEmpRequest.getIdProyectoPPP()).orElse(new ProyectoPPP()));
+           TutorEmp saved = tutorEmpProyectoRepository.save(tutorEmp);
+            return true;
+        }catch (Exception e){
+            throw new BadRequestException("no se actualizo id pp de tutor: " + e);
+        }
+    }
+
+    public TutorEmp gettutor(Long id) {
+        Optional<TutorEmp> optional = tutorEmpProyectoRepository.findById(id);
+        if (optional.isPresent()) {
+            return optional.get();
+        }
+        throw new BadRequestException("No existe el tutor");
     }
 
 
