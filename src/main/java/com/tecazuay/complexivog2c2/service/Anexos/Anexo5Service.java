@@ -1,11 +1,13 @@
 package com.tecazuay.complexivog2c2.service.Anexos;
 
 import com.tecazuay.complexivog2c2.dto.anexos.*;
+import com.tecazuay.complexivog2c2.dto.anexos.anexo1214y15.Anexo15Request;
 import com.tecazuay.complexivog2c2.exception.BadRequestException;
 import com.tecazuay.complexivog2c2.model.Primary.Anexos.AlumnosAnexo5;
 import com.tecazuay.complexivog2c2.model.Primary.Anexos.AlumnosAnexo6;
 import com.tecazuay.complexivog2c2.model.Primary.Anexos.Anexo5;
 import com.tecazuay.complexivog2c2.model.Primary.Anexos.Anexo6;
+import com.tecazuay.complexivog2c2.model.Primary.Anexos.anexo1214y15.Anexo15;
 import com.tecazuay.complexivog2c2.model.Primary.empresa.Empresa;
 import com.tecazuay.complexivog2c2.model.Primary.solicitudproyecto.ProyectoPPP;
 import com.tecazuay.complexivog2c2.repository.Primary.Anexos.AlumnosAnexo5Repository;
@@ -43,64 +45,35 @@ public class Anexo5Service {
         Optional<Empresa> optionalEmpresa= empresaRepository.findById(request.getIdEmpresa());
         if(optional.isPresent()){
             if (!optional.get().isEstado())
-                throw new BadRequestException("El proyecto ha finalizado, no es posible modificar sus datos");
-
-            if(isAlumnoAsignado(request.getAlumnos(), optional.get())){
+                throw new BadRequestException("El proceso a finalizado");
                 Anexo5 anexo = new Anexo5();
 
                 anexo.setFechaEmision(request.getFechaEmision());
                 anexo.setTituloTutor(request.getTituloTutor());
-                anexo.setProyectoPPP(optional.get());
-                anexo.setEmpresa(optionalEmpresa.get());
                 anexo.setNombreTutor(request.getNombreTutor());
                 anexo.setDocumento(request.getDocumento());
+                anexo.setNombreEst(request.getNombreEst());
+                anexo.setCedulaEst(request.getCedulaEst());
+                anexo.setCarrera(request.getCarrera());
+                anexo.setSiglascarrera(request.getSiglascarrera());
+            anexo.setProyectoPPP(optional.get());
+            anexo.setEmpresa(optionalEmpresa.get());
 
-                List<AlumnosAnexo5> list = new ArrayList<>();
-                request.getAlumnos().stream().forEach(a->{
-                    AlumnosAnexo5 alumnosAnexo5= new AlumnosAnexo5();
-                    alumnosAnexo5.setNombreEstudiante(a.getNombreEstudiante());
-                    alumnosAnexo5.setCedulaEstudiante(a.getCedulaEstudiante());
-                    list.add(alumnosAnexo5);
-                });
-
-                try{
-                    saveAlumnos(list, anexo5Repository.save(anexo));
-                    return true;
-                }catch(Exception e){
-                    throw new BadRequestException("No se guardó el anexo 5" + e);
-                }
+            try {
+                anexo5Repository.save(anexo);
+                return true;
+            } catch (Exception ex) {
+                throw new BadRequestException("No se guardó el anexo 8" + ex);
             }
-
         }
-        throw new BadRequestException("No existe el proyecto con id: " + request.getIdProyectoPPP());
+        throw new BadRequestException("No existe solicitud con id: " + request.getIdProyectoPPP());
     }
 
-    boolean isAlumnoAsignado(List<AlumnosAnexo5Request> alumnos, ProyectoPPP proyecto) {
-        List<String> cedulas = alumnos.stream()
-                .map(AlumnosAnexo5Request::getCedulaEstudiante)
-                .collect(Collectors.toList());
 
-        List<String> cedulasAsignadas = new ArrayList<>();
 
-        cedulas.forEach(cedula -> {
-            List<AlumnosAnexo5> listAlumno = alumnosAnexo5Repository.findAllByCedulaEstudiante(cedula);
-            listAlumno.stream()
-                    .filter(a -> Objects.equals(a.getAnexo5().getProyectoPPP().getId(), proyecto.getId()))
-                    .findAny()
-                    .ifPresent(alumno -> cedulasAsignadas.add(cedula));
-        });
 
-        if (cedulasAsignadas.size() == 0) return true;
-        String msg = cedulasAsignadas.stream().reduce((s, s2) -> s.concat(", " + s2)).get();
-        throw new BadRequestException("Los alumnos con las cédulas ya están asignados a un docente de apoyo en este proyecto: " + msg);
-    }
 
-    private void saveAlumnos(List<AlumnosAnexo5> list, Anexo5 anexo5) {
-        list.stream().forEach(a -> {
-            a.setAnexo5(anexo5);
-            alumnosAnexo5Repository.save(a);
-        });
-    }
+
 
     @Transactional
     public List<Anexo5Response> listAll(){
@@ -111,14 +84,11 @@ public class Anexo5Service {
             response.setDocumento(a.getDocumento());
             response.setFechaEmision(a.getFechaEmision());
             response.setNombreTutor(a.getNombreTutor());
-            List<AlumnosAnexo5Request> list = a.getAlumnosAnexo5().stream().map(ac ->{
-                AlumnosAnexo5Request request = new AlumnosAnexo5Request();
-                request.setId(ac.getId());
-                request.setCedulaEstudiante(ac.getCedulaEstudiante());
-                request.setNombreEstudiante(ac.getNombreEstudiante());
-                return request;
-            }).collect(Collectors.toList());
-            response.setAlumnos(list);
+            response.setNombreEst(a.getNombreEst());
+            response.setCedulaEst(a.getCedulaEst());
+            response.setCarrera(a.getCarrera());
+            response.setSiglascarrera(a.getSiglascarrera());
+
             response.setIdProyectoPPP(a.getProyectoPPP().getId());
             return response;
         }).collect(Collectors.toList());
@@ -136,14 +106,11 @@ public class Anexo5Service {
                 response.setDocumento(a.getDocumento());
                 response.setNombreTutor(a.getNombreTutor());
                 response.setTituloTutor(a.getTituloTutor());
-                List<AlumnosAnexo5Request> list = a.getAlumnosAnexo5().stream().map(ac->{
-                    AlumnosAnexo5Request request = new AlumnosAnexo5Request();
-                    request.setId(ac.getId());
-                    request.setNombreEstudiante(ac.getNombreEstudiante());
-                    request.setCedulaEstudiante(ac.getCedulaEstudiante());
-                    return request;
-                }).collect(Collectors.toList());
-                response.setAlumnos(list);
+                response.setNombreEst(a.getNombreEst());
+                response.setCedulaEst(a.getCedulaEst());
+                response.setCarrera(a.getCarrera());
+                response.setSiglascarrera(a.getSiglascarrera());
+
                 response.setIdProyectoPPP(a.getProyectoPPP().getId());
                 response.setIdEmpresa(a.getEmpresa().getId());
                 return response;

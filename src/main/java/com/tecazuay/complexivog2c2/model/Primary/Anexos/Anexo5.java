@@ -33,6 +33,12 @@ public class Anexo5 {
     @Column(name = "nombreTutor")
     private String nombreTutor;
 
+    @Column(name = "nombreEst")
+    private String nombreEst;
+    @Column(name = "cedulaEst")
+    private String cedulaEst;
+    private String carrera;
+    private String siglascarrera;
     @Column(length = 10485760)
     private String documento;
 
