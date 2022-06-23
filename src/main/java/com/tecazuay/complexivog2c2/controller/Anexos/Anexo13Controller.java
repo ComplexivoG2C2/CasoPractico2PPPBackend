@@ -14,7 +14,7 @@ import java.util.List;
 
 @CrossOrigin(origins = {"http://localhost:4200"})
 @RestController
-@RequestMapping("/api/anexo5")
+@RequestMapping("/api/anexo13")
 public class Anexo13Controller {
 
     @Autowired

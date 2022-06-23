@@ -69,6 +69,6 @@ public class Empresa {
     @OneToMany(targetEntity = Anexo5.class, mappedBy = "empresa")
     private List<Anexo5> anexo5;
 
-    @OneToMany(targetEntity = Anexo5.class, mappedBy = "empresa")
+    @OneToMany(targetEntity = Anexo13.class, mappedBy = "empresa")
     private List<Anexo13> anexo13;
 }
