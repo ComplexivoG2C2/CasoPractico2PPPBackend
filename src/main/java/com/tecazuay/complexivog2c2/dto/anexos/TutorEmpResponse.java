@@ -23,6 +23,8 @@ import java.util.Date;
 
         private String nombres;
 
+        private String titulo;
+
         private boolean estado;
 
         private Date fecha_designacion;

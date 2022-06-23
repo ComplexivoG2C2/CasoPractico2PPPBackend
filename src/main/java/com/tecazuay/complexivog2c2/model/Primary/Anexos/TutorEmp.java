@@ -45,6 +45,8 @@ public class TutorEmp implements Serializable {
 
     private String nombres;
 
+    private String titulo;
+
     private boolean estado;
 
     @Temporal(TemporalType.DATE)

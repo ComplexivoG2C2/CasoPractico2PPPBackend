@@ -15,6 +15,8 @@ public class TutorEmpRequest implements Serializable {
 
         private String nombres;
 
+        private String titulo;
+
         private boolean estado;
 
         private Date fecha_designacion;

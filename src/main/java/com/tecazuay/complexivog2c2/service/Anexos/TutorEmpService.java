@@ -43,6 +43,7 @@ public class TutorEmpService {
             eb.setCedula(teRequest.getCedula());
             eb.setNombres(teRequest.getNombres());
             eb.setApellidos(teRequest.getApellidos());
+            eb.setTitulo(teRequest.getTitulo());
             eb.setCorreo(teRequest.getCorreo());
             eb.setClave(teRequest.getClave());
             eb.setFecha_designacion(teRequest.getFecha_designacion());
@@ -102,6 +103,7 @@ public class TutorEmpService {
             te.setId(tutores.getId());
             te.setCedula(tutores.getCedula());
             te.setNombres(tutores.getNombres());
+            te.setTitulo(tutores.getTitulo());
             te.setApellidos(tutores.getApellidos());
             te.setCorreo(tutores.getCorreo());
             te.setClave(tutores.getClave());
@@ -142,6 +144,7 @@ public class TutorEmpService {
                 an.setId(te.getId());
                 an.setCedula(te.getCedula());
                 an.setNombres(te.getNombres());
+                an.setTitulo(te.getTitulo());
                 an.setApellidos(te.getApellidos());
                 an.setCorreo(te.getCorreo());
                 an.setEstado(te.getEstado());
