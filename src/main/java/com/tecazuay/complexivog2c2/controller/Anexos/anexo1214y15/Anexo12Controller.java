@@ -49,6 +49,11 @@ public class Anexo12Controller {
         Anexo12Response anexo12 = anexo12Service.listAnexo12ById(id);
         return new ResponseEntity<>(anexo12, HttpStatus.OK);
     }
+    @GetMapping("/byppp/{proyectoId}")
+    public ResponseEntity<Anexo12Response> listAnexo12ByIdppp(@PathVariable Long proyectoId) {
+        Anexo12Response anexo12 = anexo12Service.lista1poridppp(proyectoId);
+        return new ResponseEntity<>(anexo12, HttpStatus.OK);
+    }
 
     @GetMapping("/allByProyecto/{proyectoId}")
     public ResponseEntity<List<Anexo12Response>> listAnexo12ByPPP(@PathVariable Long proyectoId) {
@@ -57,7 +62,7 @@ public class Anexo12Controller {
     }
 
     @PutMapping("/{id}/tutoremp")
-    public ResponseEntity<?> updateApoyo(@PathVariable Long id, @RequestBody List<Anexo12TutorempRequest> request) {
+    public ResponseEntity<?> updatetutor(@PathVariable Long id, @RequestBody List<Anexo12TutorempRequest> request) {
         anexo12Service.updateTutorEmp(id, request);
         return new ResponseEntity<>(new Mensaje("Anexo 12 tutor e actualizado"), HttpStatus.OK);
     }

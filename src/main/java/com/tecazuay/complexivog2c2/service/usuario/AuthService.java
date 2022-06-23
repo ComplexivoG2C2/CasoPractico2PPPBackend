@@ -17,6 +17,7 @@ import com.tecazuay.complexivog2c2.model.Primary.desigaciones.TutorAcademicoDele
 import com.tecazuay.complexivog2c2.model.Primary.desigaciones.ResponsablePPP;
 import com.tecazuay.complexivog2c2.model.Primary.empresa.Empresa;
 import com.tecazuay.complexivog2c2.model.Primary.roles.Roles;
+import com.tecazuay.complexivog2c2.model.Primary.solicitudproyecto.ProyectoPPP;
 import com.tecazuay.complexivog2c2.model.Primary.usuario.Usuario;
 import com.tecazuay.complexivog2c2.model.Secondary.personas.VPersonasppp;
 import com.tecazuay.complexivog2c2.repository.Primary.Anexos.TutorEmpProyectoRepository;
@@ -487,7 +488,7 @@ public class AuthService implements UserDetailsService {
                     if (tutor != null) {
                         try {
                             if (tutorRequest.getClave().equals(tutor.getClave())) {
-                                return new TutorEmpResponse(tutor.getId(), tutor.getCedula(), tutor.getApellidos(), tutor.getNombres(), tutor.getEstado(), tutor.getFecha_designacion(), tutor.getCorreo(), tutor.getClave(), generateTokenLoginTutor(tutorRequest));
+                                return new TutorEmpResponse(tutor.getId(), tutor.getCedula(), tutor.getApellidos(), tutor.getNombres(), tutor.getEstado(), tutor.getFecha_designacion(), tutor.getCorreo(), tutor.getClave(), generateTokenLoginTutor(tutorRequest), tutor.getProyectoPPP().getId());
 
                             } else {
                                 throw new Exception("La contraseña es incorrecta");

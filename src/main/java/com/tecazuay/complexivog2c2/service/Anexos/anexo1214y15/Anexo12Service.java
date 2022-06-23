@@ -69,7 +69,7 @@ public class Anexo12Service {
 
                 List<ItemsAnexo12Tutoremp> list = new ArrayList<>();
                 request.getTutoremp().stream().forEach(da -> {
-                    ItemsAnexo12Tutoremp a12 = new  ItemsAnexo12Tutoremp ();
+                    ItemsAnexo12Tutoremp a12 = new  ItemsAnexo12Tutoremp();
                     a12.setTutorempItem1(da.getTutorempItem1());
                     a12.setTutorempItem2(da.getTutorempItem2());
                     list.add(a12);
@@ -92,6 +92,8 @@ public class Anexo12Service {
             throw new BadRequestException("No existe un proyecto con ID:" + request.getIdProyecto());
         }
     }
+
+
 
 
     private void saveTutorA(List<ItemsAnexo12Tutoremp> list, Anexo12 anexo12) {
@@ -178,6 +180,46 @@ public class Anexo12Service {
             return response;
         }
         throw new BadRequestException("No existe el anexo con id: " + id);
+    }
+
+
+    public Anexo12Response lista1poridppp(Long idppp) {
+        Optional<Anexo12> a = anexo12Repository.findById(idppp);
+        if (a.isPresent()) {
+            Anexo12Response response = new Anexo12Response();
+            response.setId(a.get().getId());
+            response.setNombresEstudiante(a.get().getNombresEstudiante());
+            response.setCedulaEstudiante(a.get().getCedulaEstudiante());
+            response.setCarrera(a.get().getCarrera());
+            response.setFechaInicio(a.get().getFechaInicio());
+            response.setFechaFinaliza(a.get().getFechaFinaliza());
+            response.setFechaEvaluacion(a.get().getFechaEvaluacion());
+            response.setTotalHoras(a.get().getTotalHoras());
+            response.setResultadoAnexo12(a.get().getResultadoAnexo12());
+            response.setPromedio(a.get().getPromedio());
+
+            response.setNombretutoremp(a.get().getNombretutoremp());
+            response.setCedulatutoremp(a.get().getCedulatutoremp());
+            response.setSiglascarrera(a.get().getSiglascarrera());
+            response.setEmpresa(a.get().getEmpresa());
+            response.setTutorempPuntaje(a.get().getTutorempPuntaje());
+
+            response.setIdProyecto(a.get().getProyectoPPP().getId());
+            response.setDocumento(a.get().getDocumento());
+            List<Anexo12TutorempRequest> list = a.get().getItemsTutor().stream().map(ap -> {
+                Anexo12TutorempRequest request = new Anexo12TutorempRequest();
+                request.setId(ap.getId());
+                request.setTutorempItem1(ap.getTutorempItem1());
+                request.setTutorempItem2(ap.getTutorempItem2());
+
+                return request;
+            }).collect(Collectors.toList());
+            response.setTutoremp(list);
+
+
+            return response;
+        }
+        throw new BadRequestException("No existe el anexo con id: " + idppp);
     }
 
     public List<Anexo12Response> listAnexo12ByProyectoPPP(Long pryectoId) {

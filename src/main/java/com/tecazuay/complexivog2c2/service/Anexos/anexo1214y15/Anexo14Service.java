@@ -69,7 +69,7 @@ public class Anexo14Service {
 
                 List<ItemsAnexo14Tutoracademcio> list = new ArrayList<>();
                 request.getTutoraca().stream().forEach(da -> {
-                    ItemsAnexo14Tutoracademcio a14 = new ItemsAnexo14Tutoracademcio ();
+                    ItemsAnexo14Tutoracademcio a14 = new ItemsAnexo14Tutoracademcio();
                     a14.setTutoracaItem1(da.getTutoracaItem1());
                     a14.setTutoracaItem2(da.getTutoracaItem2());
                     list.add(a14);

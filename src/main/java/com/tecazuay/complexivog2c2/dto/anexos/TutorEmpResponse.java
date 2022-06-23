@@ -39,7 +39,7 @@ import java.util.Date;
 
         private Long idProyectoPPP;
 
-        public TutorEmpResponse(Long id, String cedula, String apellidos, String nombres, boolean estado, Date fecha_designacion, String correo, String clave, String token) {
+        public TutorEmpResponse(Long id, String cedula, String apellidos, String nombres, boolean estado, Date fecha_designacion, String correo, String clave, String token,Long idProyectoPPP) {
             this.id = id;
             this.cedula = cedula;
             this.apellidos = apellidos;
@@ -49,6 +49,7 @@ import java.util.Date;
             this.correo = correo;
             this.clave = clave;
             this.token = token;
+            this.idProyectoPPP=idProyectoPPP;
         }
 
         public TutorEmpResponse(Long id, String correo, String clave) {
