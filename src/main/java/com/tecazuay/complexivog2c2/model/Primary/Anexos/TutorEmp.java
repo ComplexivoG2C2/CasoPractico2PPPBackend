@@ -74,6 +74,7 @@ public class TutorEmp implements Serializable {
     @JoinColumn(name = "proyecto_id", referencedColumnName = "id")
     private ProyectoPPP proyectoPPP;
 
-
+    @OneToMany(targetEntity = Anexo5.class, mappedBy = "tutoe")
+    private List<Anexo13> anexo13;
 
 }
