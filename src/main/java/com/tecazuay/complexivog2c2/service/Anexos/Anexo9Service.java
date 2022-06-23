@@ -60,8 +60,6 @@ public class Anexo9Service {
                 anexo9 = anexo9Repository.findByProyectoPPPAndCedulaEstudiante(optional.get(), request.getCedulaEstudiante()).get();
             }
 
-
-
             anexo9.setNombreProyecto(request.getNombreProyecto());
             anexo9.setNombreEmpresa(request.getNombreEmpresa());
             anexo9.setNombreEstudiante(request.getNombreEstudiante());
@@ -91,7 +89,7 @@ public class Anexo9Service {
                 actualizarCrearActividades(request.getActividades(), anexo9Repository.save(anexo9));
                 return true;
             } catch (Exception e) {
-                throw new BadRequestException("No se guardó el anexo 8" + e);
+                throw new BadRequestException("No se guardó el anexo 9" + e);
             }
         }
         throw new BadRequestException("No existe el proyecto con id: " + request.getIdProyectoPPP());
@@ -297,29 +295,29 @@ public class Anexo9Service {
                     .stream()
                     .filter(a -> Objects.equals(a.getId(), idActividad))
                     .findFirst()
-                    .orElseThrow(() -> new ResponseNotFoundException("Actividad Anexo8", "id", idActividad + ""));
+                    .orElseThrow(() -> new ResponseNotFoundException("Actividad Anexo9", "id", idActividad + ""));
             try {
                 actividadesAnexo9Repository.delete(actividadesAnexo8);
                 return;
             } catch (Exception e) {
-                throw new BadRequestException("Error al eliminar actividad anexo 8 con id: " + idActividad);
+                throw new BadRequestException("Error al eliminar actividad anexo 9 con id: " + idActividad);
             }
         }
-        throw new ResponseNotFoundException("Anexo8", "id", idAnexo + "");
+        throw new ResponseNotFoundException("Anexo9", "id", idAnexo + "");
     }
 
     public void updateActividad(Long idAnexo, ActividadesAnexo9Request request) {
 
-        Optional<Anexo9> optionalAnexo8 = anexo9Repository.findById(idAnexo);
-        if (optionalAnexo8.isPresent()) {
-            List date = optionalAnexo8.get().getActividadesAnexo9s().stream().map(a -> a.getFecha()).collect(Collectors.toList());
+        Optional<Anexo9> optionalAnexo9 = anexo9Repository.findById(idAnexo);
+        if (optionalAnexo9.isPresent()) {
+            List date = optionalAnexo9.get().getActividadesAnexo9s().stream().map(a -> a.getFecha()).collect(Collectors.toList());
             Date fecha = request.getFecha();
             long n = date.stream().filter(d -> d.equals(fecha)).count();
             if (n > 1) {
                 throw new BadRequestException("YA INGRESÓ LA ACTIVIDAD CON ESA FECHA");
             }
 
-            ActividadesAnexo9 actividadesAnexo8 = optionalAnexo8.get().getActividadesAnexo9s()
+            ActividadesAnexo9 actividadesAnexo8 = optionalAnexo9.get().getActividadesAnexo9s()
                     .stream()
                     .filter(a -> Objects.equals(a.getId(), request.getId()))
                     .findFirst()

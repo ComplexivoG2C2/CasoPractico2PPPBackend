@@ -37,6 +37,12 @@ public class ProyectoPPP implements Serializable {
     private String nombreempresa;
     private Long empresa;
 
+
+    private String nombreTutoremp;
+    private String cedulaTutoremp;
+    private String tituloTutoremp;
+
+
     private String carrera;
     private String codigocarrera;
 

@@ -13,6 +13,7 @@ public class Anexo5Request implements Serializable {
     private String tituloTutor;
     private String documento;
     private Long idProyectoPPP;
+    private String nombreTutor;
     private Long idEmpresa;
     private List<AlumnosAnexo5Request> alumnos ;
 }

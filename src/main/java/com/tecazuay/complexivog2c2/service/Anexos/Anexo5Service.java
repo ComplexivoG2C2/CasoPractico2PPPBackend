@@ -52,6 +52,7 @@ public class Anexo5Service {
                 anexo.setTituloTutor(request.getTituloTutor());
                 anexo.setProyectoPPP(optional.get());
                 anexo.setEmpresa(optionalEmpresa.get());
+                anexo.setNombreTutor(request.getNombreTutor());
                 anexo.setDocumento(request.getDocumento());
 
                 List<AlumnosAnexo5> list = new ArrayList<>();
@@ -109,6 +110,7 @@ public class Anexo5Service {
             response.setTituloTutor(a.getTituloTutor());
             response.setDocumento(a.getDocumento());
             response.setFechaEmision(a.getFechaEmision());
+            response.setNombreTutor(a.getNombreTutor());
             List<AlumnosAnexo5Request> list = a.getAlumnosAnexo5().stream().map(ac ->{
                 AlumnosAnexo5Request request = new AlumnosAnexo5Request();
                 request.setId(ac.getId());
@@ -132,6 +134,8 @@ public class Anexo5Service {
                 response.setId(a.getId());
                 response.setFechaEmision(a.getFechaEmision());
                 response.setDocumento(a.getDocumento());
+                response.setNombreTutor(a.getNombreTutor());
+                response.setTituloTutor(a.getTituloTutor());
                 List<AlumnosAnexo5Request> list = a.getAlumnosAnexo5().stream().map(ac->{
                     AlumnosAnexo5Request request = new AlumnosAnexo5Request();
                     request.setId(ac.getId());

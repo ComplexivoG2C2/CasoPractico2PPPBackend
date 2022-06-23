@@ -30,6 +30,9 @@ public class Anexo5 {
     @Column(name = "tituloTutor")
     private String tituloTutor;
 
+    @Column(name = "nombreTutor")
+    private String nombreTutor;
+
     @Column(length = 10485760)
     private String documento;
 

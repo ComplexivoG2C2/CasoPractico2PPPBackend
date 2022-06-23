@@ -24,6 +24,10 @@ public class ProyectoRequest implements Serializable {
 
     private Long tutoremp;
 
+    private String nombreTutoremp;
+    private String cedulaTutoremp;
+    private String tituloTutoremp;
+
     private String carrera;
     private String codigocarrera;
 
