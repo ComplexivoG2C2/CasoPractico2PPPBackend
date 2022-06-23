@@ -13,4 +13,7 @@ public interface Anexo10Repository extends JpaRepository<Anexo10,Long > {
     Boolean existsByProyectoPPP(ProyectoPPP proyectoPPP);
 
     List<Anexo10> findAllByProyectoPPP(ProyectoPPP proyectoPPP);
+
+
+
 }

@@ -1,5 +1,6 @@
 package com.tecazuay.complexivog2c2.service.solicitudproyecto;
 
+import com.tecazuay.complexivog2c2.dto.anexos.TutorEmpRequest;
 import com.tecazuay.complexivog2c2.dto.docentes.DocenteRequest;
 import com.tecazuay.complexivog2c2.dto.docentes.DocenteRolesList;
 import com.tecazuay.complexivog2c2.dto.docentes.designaciones.TutorAcademicoResponse;
@@ -7,6 +8,7 @@ import com.tecazuay.complexivog2c2.dto.email.EmailBody;
 import com.tecazuay.complexivog2c2.dto.solicitudproyectos.*;
 import com.tecazuay.complexivog2c2.exception.BadRequestException;
 import com.tecazuay.complexivog2c2.exception.ResponseNotFoundException;
+import com.tecazuay.complexivog2c2.model.Primary.Anexos.TutorEmp;
 import com.tecazuay.complexivog2c2.model.Primary.coordinadores.CoordinadorCarrera;
 import com.tecazuay.complexivog2c2.model.Primary.desigaciones.TutorAcademicoDelegados;
 import com.tecazuay.complexivog2c2.model.Primary.desigaciones.ResponsablePPP;
@@ -336,6 +338,7 @@ public class ProyectosService {
             throw new BadRequestException("no se actualizo estado: " + e);
         }
     }
+
 
     public boolean updateProyecto2MS(ProyectoRequest proyectoRequest) {
         ProyectoPPP proyectoPPP = getProyecto(proyectoRequest.getId());

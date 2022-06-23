@@ -25,6 +25,7 @@ public class ProyectoResponse implements Serializable {
     private String nombresolicitante;
     private String nombreempresa;
     private Long empresa;
+    private Long tutoremp;
     private String carrera;
     private String codigocarrera;
     private boolean estado;

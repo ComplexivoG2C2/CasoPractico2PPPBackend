@@ -64,7 +64,6 @@ public class TutorEmp implements Serializable {
 
     private String clave;
 
-
     public boolean getEstado() {
         return this.estado;
     }
@@ -72,4 +71,7 @@ public class TutorEmp implements Serializable {
     @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinColumn(name = "proyecto_id", referencedColumnName = "id")
     private ProyectoPPP proyectoPPP;
+
+
+
 }

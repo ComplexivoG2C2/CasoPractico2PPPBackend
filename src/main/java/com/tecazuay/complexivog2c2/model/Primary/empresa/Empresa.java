@@ -51,14 +51,6 @@ public class Empresa {
 
     private String direccion;
 
-//    @Column(name="nombre_administrador")
-//    private String nombreAdministrador;
-//
-//    @Column(name="cedula_administrador")
-//    private String cedulaAdministrador;
-//
-//    @Column(name="correo_administrador")
-//    private String correoAdministrador;
 
     @Column(name="descripcion_empresa",length = 10485760)
     private String descripcionEmpresa;
