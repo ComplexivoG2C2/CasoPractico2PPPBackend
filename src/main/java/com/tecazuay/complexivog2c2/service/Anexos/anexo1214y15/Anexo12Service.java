@@ -183,6 +183,45 @@ public class Anexo12Service {
     }
 
 
+    public Anexo12Response listAnexo12bycedulaest(String cedula) {
+        Optional<Anexo12> a = anexo12Repository.findByCedulaEstudiante(cedula);
+        if (a.isPresent()) {
+            Anexo12Response response = new Anexo12Response();
+            response.setId(a.get().getId());
+            response.setNombresEstudiante(a.get().getNombresEstudiante());
+            response.setCedulaEstudiante(a.get().getCedulaEstudiante());
+            response.setCarrera(a.get().getCarrera());
+            response.setFechaInicio(a.get().getFechaInicio());
+            response.setFechaFinaliza(a.get().getFechaFinaliza());
+            response.setFechaEvaluacion(a.get().getFechaEvaluacion());
+            response.setTotalHoras(a.get().getTotalHoras());
+            response.setResultadoAnexo12(a.get().getResultadoAnexo12());
+            response.setPromedio(a.get().getPromedio());
+
+            response.setNombretutoremp(a.get().getNombretutoremp());
+            response.setCedulatutoremp(a.get().getCedulatutoremp());
+            response.setSiglascarrera(a.get().getSiglascarrera());
+            response.setEmpresa(a.get().getEmpresa());
+            response.setTutorempPuntaje(a.get().getTutorempPuntaje());
+
+            response.setIdProyecto(a.get().getProyectoPPP().getId());
+            response.setDocumento(a.get().getDocumento());
+            List<Anexo12TutorempRequest> list = a.get().getItemsTutor().stream().map(ap -> {
+                Anexo12TutorempRequest request = new Anexo12TutorempRequest();
+                request.setId(ap.getId());
+                request.setTutorempItem1(ap.getTutorempItem1());
+                request.setTutorempItem2(ap.getTutorempItem2());
+
+                return request;
+            }).collect(Collectors.toList());
+            response.setTutoremp(list);
+
+
+            return response;
+        }
+        throw new BadRequestException("No existe el anexo cedula: " + cedula);
+    }
+
     public Anexo12Response lista1poridppp(Long idppp) {
         Optional<Anexo12> a = anexo12Repository.findById(idppp);
         if (a.isPresent()) {

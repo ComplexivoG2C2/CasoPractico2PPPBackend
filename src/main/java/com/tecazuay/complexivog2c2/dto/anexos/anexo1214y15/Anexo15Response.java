@@ -15,6 +15,8 @@ public class Anexo15Response implements Serializable {
     private int totalHoras;
     private String nombretutoracademico;
     private String cedulatutoracademico;
+    private String nombretutoremp;
+    private String cedulatutoremp;
     private String empresa;
     private String siglascarrera;
     private String periodoacademico;
@@ -23,6 +25,7 @@ public class Anexo15Response implements Serializable {
     private int porcentajeTutorA;
     private int porcentajeTutorE;
     private int promediofinal;
+    private double promediofinaldecimal;
     private String ciclo;
     private String documento;
 }

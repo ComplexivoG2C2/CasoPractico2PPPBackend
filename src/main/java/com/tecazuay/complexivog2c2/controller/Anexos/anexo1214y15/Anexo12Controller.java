@@ -49,6 +49,12 @@ public class Anexo12Controller {
         Anexo12Response anexo12 = anexo12Service.listAnexo12ById(id);
         return new ResponseEntity<>(anexo12, HttpStatus.OK);
     }
+    @GetMapping("/porcedulaest/{cedula}")
+    public ResponseEntity<Anexo12Response> listAnexo12Bycedula(@PathVariable String cedula) {
+        Anexo12Response anexo12 = anexo12Service.listAnexo12bycedulaest(cedula);
+        return new ResponseEntity<>(anexo12, HttpStatus.OK);
+    }
+
     @GetMapping("/byppp/{proyectoId}")
     public ResponseEntity<Anexo12Response> listAnexo12ByIdppp(@PathVariable Long proyectoId) {
         Anexo12Response anexo12 = anexo12Service.lista1poridppp(proyectoId);

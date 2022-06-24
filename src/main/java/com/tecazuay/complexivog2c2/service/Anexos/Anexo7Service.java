@@ -427,4 +427,97 @@ public class Anexo7Service {
 
     }
 
+
+
+
+
+
+    @Transactional
+    public void updatean7(Anexo7Request request) {
+        Optional<Anexo7> optionalAnexo7 = anexo7Repository.findById(request.getId());
+        if (optionalAnexo7.isPresent()) {
+            Optional<ProyectoPPP> optionalProyectoPPP = proyectoRepository.findById(request.getIdProyectoPPP());
+            if (optionalProyectoPPP.isPresent()) {
+                if (!optionalProyectoPPP.get().isEstado())
+                    throw new BadRequestException("El proyecto finalizos");
+                Anexo7 a7 = optionalAnexo7.get();
+
+                a7.setFechaReunion(request.getFechaReunion());
+                a7.setNombreResponsable(request.getNombreResponsable());
+                a7.setCarrera(request.getCarrera());
+                a7.setTituloTutorEmp(request.getTituloTutorEmp());
+                a7.setNombreTutorEmp(request.getNombreTutorEmp());
+                a7.setNombreEmpresa(request.getNombreEmpresa());
+                a7.setSiglascarrera(request.getSiglascarrera());
+
+                a7.setCedulaTutoracademico(request.getCedulaTutoracademico());
+                a7.setNombreTutoracademico(request.getNombreTutoracademico());
+
+                a7.setCortesia(request.getCortesia());
+                a7.setLugarReunion(request.getLugarReunion());
+                a7.setNombreEstudiante(request.getNombreEstudiante());
+                a7.setCedulaEstudiante(request.getCedulaEstudiante());
+
+                a7.setCiclo(request.getCiclo());
+                a7.setHorasCumplidas(request.getHorasCumplidas());
+
+                a7.setFechainicio(request.getFechainicio());
+                a7.setFechafin(request.getFechafin());
+                a7.setHorasInicio(request.getHorasInicio());
+                a7.setHorasFin(request.getHorasFin());
+
+                a7.setHorasTotales(request.getHorasTotales());
+                a7.setNombreResponsable(request.getNombreResponsable());
+                a7.setHorasFin(request.getHorasFin());
+                a7.setDocumento(request.getDocumento());
+                a7.setNum_proceso(request.getNum_proceso());
+
+
+
+                a7.setProyectoPPP(optionalProyectoPPP.get());
+
+
+                List<ActividadesAnexo7Request> list = new ArrayList<>();
+
+                request.getActividadesAnexo7s().stream().forEach(a -> {
+                    ActividadesAnexo7 actividad = new ActividadesAnexo7();
+                   actividad.setDescripcion(a.getDescripcion());
+                    actividad.setId(a.getId());
+                    //actividad.setAnexo6();
+                });
+
+                List<ActividadesCumplirAnexo7Request> list2 = new ArrayList<>();
+
+                request.getActividadesCumplirAnexo7s().stream().forEach(a -> {
+                    ActividadesCumplirAnexo7 actividad = new ActividadesCumplirAnexo7();
+                    actividad.setId(a.getId());
+                    actividad.setArea(a.getArea());
+                    actividad.setActividadRealizar(a.getActividadRealizar());
+                    actividad.setAsignaturaRelacionada(a.getAsignaturaRelacionada());
+                });
+                List<CronogramaActividadesAnexo7Request> list3 = new ArrayList<>();
+
+                request.getCronogramaActividadesAnexo7s().stream().forEach(a -> {
+                    CronogramaActividadesAnexo7 actividad = new CronogramaActividadesAnexo7();
+                    actividad.setId(a.getId());
+                    actividad.setActividadRealizar(a.getActividadRealizar());
+                    actividad.setSemanas(a.getSemanas());
+                    actividad.setNrohoras(a.getNrohoras());
+                    actividad.setHorasTotales(a.getHorasTotales());
+
+                    //actividad.setAnexo6();
+                });
+
+
+                try {
+                    anexo7Repository.save(a7);
+                } catch (Exception ex) {
+                    throw new BadRequestException("Error al actualizar Anexo 7");
+                }
+            }
+        } else
+            throw new ResponseNotFoundException("Anexo 7", "id", request.getId() + "");
+    }
+
+
 }

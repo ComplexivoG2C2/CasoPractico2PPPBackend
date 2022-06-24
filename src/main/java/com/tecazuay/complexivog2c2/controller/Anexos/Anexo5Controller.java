@@ -3,6 +3,7 @@ package com.tecazuay.complexivog2c2.controller.Anexos;
 import com.tecazuay.complexivog2c2.dto.anexos.Anexo5Request;
 import com.tecazuay.complexivog2c2.dto.anexos.Anexo5Response;
 import com.tecazuay.complexivog2c2.dto.anexos.Anexo6Response;
+import com.tecazuay.complexivog2c2.dto.anexos.anexo1214y15.Anexo15Response;
 import com.tecazuay.complexivog2c2.exception.Mensaje;
 import com.tecazuay.complexivog2c2.service.Anexos.Anexo5Service;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,5 +43,19 @@ public class Anexo5Controller {
     public ResponseEntity<?> deleteAnexo5(@PathVariable Long id){
         anexo5Service.deleteById(id);
         return new ResponseEntity<>(new Mensaje("Anexo 5 eliminado"), HttpStatus.OK);
+    }
+
+
+    ///
+    @GetMapping("/pornombre/{nombreTutor}")
+    public ResponseEntity<List<Anexo5Response>> findAllBynombre(@PathVariable String nombreTutor) {
+        List<Anexo5Response> anexos = anexo5Service.findAllByNombre(nombreTutor);
+        return new ResponseEntity<List<Anexo5Response>>(anexos, HttpStatus.OK);
+    }
+
+    @GetMapping("/poridempresa/{idEmpresa}")
+    public ResponseEntity<List<Anexo5Response>> findAllByidempresa(@PathVariable Long idEmpresa) {
+        List<Anexo5Response> anexos = anexo5Service.findAllByidempresa(idEmpresa);
+        return new ResponseEntity<List<Anexo5Response>>(anexos, HttpStatus.OK);
     }
 }

@@ -2,6 +2,7 @@ package com.tecazuay.complexivog2c2.service.Anexos;
 
 import com.tecazuay.complexivog2c2.dto.anexos.*;
 import com.tecazuay.complexivog2c2.dto.anexos.anexo1214y15.Anexo15Request;
+import com.tecazuay.complexivog2c2.dto.anexos.anexo1214y15.Anexo15Response;
 import com.tecazuay.complexivog2c2.exception.BadRequestException;
 import com.tecazuay.complexivog2c2.model.Primary.Anexos.AlumnosAnexo5;
 import com.tecazuay.complexivog2c2.model.Primary.Anexos.AlumnosAnexo6;
@@ -129,4 +130,50 @@ public class Anexo5Service {
 
         anexo5Repository.deleteById(id);
     }
+
+
+
+
+    @Transactional
+    public List<Anexo5Response> findAllByNombre(String nombreTutor) {
+        return anexo5Repository.findAllByNombreTutor(nombreTutor).stream().map(a -> {
+            Anexo5Response response = new Anexo5Response();
+            response.setId(a.getId());
+            response.setFechaEmision(a.getFechaEmision());
+            response.setDocumento(a.getDocumento());
+            response.setNombreTutor(a.getNombreTutor());
+            response.setTituloTutor(a.getTituloTutor());
+            response.setNombreEst(a.getNombreEst());
+            response.setCedulaEst(a.getCedulaEst());
+            response.setCarrera(a.getCarrera());
+            response.setSiglascarrera(a.getSiglascarrera());
+
+            response.setIdProyectoPPP(a.getProyectoPPP().getId());
+            response.setIdEmpresa(a.getEmpresa().getId());
+            return response;
+        }).collect(Collectors.toList());
+    }
+
+
+    @Transactional
+    public List<Anexo5Response> findAllByidempresa(Long idEmpresa) {
+        Optional<Empresa> optional= empresaRepository.findById(idEmpresa);
+        return anexo5Repository.findAllByEmpresa(optional.get()).stream().map(a -> {
+            Anexo5Response response = new Anexo5Response();
+            response.setId(a.getId());
+            response.setFechaEmision(a.getFechaEmision());
+            response.setDocumento(a.getDocumento());
+            response.setNombreTutor(a.getNombreTutor());
+            response.setTituloTutor(a.getTituloTutor());
+            response.setNombreEst(a.getNombreEst());
+            response.setCedulaEst(a.getCedulaEst());
+            response.setCarrera(a.getCarrera());
+            response.setSiglascarrera(a.getSiglascarrera());
+
+            response.setIdProyectoPPP(a.getProyectoPPP().getId());
+            response.setIdEmpresa(a.getEmpresa().getId());
+            return response;
+        }).collect(Collectors.toList());
+    }
+
 }
