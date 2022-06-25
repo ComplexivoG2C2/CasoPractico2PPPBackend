@@ -50,4 +50,10 @@ public class Anexo7Controller {
         return  new ResponseEntity<>(new Mensaje("Anexo 7  eliminado"),HttpStatus.OK);
 
     }
+
+    @PutMapping
+    public ResponseEntity<?> update(@RequestBody Anexo7Request anexo7Request) {
+        anexo7Service.updatean7(anexo7Request);
+        return new ResponseEntity<>(new Mensaje("Anexo7 actualizado"), HttpStatus.CREATED);
+    }
 }

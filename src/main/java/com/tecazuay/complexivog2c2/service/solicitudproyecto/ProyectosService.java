@@ -339,6 +339,23 @@ public class ProyectosService {
         }
     }
 
+    public boolean updateturoempresarial(ProyectoRequest proyectoRequest) {
+        try {
+            ProyectoPPP proyectoPPP = getProyecto(proyectoRequest.getId());
+            proyectoPPP.setNombreTutoremp(proyectoRequest.getNombreTutoremp());
+            proyectoPPP.setTituloTutoremp(proyectoRequest.getTituloTutoremp());
+            proyectoPPP.setCedulaTutoremp(proyectoRequest.getCedulaTutoremp());
+
+
+            ProyectoPPP saved = proyectoRepository.save(proyectoPPP);
+            return true;
+        }catch (Exception e){
+            throw new BadRequestException("no se actualizo los datos del tutor empresariak: " + e);
+        }
+    }
+
+
+
 
     public boolean updateProyecto2MS(ProyectoRequest proyectoRequest) {
         ProyectoPPP proyectoPPP = getProyecto(proyectoRequest.getId());

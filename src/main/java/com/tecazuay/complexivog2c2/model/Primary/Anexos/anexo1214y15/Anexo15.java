@@ -58,6 +58,9 @@ public class Anexo15 implements Serializable {
     private int porcentajeTutorE;
     @Column(name = "promedio")
     private int promediofinal;
+    private String nombretutoremp;
+    private String cedulatutoremp;
+    private double promediofinaldecimal;
 
     @Column(name = "ciclo")
     private String ciclo;

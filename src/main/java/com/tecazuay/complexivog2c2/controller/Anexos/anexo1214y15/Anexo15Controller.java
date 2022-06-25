@@ -1,5 +1,7 @@
 package com.tecazuay.complexivog2c2.controller.Anexos.anexo1214y15;
 
+import com.tecazuay.complexivog2c2.dto.anexos.Anexo6Response;
+import com.tecazuay.complexivog2c2.dto.anexos.anexo1214y15.Anexo12Response;
 import com.tecazuay.complexivog2c2.dto.anexos.anexo1214y15.Anexo15Request;
 import com.tecazuay.complexivog2c2.dto.anexos.anexo1214y15.Anexo15Response;
 import com.tecazuay.complexivog2c2.exception.Mensaje;
@@ -48,4 +50,6 @@ public class Anexo15Controller {
         Anexo15Response anexos = anexo15Service.anexo15IdAnexo(anexo10id);
         return new ResponseEntity<>(anexos, HttpStatus.OK);
     }
+
+
 }

@@ -69,7 +69,7 @@ public class Anexo14Service {
 
                 List<ItemsAnexo14Tutoracademcio> list = new ArrayList<>();
                 request.getTutoraca().stream().forEach(da -> {
-                    ItemsAnexo14Tutoracademcio a14 = new ItemsAnexo14Tutoracademcio ();
+                    ItemsAnexo14Tutoracademcio a14 = new ItemsAnexo14Tutoracademcio();
                     a14.setTutoracaItem1(da.getTutoracaItem1());
                     a14.setTutoracaItem2(da.getTutoracaItem2());
                     list.add(a14);
@@ -79,7 +79,7 @@ public class Anexo14Service {
                     saveTutorA(list, anexo14Repository.save(a));
                     return true;
                 } catch (Exception e) {
-                    throw new BadRequestException("No se guardo el anexo 12" + e);
+                    throw new BadRequestException("No se guardo el anexo 14" + e);
 
                 }
 
@@ -266,7 +266,7 @@ public class Anexo14Service {
 
             }
         }
-        throw new ResponseNotFoundException("Anexo12", "ID:", "" + anexo14Request.getId());
+        throw new ResponseNotFoundException("Anexo14", "ID:", "" + anexo14Request.getId());
     }
 
     //Eliminar
@@ -274,7 +274,7 @@ public class Anexo14Service {
     public void deleteById(Long id) {
         Optional<Anexo14> optional = anexo14Repository.findById(id);
         if (optional.isEmpty()) {
-            throw new BadRequestException("El anexo 12 con el id " + id + ", no existe");
+            throw new BadRequestException("El anexo 14 con el id " + id + ", no existe");
         }
         if (!optional.get().getProyectoPPP().isEstado())
             throw new BadRequestException("El proceso a finalizado");
@@ -290,7 +290,7 @@ public class Anexo14Service {
     public void deleteTutoracaById(Long id) {
         Optional<ItemsAnexo14Tutoracademcio> optional = tutorAcademico14Repository.findById(id);
         if (optional.isEmpty()) {
-            throw new BadRequestException("Las actividades del docente de apoyo con: " + id + ", no existen");
+            throw new BadRequestException("Las actividades del tutor academico con: " + id + ", no existen");
         }
         tutorAcademico14Repository.deleteById(id);
     }

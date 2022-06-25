@@ -40,6 +40,10 @@ public class Anexo15Service {
             anexo.setCedulaEstudiante(request.getCedulaEstudiante());
             anexo.setNombretutoracademico(request.getNombretutoracademico());
             anexo.setCedulatutoracademico(request.getCedulatutoracademico());
+
+            anexo.setNombretutoremp(request.getNombretutoremp());
+            anexo.setCedulatutoremp(request.getCedulatutoremp());
+
             anexo.setDocumento(request.getDocumento());
 
             anexo.setCiclo(request.getCiclo());
@@ -54,6 +58,7 @@ public class Anexo15Service {
             anexo.setPorcentajeTutorA(request.getPorcentajeTutorA());
             anexo.setPorcentajeTutorA(request.getPorcentajeTutorA());
             anexo.setPromediofinal(request.getPromediofinal());
+            anexo.setPromediofinaldecimal(request.getPromediofinaldecimal());
 
             anexo.setProyectoPPP(optional.get());
                 try {
@@ -94,7 +99,8 @@ public class Anexo15Service {
             response.setNombretutoracademico(a.getNombretutoracademico());
             response.setCedulatutoracademico(a.getCedulatutoracademico());
             response.setDocumento(a.getDocumento());
-
+            response.setNombretutoremp(a.getNombretutoremp());
+            response.setCedulatutoremp(a.getCedulatutoremp());
             response.setCiclo(a.getCiclo());
             response.setEmpresa(a.getEmpresa());
             response.setFechaEvaluacion(a.getFechaEvaluacion());
@@ -107,12 +113,14 @@ public class Anexo15Service {
             response.setPorcentajeTutorA(a.getPorcentajeTutorA());
             response.setPorcentajeTutorA(a.getPorcentajeTutorA());
             response.setPromediofinal(a.getPromediofinal());
-
+            response.setPromediofinaldecimal(a.getPromediofinaldecimal());
 
             response.setIdProyecto(a.getProyectoPPP().getId());
             return response;
         }).collect(Collectors.toList());
     }
+
+
 
 
 
@@ -134,7 +142,8 @@ public class Anexo15Service {
             response.setNombretutoracademico(a.get().getNombretutoracademico());
             response.setCedulatutoracademico(a.get().getCedulatutoracademico());
             response.setDocumento(a.get().getDocumento());
-
+            response.setNombretutoremp(a.get().getNombretutoremp());
+            response.setCedulatutoremp(a.get().getCedulatutoremp());
             response.setCiclo(a.get().getCiclo());
             response.setEmpresa(a.get().getEmpresa());
             response.setFechaEvaluacion(a.get().getFechaEvaluacion());
@@ -146,7 +155,7 @@ public class Anexo15Service {
             response.setPorcentajeTutorA(a.get().getPorcentajeTutorA());
             response.setPorcentajeTutorA(a.get().getPorcentajeTutorA());
             response.setPromediofinal(a.get().getPromediofinal());
-
+            response.setPromediofinaldecimal(a.get().getPromediofinaldecimal());
 
 
 
@@ -177,7 +186,8 @@ public class Anexo15Service {
                 response.setNombretutoracademico(a.get().getNombretutoracademico());
                 response.setCedulatutoracademico(a.get().getCedulatutoracademico());
                 response.setDocumento(a.get().getDocumento());
-
+                response.setNombretutoremp(a.get().getNombretutoremp());
+                response.setCedulatutoremp(a.get().getCedulatutoremp());
                 response.setCiclo(a.get().getCiclo());
                 response.setEmpresa(a.get().getEmpresa());
                 response.setFechaEvaluacion(a.get().getFechaEvaluacion());
@@ -189,7 +199,7 @@ public class Anexo15Service {
                 response.setPorcentajeTutorA(a.get().getPorcentajeTutorA());
                 response.setPorcentajeTutorA(a.get().getPorcentajeTutorA());
                 response.setPromediofinal(a.get().getPromediofinal());
-
+                response.setPromediofinaldecimal(a.get().getPromediofinaldecimal());
 
                 response.setIdProyecto(a.get().getProyectoPPP().getId());
                 return response;

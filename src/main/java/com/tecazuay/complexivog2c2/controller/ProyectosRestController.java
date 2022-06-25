@@ -50,6 +50,13 @@ public class ProyectosRestController {
         proyectosService.updateestado(proyectoRequest);
         return new ResponseEntity<>(new Mensaje("ACTUALIZADO"), HttpStatus.CREATED);
     }
+
+    @PutMapping("/tutorempdatos")
+    public ResponseEntity<?> updatetutoremp(@RequestBody ProyectoRequest proyectoRequest) {
+        proyectosService.updateturoempresarial(proyectoRequest);
+        return new ResponseEntity<>(new Mensaje("ACTUALIZADO Datos"), HttpStatus.CREATED);
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<ProyectoResponse> listProyectosById(@PathVariable Long id) {
         ProyectoResponse proyectoResponses = proyectosService.listaProyectoById(id);
