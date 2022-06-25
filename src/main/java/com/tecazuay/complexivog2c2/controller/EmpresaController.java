@@ -36,6 +36,12 @@ public class EmpresaController {
         return new ResponseEntity<List<EmpresaResponse>>(entidades,HttpStatus.OK);
     }
 
+    @GetMapping("/allsincoordinador")
+    public ResponseEntity<List<EmpresaResponse>>listEmpresas2(){
+        List<EmpresaResponse> entidades = empresaService.listEmpresa2();
+        return new ResponseEntity<List<EmpresaResponse>>(entidades,HttpStatus.OK);
+    }
+
     @GetMapping("/all/{nombre}")
     public ResponseEntity<List<EmpresaResponse>>listEmpresasNombre(@PathVariable String nombre){
         List<EmpresaResponse> entidades = empresaService.listEmpresaNombre(nombre);

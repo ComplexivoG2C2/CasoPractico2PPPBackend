@@ -29,6 +29,7 @@ public interface TutorEmpProyectoRepository extends JpaRepository<TutorEmp, Long
 
     List<TutorEmp> findAllByProyectoPPP(ProyectoPPP proyectoPPP);
 
+
 //    @Query('SELECT correo, clave from tutor_empresarial')
 //    List<TutorEmpProyectoRequest> getCorreoClave();
 }

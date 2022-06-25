@@ -1,10 +1,12 @@
 package com.tecazuay.complexivog2c2.service.Anexos;
 
+import com.tecazuay.complexivog2c2.dto.anexos.Anexo3Response;
 import com.tecazuay.complexivog2c2.dto.anexos.Anexo81Response;
 import com.tecazuay.complexivog2c2.dto.anexos.TutorEmpRequest;
 import com.tecazuay.complexivog2c2.dto.anexos.TutorEmpResponse;
 import com.tecazuay.complexivog2c2.dto.solicitudproyectos.ProyectoRequest;
 import com.tecazuay.complexivog2c2.exception.BadRequestException;
+import com.tecazuay.complexivog2c2.model.Primary.Anexos.Anexo3;
 import com.tecazuay.complexivog2c2.model.Primary.Anexos.Anexo81;
 import com.tecazuay.complexivog2c2.model.Primary.Anexos.TutorEmp;
 import com.tecazuay.complexivog2c2.model.Primary.empresa.Empresa;
@@ -95,6 +97,33 @@ public class TutorEmpService {
 //        String cedula = optional.get().getTutorEmp().getCedula();
 //        return new TutorEmpCedulaResponse(cedula);
 //    }
+
+    @Transactional
+    public List<TutorEmpResponse> listporidppp(Long id) {
+        Optional<ProyectoPPP> op = proyectoRepository.findById(id);
+        if (op.isPresent()) {
+            List<TutorEmp> lista = tutorEmpProyectoRepository.findAllByProyectoPPP(op.get());
+            return lista.stream().map(tutores -> {
+                TutorEmpResponse te = new  TutorEmpResponse();
+                te.setId(tutores.getId());
+                te.setCedula(tutores.getCedula());
+                te.setNombres(tutores.getNombres());
+                te.setTitulo(tutores.getTitulo());
+                te.setApellidos(tutores.getApellidos());
+                te.setCorreo(tutores.getCorreo());
+                te.setClave(tutores.getClave());
+                te.setEstado(tutores.getEstado());
+                te.setFecha_designacion(tutores.getFecha_designacion());
+                te.setEmpresa_id(tutores.getEmpresa().getId());
+                te.setIdProyectoPPP(tutores.getProyectoPPP().getId());
+                return te;
+            }).collect(Collectors.toList());
+
+        }
+        throw new BadRequestException("No existe el solicitudproyecto");
+    }
+
+
 
     public List<TutorEmpResponse> listTutor() {
         List<TutorEmp> lista = tutorEmpProyectoRepository.findAll();

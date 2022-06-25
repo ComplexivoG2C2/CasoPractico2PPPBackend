@@ -102,6 +102,9 @@ public class ProyectoPPP implements Serializable {
     @OneToMany(targetEntity = Anexo12.class, mappedBy = "proyectoPPP")
     private List<Anexo12> anexo12;
 
+    @OneToMany(targetEntity = Anexo13.class, mappedBy = "proyectoPPP")
+    private List<Anexo13> anexo13;
+
     @OneToMany(targetEntity = Anexo121certificado.class, mappedBy = "proyectoPPP")
     private List<Anexo121certificado> anexo121certificados;
 

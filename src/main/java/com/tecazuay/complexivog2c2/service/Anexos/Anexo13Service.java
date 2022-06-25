@@ -41,20 +41,20 @@ public class Anexo13Service {
         Optional<TutorEmp> optionalTutorEmp= tutorEmpProyectoRepository.findById(request.getIdTutorEmp());
 
         if (optional.isPresent()) {
-            if(!optional.isPresent())
-                throw new BadRequestException("El proyecto ha finalizado, no se puede modificar");
 
             Anexo13 anexo = new Anexo13();
+//            anexo.setId(request.getId());
             anexo.setFechaEmision(request.getFechaEmision());
             anexo.setEmpresa(optionalEmpresa.get());
             anexo.setProyectoPPP(optional.get());
             anexo.setTutor(optionalTutorEmp.get());
             anexo.setDocumento(request.getDocumento());
 
-            try{
+            try {
                 anexo13Reepository.save(anexo);
-            }catch(Exception e){
-                throw new BadRequestException("No se guardó el anexo 13" + e);
+                return true;
+            } catch (Exception ex) {
+                throw new BadRequestException("No se guardó el anexo 3" + ex);
             }
         }
         throw new BadRequestException("No existe el proyecto con id: " + request.getIdProyectoPPP());

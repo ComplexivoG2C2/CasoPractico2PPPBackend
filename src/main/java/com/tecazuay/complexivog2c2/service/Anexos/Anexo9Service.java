@@ -68,6 +68,7 @@ public class Anexo9Service {
             anexo9.setNombreTutorAcademico(request.getNombreTutorAcademico());
             anexo9.setNombreTutoremp(request.getNombreTutoremp());
             anexo9.setTotalHoras(request.getTotalHoras());
+            anexo9.setSiglascarrera(request.getSiglascarrera());
             anexo9.setDocumento(request.getDocumento());
             anexo9.setCedulaTutoremp(request.getCedulaTutoremp());
             anexo9.setProyectoPPP(optional.get());
@@ -111,6 +112,7 @@ public class Anexo9Service {
             anexo.setNombreRepresentanteemp(request.getNombreRepresentanteemp());
             anexo.setNombreTutorAcademico(request.getNombreTutorAcademico());
             anexo.setNombreTutoremp(request.getNombreTutoremp());
+            anexo.setSiglascarrera(request.getSiglascarrera());
             anexo.setTotalHoras(request.getTotalHoras());
             anexo.setCedulaTutoremp(request.getCedulaTutoremp());
             anexo.setDocumento(request.getDocumento());
@@ -167,6 +169,7 @@ public class Anexo9Service {
             response.setNombreTutorAcademico(a.getNombreTutorAcademico());
             response.setNombreTutoremp(a.getNombreTutoremp());
             response.setCedulaTutoremp(a.getCedulaTutoremp());
+            response.setSiglascarrera(a.getSiglascarrera());
             response.setTotalHoras(a.getTotalHoras());
             response.setDocumento(a.getDocumento());
 
@@ -200,6 +203,7 @@ public class Anexo9Service {
                 response.setNombreRepresentanteemp(a.getNombreRepresentanteemp());
                 response.setNombreTutorAcademico(a.getNombreTutorAcademico());
                 response.setNombreTutoremp(a.getNombreTutoremp());
+                response.setSiglascarrera(a.getSiglascarrera());
                 response.setCedulaTutoremp(a.getCedulaTutoremp());
                 response.setTotalHoras(a.getTotalHoras());
                 response.setDocumento(a.getDocumento());
@@ -235,6 +239,7 @@ public class Anexo9Service {
             response.setNombreRepresentanteemp(a.get().getNombreRepresentanteemp());
             response.setNombreTutorAcademico(a.get().getNombreTutorAcademico());
             response.setNombreTutoremp(a.get().getNombreTutoremp());
+            response.setSiglascarrera(a.get().getSiglascarrera());
             response.setCedulaTutoremp(a.get().getCedulaTutoremp());
             response.setTotalHoras(a.get().getTotalHoras());
             response.setDocumento(a.get().getDocumento());
@@ -268,6 +273,7 @@ public class Anexo9Service {
             response.setNombreRepresentanteemp(a.getNombreRepresentanteemp());
             response.setNombreTutorAcademico(a.getNombreTutorAcademico());
             response.setNombreTutoremp(a.getNombreTutoremp());
+            response.setSiglascarrera(a.getSiglascarrera());
             response.setCedulaTutoremp(a.getCedulaTutoremp());
             response.setTotalHoras(a.getTotalHoras());
             response.setDocumento(a.getDocumento());

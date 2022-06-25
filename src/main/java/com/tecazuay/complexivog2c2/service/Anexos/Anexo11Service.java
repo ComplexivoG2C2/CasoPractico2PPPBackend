@@ -350,4 +350,59 @@ import java.util.stream.Collectors;
 
             anexo11Repository.deleteById(id);
         }
+
+
+
+
+    @Transactional
+    public List<Anexo11Response> listAll() {
+        return anexo11Repository.findAll().stream().map(a -> {
+            Anexo11Response response = new Anexo11Response();
+
+            response.setId(a.getId());
+            response.setNombreDirectorDocenteApoyo(a.getNombreDirectorDocenteApoyo());
+            response.setCedulaDirectorDocenteApoyo(a.getCedulaDirectorDocenteApoyo());
+            response.setCiclo(a.getCiclo());
+            response.setEmpresa(a.getEmpresa());
+            response.setNombreest(a.getNombreest());
+            response.setCedulaest(a.getCedulaest());
+            response.setNombretutoremp(a.getNombretutoremp());
+            response.setCedulaetutoremp(a.getCedulaetutoremp());
+            response.setCarrera(a.getCarrera());
+            response.setSiglascarrera(a.getSiglascarrera());
+            response.setRepresentanteLegal(a.getRepresentanteLegal());
+            response.setObservaciones(a.getObservaciones());
+            response.setPeriodoAcademicon(a.getPeriodoAcademicon());
+            response.setProyectoId(a.getProyectoPPP().getId());
+            response.setNum_proceso(a.getNum_proceso());
+
+            List<EstudiantesVisitaResponse> estudiantes = a.getEstudiantesVisita().stream().map(e -> {
+                EstudiantesVisitaResponse request = new EstudiantesVisitaResponse();
+                request.setCedula(e.getCedula());
+                request.setNombre(e.getNombre());
+                request.setId(e.getId());
+                return request;
+            }).collect(Collectors.toList());
+            response.setEstudiantesVisitas(estudiantes);
+
+
+            List<ListVisitaResponse> informes = a.getInformes().stream().map(i -> {
+                ListVisitaResponse ir = new ListVisitaResponse();
+                ir.setActividades(i.getActividades());
+                ir.setAsunto(i.getAsunto());
+                ir.setId(i.getId());
+                ir.setObservaciones(i.getObservaciones());
+                ir.setFecha(i.getFecha());
+                ir.setHoraInicio(i.getHoraInicio());
+                ir.setHoraFin(i.getHoraFin());
+                return ir;
+            }).collect(Collectors.toList());
+            response.setInformes(informes);
+
+            response.setProyectoId(a.getProyectoPPP().getId());
+            return response;
+        }).collect(Collectors.toList());
     }
+
+
+}

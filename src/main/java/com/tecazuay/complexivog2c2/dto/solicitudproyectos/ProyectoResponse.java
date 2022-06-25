@@ -35,7 +35,6 @@ public class ProyectoResponse implements Serializable {
     private String cedulaTutoremp;
     private String tituloTutoremp;
 
-    private String nombretutoremp;
     private String nombreresponsable;
     private String documento;
     private String plazoEjecucion;

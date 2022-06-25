@@ -36,6 +36,8 @@ public class Anexo9 implements Serializable {
 
     @Column(name = "cedula_tutoremp")
     private String cedulaTutoremp;
+    @Column(name = "siglascarrera")
+    private String siglascarrera;
 
     @Column(name = "nombre_representanteemp")
     private String nombreRepresentanteemp;

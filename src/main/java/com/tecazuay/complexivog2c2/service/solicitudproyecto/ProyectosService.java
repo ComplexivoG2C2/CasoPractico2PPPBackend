@@ -568,6 +568,10 @@ public class ProyectosService {
             materiasList.setNombreempresa(optional.get().getEmpresa().toString());
             materiasList.setNombreresponsable(nombreResponsable(optional.get().getResponsablePPP().getId()));
 
+            materiasList.setNombreTutoremp(optional.get().getNombreTutoremp());
+            materiasList.setCedulaTutoremp(optional.get().getCedulaTutoremp());
+            materiasList.setTituloTutoremp(optional.get().getTituloTutoremp());
+
             materiasList.setEmpresa(optional.get().getEmpresa());
             materiasList.setNombresolicitante(optional.get().getNombresolicitante());
             materiasList.setCargosolicitante(optional.get().getCargosolicitante());
@@ -711,6 +715,11 @@ public class ProyectosService {
                 materiasList.setCargosolicitante(optional.get().getCargosolicitante());
                 materiasList.setDocumento(optional.get().getDocumento());
 
+
+                materiasList.setNombreTutoremp(optional.get().getNombreTutoremp());
+                materiasList.setCedulaTutoremp(optional.get().getCedulaTutoremp());
+                materiasList.setTituloTutoremp(optional.get().getTituloTutoremp());
+
                 materiasList.setHoras(optional.get().getHoras());
 //                materiasList.setParticipantes(optional.get().getParticipantes());
                 materiasList.setFechaFin(optional.get().getFechaFin());
@@ -769,6 +778,10 @@ public class ProyectosService {
         response.setEmpresa(proyectoPPP.getEmpresa());
         response.setNombresolicitante(proyectoPPP.getNombresolicitante());
         response.setCargosolicitante(proyectoPPP.getCargosolicitante());
+
+        response.setNombreTutoremp(proyectoPPP.getNombreTutoremp());
+        response.setCedulaTutoremp(proyectoPPP.getCedulaTutoremp());
+        response.setTituloTutoremp(proyectoPPP.getTituloTutoremp());
 
         response.setHoras(proyectoPPP.getHoras());
         response.setFechaInicio(proyectoPPP.getFechaInicio());

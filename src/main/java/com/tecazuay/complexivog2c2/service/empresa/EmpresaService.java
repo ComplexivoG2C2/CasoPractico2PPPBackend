@@ -77,6 +77,29 @@ public class EmpresaService{
             return er;
         }).collect(Collectors.toList());
     }
+    public List<EmpresaResponse> listEmpresa2() {
+        List<Empresa> lista = empresaRepository.findAll();
+        return lista.stream().map(empresa -> {
+            EmpresaResponse er = new EmpresaResponse();
+            er.setId(empresa.getId());
+            er.setNombre(empresa.getNombre());
+            er.setRepresentante(empresa.getRepresentante());
+            er.setEmailEmpresa(empresa.getEmailEmpresa());
+            er.setClave(empresa.getClave());
+            er.setEmailRepresentante(empresa.getEmailRepresentante());
+            er.setTelefonoEmpresa(empresa.getTelefonoEmpresa());
+            er.setCelularRepresentante(empresa.getCelularRepresentante());
+            er.setFechaCreacion(empresa.getFechaCreacion());
+
+//            er.setNombreAdministrador(empresa.getNombreAdministrador());
+//            er.setCedulaAdministrador(empresa.getCedulaAdministrador());
+//            er.setCorreoAdministrador(empresa.getCorreoAdministrador());
+            er.setCiudad(empresa.getCiudad());
+            er.setDireccion(empresa.getDireccion());
+            er.setDescripcionEmpresa(empresa.getDescripcionEmpresa());
+            return er;
+        }).collect(Collectors.toList());
+    }
 
     /**
      * Obtiene el nombre del coordinador que crea la empresa beneficiaria

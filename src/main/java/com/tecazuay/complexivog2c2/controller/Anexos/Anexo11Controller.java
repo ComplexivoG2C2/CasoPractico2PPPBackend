@@ -1,12 +1,16 @@
 package com.tecazuay.complexivog2c2.controller.Anexos;
 
+import com.tecazuay.complexivog2c2.dto.anexos.Anexo10Response;
 import com.tecazuay.complexivog2c2.dto.anexos.Anexo11Request;
+import com.tecazuay.complexivog2c2.dto.anexos.Anexo11Response;
 import com.tecazuay.complexivog2c2.exception.Mensaje;
 import com.tecazuay.complexivog2c2.service.Anexos.Anexo11Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/anexo11")
@@ -49,5 +53,9 @@ public class Anexo11Controller {
         return  new ResponseEntity<>(new Mensaje("Anexo 11  eliminado"),HttpStatus.OK);
 
     }
-
+    @GetMapping("/all")
+    public ResponseEntity<List<Anexo11Response>> listAll() {
+        List<Anexo11Response> anexos = anexo11Service.listAll();
+        return new ResponseEntity<List<Anexo11Response>>(anexos, HttpStatus.OK);
+    }
 }
