@@ -135,7 +135,7 @@ public class Anexo121Service {
                         .stream()
                         .filter(req -> req.getDescripcion().equalsIgnoreCase(r.getDescripcion()))
                         .findAny();
-                if (exists.isEmpty()) {
+                if (exists.isPresent()) {
                     actividadesanexo121Repository.delete(r);
                 }
             });

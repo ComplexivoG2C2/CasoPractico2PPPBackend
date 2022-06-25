@@ -198,7 +198,7 @@ public class EmpresaService{
     public EmpresaResponse listEmpresaId(Long id) {
         EmpresaResponse response = new EmpresaResponse();
         Optional<Empresa> optional = empresaRepository.findById(id);
-        optional.stream().forEach(e -> {
+        optional.stream().map(e -> {
             response.setId(e.getId());
             response.setNombre(e.getNombre());
             response.setRepresentante(e.getRepresentante());
