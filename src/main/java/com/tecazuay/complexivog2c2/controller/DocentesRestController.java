@@ -8,7 +8,6 @@ import com.tecazuay.complexivog2c2.dto.docentes.DocenteRolesList;
 import com.tecazuay.complexivog2c2.dto.docentes.DocentesMateriasList;
 import com.tecazuay.complexivog2c2.exception.Mensaje;
 import com.tecazuay.complexivog2c2.service.docentes.DocentesService;
-import com.tecazuay.complexivog2c2.service.designaciones.TutorEmpService;
 import com.tecazuay.complexivog2c2.service.designaciones.ResponsableService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,11 +21,9 @@ import java.util.List;
 @RequestMapping("/api/docentes")
 public class DocentesRestController {
 
-    @Autowired
-    private DocentesService docentesService;
 
     @Autowired
-    private TutorEmpService tutorEmpService;
+    private DocentesService docentesService;
 
     @Autowired
     private ResponsableService responsableService;
@@ -55,11 +52,6 @@ public class DocentesRestController {
         return new ResponseEntity<>(new Mensaje("Docentes de Apoyo Guardados"), HttpStatus.CREATED);
     }
 
-    @PostMapping("/save/director")
-    public ResponseEntity<?> saveDirector(@RequestBody TutorEmpProyectoRequest tutorEmpProyectoRequest) {
-        tutorEmpService.saveRolDirector(tutorEmpProyectoRequest);
-        return new ResponseEntity<>(new Mensaje("Directo de Proyecto Guardado"), HttpStatus.CREATED);
-    }
 
     @PostMapping("/save/responsable")
     public ResponseEntity<?> saveResponsable(@RequestBody ResponsableRequest responsableRequest) {
@@ -89,11 +81,7 @@ public class DocentesRestController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @GetMapping("/director/{idProyecto}")
-    public ResponseEntity<?> directorDatos(@PathVariable Long idProyecto) {
-        TutorEmpProyectoResponse response = tutorEmpService.getDirector(idProyecto);
-        return new ResponseEntity<>(response, HttpStatus.OK);
-    }
+
 
     @GetMapping("/responsablePPP/{cedula}")
     public ResponseEntity<?> responsableCarrera(@PathVariable String cedula) {
@@ -101,16 +89,6 @@ public class DocentesRestController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @DeleteMapping("/director/{id}")
-    public ResponseEntity<?> deleteDirector(@PathVariable Long id) {
-        tutorEmpService.deleteById(id);
-        return new ResponseEntity<>(new Mensaje("Director de proyecto eliminado"), HttpStatus.OK);
-    }
-
-    @GetMapping("/proyecto/{id}/director/cedula")
-    public ResponseEntity<?> getCedulaDirectorByIdProyecto(@PathVariable Long id) {
-        return new ResponseEntity<>(tutorEmpService.getCedulaDirectorByProject(id), HttpStatus.OK);
-    }
 
     @GetMapping("/{cedula}/carreras")
     public ResponseEntity<?> carrerasPorCedulaDocente(@PathVariable String cedula) {

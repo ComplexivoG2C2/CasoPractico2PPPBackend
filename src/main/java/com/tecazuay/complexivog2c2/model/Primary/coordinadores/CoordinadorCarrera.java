@@ -1,7 +1,6 @@
 package com.tecazuay.complexivog2c2.model.Primary.coordinadores;
 
 import com.tecazuay.complexivog2c2.model.Primary.desigaciones.TutorAcademicoDelegados;
-import com.tecazuay.complexivog2c2.model.Primary.desigaciones.TutorEmp;
 import com.tecazuay.complexivog2c2.model.Primary.desigaciones.ResponsablePPP;
 import com.tecazuay.complexivog2c2.model.Primary.usuario.Usuario;
 import lombok.AllArgsConstructor;
@@ -31,9 +30,6 @@ public class CoordinadorCarrera implements Serializable {
 
     @OneToMany(targetEntity = ResponsablePPP.class, mappedBy = "coordinadorCarrera")
     private List<ResponsablePPP> responsablePPP;
-
-    @OneToMany(targetEntity = TutorEmp.class, mappedBy = "coordinadorCarrera")
-    private List<TutorEmp> tutorEmp;
 
     //Llave Foranea
     @OneToOne(cascade = CascadeType.ALL)

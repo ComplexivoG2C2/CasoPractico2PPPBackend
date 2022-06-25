@@ -8,12 +8,12 @@ import com.tecazuay.complexivog2c2.exception.BadRequestException;
 import com.tecazuay.complexivog2c2.exception.ResponseNotFoundException;
 import com.tecazuay.complexivog2c2.model.Primary.coordinadores.CoordinadorVinculacion;
 import com.tecazuay.complexivog2c2.model.Primary.empresa.Empresa;
-import com.tecazuay.complexivog2c2.model.Primary.proyecto.ProyectoPPP;
+import com.tecazuay.complexivog2c2.model.Primary.solicitudproyecto.ProyectoPPP;
 import com.tecazuay.complexivog2c2.model.Primary.usuario.Usuario;
 import com.tecazuay.complexivog2c2.model.Secondary.personas.VPersonasppp;
 import com.tecazuay.complexivog2c2.repository.Primary.designaciones.CoordinadorVinculacionRepository;
 import com.tecazuay.complexivog2c2.repository.Primary.empresa.EmpresaRepository;
-import com.tecazuay.complexivog2c2.repository.Primary.proyecto.ProyectoRepository;
+import com.tecazuay.complexivog2c2.repository.Primary.solicitudproyecto.ProyectoRepository;
 import com.tecazuay.complexivog2c2.repository.Primary.usuario.UsuarioRepository;
 import com.tecazuay.complexivog2c2.repository.Secondary.personas.PersonasRepository;
 import com.tecazuay.complexivog2c2.security.jwt.JwtUtil;
@@ -33,7 +33,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 @Slf4j
 @Service
-public class EmpresaService implements UserDetailsService {
+public class EmpresaService{
 
     @Autowired
     private EmpresaRepository empresaRepository;
@@ -137,9 +137,7 @@ public class EmpresaService implements UserDetailsService {
             optional.get().setEmailRepresentante(empresaRequest.getEmailRepresentante());
             optional.get().setTelefonoEmpresa(empresaRequest.getTelefonoEmpresa());
             optional.get().setCelularRepresentante(empresaRequest.getCelularRepresentante());
-//            optional.get().setNombreAdministrador(empresaRequest.getNombreAdministrador());
-//            optional.get().setCedulaAdministrador(empresaRequest.getCedulaAdministrador());
-//            optional.get().setCorreoAdministrador(empresaRequest.getCorreoAdministrador());
+            optional.get().setTitulorepresentante(empresaRequest.getTitulorepresentante());
             optional.get().setCiudad(empresaRequest.getCiudad());
             optional.get().setDireccion(empresaRequest.getDireccion());
             optional.get().setDescripcionEmpresa(empresaRequest.getDescripcionEmpresa());
@@ -154,13 +152,6 @@ public class EmpresaService implements UserDetailsService {
 
     }
 
-    /**
-     * Metodo de guardar una empresa beneficiaria
-     * en la que se valida el
-     *
-     * @param empresaRequest
-     * @return
-     */
     public boolean save(EmpresaRequest empresaRequest) {
         Empresa eb = new Empresa();
         eb.setNombre(empresaRequest.getNombre());
@@ -172,9 +163,7 @@ public class EmpresaService implements UserDetailsService {
         eb.setCelularRepresentante(empresaRequest.getCelularRepresentante());
         eb.setFechaCreacion(empresaRequest.getFechaCreacion());
         eb.setCoordinadorVinculacion(getIdCoordinador(empresaRequest.getIdCoordinador()));
-//        eb.setNombreAdministrador(empresaRequest.getNombreAdministrador());
-//        eb.setCedulaAdministrador(empresaRequest.getCedulaAdministrador());
-//        eb.setCorreoAdministrador(empresaRequest.getCorreoAdministrador());
+        eb.setTitulorepresentante(empresaRequest.getTitulorepresentante());
         eb.setCiudad(empresaRequest.getCiudad());
         eb.setDireccion(empresaRequest.getDireccion());
         eb.setDescripcionEmpresa(empresaRequest.getDescripcionEmpresa());
@@ -182,7 +171,7 @@ public class EmpresaService implements UserDetailsService {
             empresaRepository.save(eb);
             return true;
         } catch (Exception ex) {
-            throw new BadRequestException("No se guardó la empresa beneficiaria" + ex);
+            throw new BadRequestException("No se guardó la empresa" + ex);
         }
 
 
@@ -220,9 +209,7 @@ public class EmpresaService implements UserDetailsService {
             response.setCelularRepresentante(e.getCelularRepresentante());
             response.setFechaCreacion(e.getFechaCreacion());
             response.setNombreCoordinador(getNombreCoordinador(e.getCoordinadorVinculacion().getId()));
-//            response.setNombreAdministrador(entidad.getNombreAdministrador());
-//            response.setCedulaAdministrador(entidad.getCedulaAdministrador());
-//            response.setCorreoAdministrador(entidad.getCorreoAdministrador());
+            response.setTitulorepresentante(e.getTitulorepresentante());
             response.setCiudad(e.getCiudad());
             response.setDireccion(e.getDireccion());
             response.setDescripcionEmpresa(e.getDescripcionEmpresa());
@@ -234,13 +221,13 @@ public class EmpresaService implements UserDetailsService {
     public RepresentanteResponse getRepresentante(Long id){
         Optional<ProyectoPPP> op= proyectoRepository.findById(id);
         if(op.isPresent()){
-            Optional<Empresa> optional= empresaRepository.findById(op.get().getEntidadbeneficiaria());
+            Optional<Empresa> optional= empresaRepository.findById(op.get().getEmpresa());
             if(optional.isPresent()){
                 RepresentanteResponse r= new RepresentanteResponse();
                 r.setNombre(optional.get().getRepresentante());
                 return r;
             }
-            throw new ResponseNotFoundException("EMPRESA","ID:",op.get().getEntidadbeneficiaria()+"");
+            throw new ResponseNotFoundException("EMPRESA","ID:",op.get().getEmpresa()+"");
         }
         throw new ResponseNotFoundException("PROYECTO","ID",id+"");
     }
@@ -269,63 +256,63 @@ public class EmpresaService implements UserDetailsService {
 
 
     //INICIAR SESIÓN
-    @Transactional
-    public EmpresaResponse login(EmpresaRequest empresaRequest) throws Exception {
-        Optional<Empresa> optional = empresaRepository.findByEmailEmpresa(empresaRequest.getEmailEmpresa());
-        if (optional.isPresent() ) {
-            Empresa empresa = optional.get();
-            if(empresa!=null){
-                if(empresaRequest.getClave().equals(empresa.getClave())){
-                    return  new EmpresaResponse(empresa.getId(), empresa.getEmailEmpresa(),empresa.getClave(),generateTokenLogin(empresaRequest));
-                }else{
-                    throw new Exception("La contraseña es incorrecta");
-                }
-            }else{
-                throw new Exception("Empresa null login");
-            }
-        }else{
-            log.info("EMAIL NO EXISTE");
-        }
-        log.info("AFUERA LOGIN");
-        return null;
-    }
+//    @Transactional
+//    public EmpresaResponse login(EmpresaRequest empresaRequest) throws Exception {
+//        Optional<Empresa> optional = empresaRepository.findByEmailEmpresa(empresaRequest.getEmailEmpresa());
+//        if (optional.isPresent() ) {
+//            Empresa empresa = optional.get();
+//            if(empresa!=null){
+//                if(empresaRequest.getClave().equals(empresa.getClave())){
+//                    return  new EmpresaResponse(empresa.getId(), empresa.getEmailEmpresa(),empresa.getClave(),generateTokenLogin(empresaRequest));
+//                }else{
+//                    throw new Exception("La contraseña es incorrecta");
+//                }
+//            }else{
+//                throw new Exception("Empresa null login");
+//            }
+//        }else{
+//            log.info("EMAIL NO EXISTE");
+//        }
+//        log.info("AFUERA LOGIN");
+//        return null;
+//    }
+//
+//    public String generateTokenLogin(EmpresaRequest empresaRequest) throws Exception {
+//        try {
+//            authenticationManager.authenticate(
+//                    new UsernamePasswordAuthenticationToken(empresaRequest.getEmailEmpresa(), empresaRequest.getEmailEmpresa())
+//            );
+//        } catch (Exception ex) {
+//            log.error("INVALID: error al generar token la empresa con email: {}", empresaRequest.getEmailEmpresa());
+//            throw new Exception("INAVALID");
+//        }
+//        return jwtUtil.generateToken(empresaRequest.getEmailEmpresa());
+//    }
+//    public String generateTokenLogin(UserRequest userRequest) throws Exception {
+//        try {
+//            authenticationManager.authenticate(
+//                    new UsernamePasswordAuthenticationToken(userRequest.getEmail(), userRequest.getEmail())
+//            );
+//        } catch (Exception ex) {
+//            log.error("INVALID: error al generar token en login de usuario con email: {}", userRequest.getEmail());
+//            throw new Exception("INAVALID");
+//        }
+//        return jwtUtil.generateToken(userRequest.getEmail());
+//    }
+//
+//    public EmpresaResponse getEmp(String emailEmpresa) {
+//        Optional<Empresa> optional = empresaRepository.findByEmailEmpresa(emailEmpresa);
+//        if (optional.isPresent() ) {
+//            Empresa empresa = optional.get();
+//            return new EmpresaResponse(empresa.getId(), empresa.getEmailEmpresa(), empresa.getClave());
+//        }
+//        throw new ResponseNotFoundException("Empresa", "emailEmpresa", emailEmpresa);
+//    }
 
-    public String generateTokenLogin(EmpresaRequest empresaRequest) throws Exception {
-        try {
-            authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(empresaRequest.getEmailEmpresa(), empresaRequest.getEmailEmpresa())
-            );
-        } catch (Exception ex) {
-            log.error("INVALID: error al generar token la empresa con email: {}", empresaRequest.getEmailEmpresa());
-            throw new Exception("INAVALID");
-        }
-        return jwtUtil.generateToken(empresaRequest.getEmailEmpresa());
-    }
-    public String generateTokenLogin(UserRequest userRequest) throws Exception {
-        try {
-            authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(userRequest.getEmail(), userRequest.getEmail())
-            );
-        } catch (Exception ex) {
-            log.error("INVALID: error al generar token en login de usuario con email: {}", userRequest.getEmail());
-            throw new Exception("INAVALID");
-        }
-        return jwtUtil.generateToken(userRequest.getEmail());
-    }
-
-    public EmpresaResponse getEmp(String emailEmpresa) {
-        Optional<Empresa> optional = empresaRepository.findByEmailEmpresa(emailEmpresa);
-        if (optional.isPresent() ) {
-            Empresa empresa = optional.get();
-            return new EmpresaResponse(empresa.getId(), empresa.getEmailEmpresa(), empresa.getClave());
-        }
-        throw new ResponseNotFoundException("Empresa", "emailEmpresa", emailEmpresa);
-    }
-
-    @Override
-    public UserDetails loadUserByUsername(String emailEmpresa) throws UsernameNotFoundException {
-        Optional<Empresa> empresa = empresaRepository.findByEmailEmpresa(emailEmpresa);
-        return new org.springframework.security.core.userdetails.User(empresa.get().getEmailEmpresa(), empresa.get().getEmailEmpresa(), new ArrayList<>());
-
-    }
+//    @Override
+//    public UserDetails loadUserByUsername(String emailEmpresa) throws UsernameNotFoundException {
+//        Optional<Empresa> empresa = empresaRepository.findByEmailEmpresa(emailEmpresa);
+//        return new org.springframework.security.core.userdetails.User(empresa.get().getEmailEmpresa(), empresa.get().getEmailEmpresa(), new ArrayList<>());
+//
+//    }
 }

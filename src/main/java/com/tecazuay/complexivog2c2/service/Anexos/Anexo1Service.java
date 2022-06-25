@@ -5,11 +5,10 @@ import com.tecazuay.complexivog2c2.dto.anexos.Anexo1Response;
 import com.tecazuay.complexivog2c2.exception.BadRequestException;
 import com.tecazuay.complexivog2c2.exception.ResponseNotFoundException;
 import com.tecazuay.complexivog2c2.model.Primary.Anexos.Anexo1;
-import com.tecazuay.complexivog2c2.model.Primary.proyecto.ProyectoPPP;
+import com.tecazuay.complexivog2c2.model.Primary.solicitudproyecto.ProyectoPPP;
 import com.tecazuay.complexivog2c2.repository.Primary.Anexos.Anexo1Repository;
-import com.tecazuay.complexivog2c2.repository.Primary.designaciones.TutorEmpProyectoRepository;
 import com.tecazuay.complexivog2c2.repository.Primary.designaciones.TutorAcademicoRepository;
-import com.tecazuay.complexivog2c2.repository.Primary.proyecto.ProyectoRepository;
+import com.tecazuay.complexivog2c2.repository.Primary.solicitudproyecto.ProyectoRepository;
 import com.tecazuay.complexivog2c2.repository.Secondary.carreras.CarrerasAllRepository;
 import com.tecazuay.complexivog2c2.repository.Secondary.personas.PersonasRepository;
 import lombok.RequiredArgsConstructor;
@@ -23,11 +22,9 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class Anexo1Service {
-
     private final Anexo1Repository anexo1Repository;
     private final ProyectoRepository proyectoRepository;
     private final TutorAcademicoRepository tutorAcademicoRepository;
-    private final TutorEmpProyectoRepository tutorEmpProyectoRepository;
     private final PersonasRepository personasRepository;
     private final CarrerasAllRepository carrerasAllRepository;
 
@@ -169,29 +166,27 @@ public class Anexo1Service {
     }
 
     public List<Anexo1Response> listAnexoDocente(String cedula) {
-        if (tutorAcademicoRepository.existsByCedula(cedula) || tutorEmpProyectoRepository.existsByCedula(cedula)) {
-            List<Anexo1> lista = anexo1Repository.findAllByCedulaDelegado(cedula);
-            return lista.stream().map(anexo1 -> {
-                Anexo1Response an = new Anexo1Response();
-                an.setId(anexo1.getId());
-                an.setFechaDelegacion(anexo1.getFechaDelegacion());
-                an.setDocenteTitulo(anexo1.getDocenteTitulo());
-                an.setCedulaDelegado(anexo1.getCedulaDelegado());
-                an.setNombreDelegado(anexo1.getNombreDelegado());
-                an.setNombreCarrera(anexo1.getNombreCarrera());
-                an.setNombreRol(anexo1.getNombreRol());
-                an.setNombreProyecto(anexo1.getNombreProyecto());
-                an.setCedulaCoordinador(anexo1.getCedulaCoordinador());
-                an.setNombreCoordinador(anexo1.getNombreCoordinador());
-                an.setSiglasCarrera(anexo1.getSiglasCarrera());
-                an.setFechaDelegado(anexo1.getFechaDelegado());
-                an.setNumProceso(anexo1.getNumProceso());
-                an.setIdProyectoPPP(anexo1.getProyectoPPP().getId());
-                an.setDocumento(anexo1.getDocumento());
-                return an;
-            }).collect(Collectors.toList());
-        }
-        throw new BadRequestException("No existe el docente ");
+        List<Anexo1> lista = anexo1Repository.findAllByCedulaDelegado(cedula);
+        return lista.stream().map(anexo1 -> {
+            Anexo1Response an = new Anexo1Response();
+            an.setId(anexo1.getId());
+            an.setFechaDelegacion(anexo1.getFechaDelegacion());
+            an.setDocenteTitulo(anexo1.getDocenteTitulo());
+            an.setCedulaDelegado(anexo1.getCedulaDelegado());
+            an.setNombreDelegado(anexo1.getNombreDelegado());
+            an.setNombreCarrera(anexo1.getNombreCarrera());
+            an.setNombreRol(anexo1.getNombreRol());
+            an.setNombreProyecto(anexo1.getNombreProyecto());
+            an.setCedulaCoordinador(anexo1.getCedulaCoordinador());
+            an.setNombreCoordinador(anexo1.getNombreCoordinador());
+            an.setSiglasCarrera(anexo1.getSiglasCarrera());
+            an.setFechaDelegado(anexo1.getFechaDelegado());
+            an.setNumProceso(anexo1.getNumProceso());
+            an.setIdProyectoPPP(anexo1.getProyectoPPP().getId());
+            an.setDocumento(anexo1.getDocumento());
+            return an;
+        }).collect(Collectors.toList());
+
     }
 
     public void deleteAnexosList(List<Anexo1> anexo1) {
@@ -213,3 +208,4 @@ public class Anexo1Service {
         }
     }
 }
+

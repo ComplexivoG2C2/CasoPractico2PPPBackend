@@ -1,5 +1,7 @@
 package com.tecazuay.complexivog2c2.model.Primary.empresa;
 
+import com.tecazuay.complexivog2c2.model.Primary.Anexos.Anexo5;
+import com.tecazuay.complexivog2c2.model.Primary.Anexos.TutorEmp;
 import com.tecazuay.complexivog2c2.model.Primary.coordinadores.CoordinadorVinculacion;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -8,6 +10,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Table(name="empresa")
 @Entity
@@ -48,23 +51,22 @@ public class Empresa {
 
     private String direccion;
 
-//    @Column(name="nombre_administrador")
-//    private String nombreAdministrador;
-//
-//    @Column(name="cedula_administrador")
-//    private String cedulaAdministrador;
-//
-//    @Column(name="correo_administrador")
-//    private String correoAdministrador;
 
     @Column(name="descripcion_empresa",length = 10485760)
     private String descripcionEmpresa;
+
+    @Column(name="titulorepresentante",length = 10485760)
+    private String titulorepresentante;
 
     @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinColumn(name="coordinadorV_id", referencedColumnName = "id")
     private CoordinadorVinculacion coordinadorVinculacion;
 
+    @OneToMany(targetEntity = TutorEmp.class, mappedBy = "empresa")
+    private List<TutorEmp> tutoremp;
 
+    @OneToMany(targetEntity = Anexo5.class, mappedBy = "empresa")
+    private List<Anexo5> anexo5;
 
 
 }

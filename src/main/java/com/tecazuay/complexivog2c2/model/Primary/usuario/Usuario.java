@@ -4,7 +4,6 @@ import com.tecazuay.complexivog2c2.model.Primary.alumnos.Alumnos;
 import com.tecazuay.complexivog2c2.model.Primary.autoridades.Autoridades;
 import com.tecazuay.complexivog2c2.model.Primary.coordinadores.CoordinadorCarrera;
 import com.tecazuay.complexivog2c2.model.Primary.coordinadores.CoordinadorVinculacion;
-import com.tecazuay.complexivog2c2.model.Primary.desigaciones.TutorEmp;
 import com.tecazuay.complexivog2c2.model.Primary.desigaciones.TutorAcademicoDelegados;
 import com.tecazuay.complexivog2c2.model.Primary.desigaciones.ResponsablePPP;
 import com.tecazuay.complexivog2c2.model.Primary.roles.Roles;
@@ -30,8 +29,6 @@ public class Usuario implements Serializable {
 
     private String email;
 
-
-
     private String urlFoto;
 
     private String cedula;
@@ -44,9 +41,6 @@ public class Usuario implements Serializable {
 
     @OneToOne(mappedBy = "usuario")
     private CoordinadorVinculacion coordinadorVinculacion;
-
-    @OneToOne(mappedBy = "usuario")
-    private TutorEmp tutorEmp;
 
     @OneToOne(mappedBy = "usuario")
     private TutorAcademicoDelegados tutorAcademicoDelegados;
