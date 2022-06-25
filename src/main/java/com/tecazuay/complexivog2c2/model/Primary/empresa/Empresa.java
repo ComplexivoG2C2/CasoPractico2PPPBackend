@@ -1,5 +1,6 @@
 package com.tecazuay.complexivog2c2.model.Primary.empresa;
 
+import com.tecazuay.complexivog2c2.model.Primary.Anexos.Anexo13;
 import com.tecazuay.complexivog2c2.model.Primary.Anexos.Anexo5;
 import com.tecazuay.complexivog2c2.model.Primary.Anexos.TutorEmp;
 import com.tecazuay.complexivog2c2.model.Primary.coordinadores.CoordinadorVinculacion;
@@ -68,5 +69,6 @@ public class Empresa {
     @OneToMany(targetEntity = Anexo5.class, mappedBy = "empresa")
     private List<Anexo5> anexo5;
 
-
+    @OneToMany(targetEntity = Anexo13.class, mappedBy = "empresa")
+    private List<Anexo13> anexo13;
 }

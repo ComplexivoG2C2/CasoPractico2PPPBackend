@@ -2,7 +2,6 @@ package com.tecazuay.complexivog2c2.model.Primary.solicitudproyecto;
 
 
 import com.tecazuay.complexivog2c2.model.Primary.Anexos.*;
-import com.tecazuay.complexivog2c2.model.Primary.Anexos.anexo121.Anexo121certificado;
 import com.tecazuay.complexivog2c2.model.Primary.Anexos.anexo1214y15.Anexo12;
 import com.tecazuay.complexivog2c2.model.Primary.Anexos.anexo1214y15.Anexo14;
 import com.tecazuay.complexivog2c2.model.Primary.Anexos.anexo1214y15.Anexo15;
@@ -37,12 +36,6 @@ public class ProyectoPPP implements Serializable {
     private String nombresolicitante;
     private String nombreempresa;
     private Long empresa;
-
-
-    private String nombreTutoremp;
-    private String cedulaTutoremp;
-    private String tituloTutoremp;
-
 
     private String carrera;
     private String codigocarrera;
@@ -101,9 +94,6 @@ public class ProyectoPPP implements Serializable {
 
     @OneToMany(targetEntity = Anexo12.class, mappedBy = "proyectoPPP")
     private List<Anexo12> anexo12;
-
-    @OneToMany(targetEntity = Anexo121certificado.class, mappedBy = "proyectoPPP")
-    private List<Anexo121certificado> anexo121certificados;
 
     @OneToMany(targetEntity = Anexo14.class, mappedBy = "proyectoPPP")
     private List<Anexo14> anexo14;
