@@ -39,10 +39,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 @Slf4j
 @Service
@@ -151,7 +148,7 @@ public class ProyectosService {
 
             Optional<CoordinadorCarrera> coordinadorCarrera = coordinadorRepository.findByCedula(proyectoRequest.getCoordinadorCedula());
 
-            if (coordinadorCarrera.isEmpty()) {
+            if (!coordinadorCarrera.isPresent()) {
                 throw new BadRequestException("No se encontró al coordinador de carrera con cédula: " + coordinadorCedula);
             }
 //            saveRoles(proyectoRequest.getDocentesDelegados(), saved.getId(), coordinadorCarrera.get());
@@ -240,7 +237,7 @@ public class ProyectosService {
                 Optional<Usuario> getEmail = usuarioRepository.findByCedula(docentesApoyoDelegados.getCedula());
                 if (getEmail.isPresent()) {
                     EmailBody e = new EmailBody();
-                    e.setEmail(List.of(getEmail.get().getEmail()));
+                    e.setEmail(Arrays.asList(getEmail.get().getEmail()));
                     e.setContent("Usted ha sido designado como docente de apoyo");
                     e.setText2(" Ingrese al sistema dando clic en el siguiente botón:");
                     e.setSubject("Designación para proyectos de vinculación");
@@ -318,7 +315,7 @@ public class ProyectosService {
         }
 
         Optional<CoordinadorCarrera> coordinadorCarrera = coordinadorRepository.findByCedula(proyectoRequest.getCoordinadorCedula());
-        if (coordinadorCarrera.isEmpty()) {
+        if (!coordinadorCarrera.isPresent()) {
             throw new BadRequestException("No se encontró al coordinador de carrera con cédula: " + coordinadorCedula);
         }
 
@@ -385,7 +382,7 @@ public class ProyectosService {
         }
 
         Optional<CoordinadorCarrera> coordinadorCarrera = coordinadorRepository.findByCedula(proyectoRequest.getCoordinadorCedula());
-        if (coordinadorCarrera.isEmpty()) {
+        if (!coordinadorCarrera.isPresent()) {
             throw new BadRequestException("No se encontró al coordinador de carrera con cédula: " + coordinadorCedula);
         }
 
@@ -404,7 +401,7 @@ public class ProyectosService {
                         .stream()
                         .filter(req -> req.getDescripcion().equalsIgnoreCase(r.getDescripcion()))
                         .findAny();
-                if (exists.isEmpty()) {
+                if (!exists.isPresent()) {
                   actividadesEmpresaRepository.delete(r);
                 }
             });
@@ -414,7 +411,7 @@ public class ProyectosService {
                         .stream()
                         .filter(r -> r.getDescripcion().equalsIgnoreCase(descripcion))
                         .findAny();
-                if (exists.isEmpty()) {
+                if (!exists.isPresent()) {
                     ActividadesempresaProyecto save = new ActividadesempresaProyecto();
                     save.setProyectoPPP(optional.get());
                     save.setDescripcion(request.getDescripcion());
@@ -603,7 +600,7 @@ public class ProyectosService {
     @Transactional
     public void deleteProyecoById(Long id) {
         Optional<ProyectoPPP> optional = proyectoRepository.findById(id);
-        if (optional.isEmpty()) {
+        if (!optional.isPresent()) {
             throw new BadRequestException("El proyecto con id: " + id + ", no existe");
         }
         optional.get().getTutorAcademicoDelegados()
@@ -630,7 +627,7 @@ public class ProyectosService {
                         .stream()
                         .filter(req -> req.getDescripcion().equalsIgnoreCase(r.getDescripcion()))
                         .findAny();
-                if (exists.isEmpty()) {
+                if (!exists.isPresent()) {
                     requisitosRepository.delete(r);
                 }
             });
@@ -641,7 +638,7 @@ public class ProyectosService {
                         .stream()
                         .filter(r -> r.getDescripcion().equalsIgnoreCase(descripcion))
                         .findAny();
-                if (exists.isEmpty()) {
+                if (!exists.isPresent()) {
                     RequisitosProyecto save = new RequisitosProyecto();
                     save.setProyectoPPP(optional.get());
                     save.setDescripcion(request.getDescripcion());
@@ -665,7 +662,7 @@ public class ProyectosService {
                         .stream()
                         .filter(req -> req.getDescripcion().equalsIgnoreCase(r.getDescripcion()))
                         .findAny();
-                if (exists.isEmpty()) {
+                if (!exists.isPresent()) {
                     actividadesRepository.delete(r);
                 }
             });
@@ -676,7 +673,7 @@ public class ProyectosService {
                         .stream()
                         .filter(r -> r.getDescripcion().equalsIgnoreCase(descripcion))
                         .findAny();
-                if (exists.isEmpty()) {
+                if (!exists.isPresent()) {
                     ActividadesProyecto save = new ActividadesProyecto();
                     save.setProyectoPPP(optional.get());
                     save.setDescripcion(request.getDescripcion());

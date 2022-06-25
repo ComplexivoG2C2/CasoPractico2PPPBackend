@@ -80,7 +80,7 @@ public class TutorEmpService {
     @Transactional
     public void deleteById(Long id) {
         Optional<TutorEmp> optional = tutorEmpProyectoRepository.findById(id);
-        if (optional.isEmpty()) {
+        if (!optional.isPresent()) {
             throw new BadRequestException("El tutor de solicitudproyecto con el id: " + id + ", no existe");
         }
         tutorEmpProyectoRepository.delete(optional.get());

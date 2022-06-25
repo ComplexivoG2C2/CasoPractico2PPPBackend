@@ -146,7 +146,7 @@ public class Anexo121Service {
                         .stream()
                         .filter(r -> r.getDescripcion().equalsIgnoreCase(descripcion))
                         .findAny();
-                if (exists.isEmpty()) {
+                if (!exists.isPresent()) {
                     ActividadesAnexo121 save = new ActividadesAnexo121();
                     save.setAnexo121certificados(optional.get());
                     save.setDescripcion(request.getDescripcion());
@@ -160,7 +160,7 @@ public class Anexo121Service {
 
     public void deleteActividadesById(Long id) {
         Optional<ActividadesAnexo121> optional = actividadesanexo121Repository.findById(id);
-        if (optional.isEmpty()) {
+        if (!optional.isPresent()) {
             throw new BadRequestException("Las actividades con id: " + id + ", no existen");
         }
         actividadesanexo121Repository.deleteById(id);
@@ -169,7 +169,7 @@ public class Anexo121Service {
     @Transactional
     public void deleteAnexo121ById(Long id) {
         Optional<Anexo121certificado> optional = anexo121certificadoRepository.findById(id);
-        if (optional.isEmpty()) {
+        if (!optional.isPresent()) {
             throw new BadRequestException("El anexo2 con id: " + id + ", no existe");
         }
         if (!optional.get().getProyectoPPP().isEstado())

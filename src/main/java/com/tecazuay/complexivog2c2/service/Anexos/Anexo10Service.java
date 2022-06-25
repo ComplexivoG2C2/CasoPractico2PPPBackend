@@ -89,7 +89,7 @@ public class Anexo10Service {
 
     public void deleteCronogramaById(Long id) {
         Optional<CronogramaAnexo10> optional = cronogramaAnexo10Repository.findById(id);
-        if (optional.isEmpty()) {
+        if (!optional.isPresent()) {
             throw new BadRequestException("Las actividades con id: " + id + ", no existen");
         }
         cronogramaAnexo10Repository.deleteById(id);
@@ -98,7 +98,7 @@ public class Anexo10Service {
     @Transactional
     public void deleteAnexo10ById(Long id) {
         Optional<Anexo10> optional = anexo10Repository.findById(id);
-        if (optional.isEmpty()) {
+        if (!optional.isPresent()) {
             throw new BadRequestException("El anexo10 con id: " + id + ", no existe");
         }
         if (!optional.get().getProyectoPPP().isEstado())

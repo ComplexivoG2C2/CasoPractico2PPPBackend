@@ -384,7 +384,7 @@ public class AuthService implements UserDetailsService {
 
     public CarreraAlumnoResponse enviarAlumno(String cedula) {
         CarreraAlumnoResponse ca = new CarreraAlumnoResponse();
-        vAlumnosRepository.findByCedula(cedula).stream().forEach(alumnos -> {
+        vAlumnosRepository.findByCedula(cedula).ifPresent(alumnos -> {
 
             ca.setCedula(alumnos.getCedula());
             ca.setCodigoCarrera(alumnos.getCodigoCarrera());

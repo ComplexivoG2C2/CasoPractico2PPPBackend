@@ -191,7 +191,7 @@ public class Anexo81Service {
     @Transactional
     public void deleteAnexo81ById(Long id) {
         Optional<Anexo81> optional = anexo8_1Repository.findById(id);
-        if (optional.isEmpty()) {
+        if (!optional.isPresent()) {
             throw new BadRequestException("El anexo8.1 con id: " + id + ", no existe");
         }
         anexo8_1Repository.deleteById(id);

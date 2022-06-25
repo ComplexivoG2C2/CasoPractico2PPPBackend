@@ -22,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -112,7 +113,7 @@ public class ResponsableService implements Serializable {
         Optional<Usuario> optional = usuarioRepository.findByCedula(responsablePPP.getCedula());
         if (optional.isPresent()) {
             EmailBody e = new EmailBody();
-            e.setEmail(List.of(optional.get().getEmail()));
+            e.setEmail(Arrays.asList(optional.get().getEmail()));
             e.setContent("Usted ha sido designado como Responsable de Prácticas Pre Profesionales");
             e.setText2(" Ingrese al sistema dando clic en el siguiente botón:");
             e.setSubject("Designación para solicitudproyectos de vinculación");

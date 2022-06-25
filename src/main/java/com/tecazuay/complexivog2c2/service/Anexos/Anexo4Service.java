@@ -161,7 +161,7 @@ public class Anexo4Service {
     @Transactional
     public void deleteAnexo4ById(Long id) {
         Optional<Anexo4> optional = anexo4Repository.findById(id);
-        if (optional.isEmpty()) {
+        if (!optional.isPresent()) {
             throw new BadRequestException("El anexo4 con id: " + id + ", no existe");
         }
         if (!optional.get().getProyectoPPP().isEstado())
@@ -231,7 +231,7 @@ public class Anexo4Service {
                         .stream()
                         .filter(req -> req.getCedula().equalsIgnoreCase(r.getCedula()))
                         .findAny();
-                if (exists.isEmpty()) {
+                if (!exists.isPresent()) {
                     listaEstudiantesAnexo4Repository.delete(r);
                 }
             });
@@ -242,7 +242,7 @@ public class Anexo4Service {
                         .stream()
                         .filter(r -> r.getCedula().equalsIgnoreCase(cedula))
                         .findAny();
-                if (exists.isEmpty()) {
+                if (!exists.isPresent()) {
                     ListaEstudiantesAnexo4 save = new ListaEstudiantesAnexo4();
                     save.setAnexo4(optional.get());
                     save.setCedula(request.getCedula());
@@ -257,7 +257,7 @@ public class Anexo4Service {
 
     public void deleteListaEstudiantesById(Long id) {
         Optional<ListaEstudiantesAnexo4> optional = listaEstudiantesAnexo4Repository.findById(id);
-        if (optional.isEmpty()) {
+        if (!optional.isPresent()) {
             throw new BadRequestException("Las actividades con id: " + id + ", no existen");
         }
         listaEstudiantesAnexo4Repository.deleteById(id);

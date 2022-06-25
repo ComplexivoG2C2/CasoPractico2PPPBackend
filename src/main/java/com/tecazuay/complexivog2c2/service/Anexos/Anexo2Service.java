@@ -151,7 +151,7 @@ public class Anexo2Service {
                         .stream()
                         .filter(req -> req.getDescripcion().equalsIgnoreCase(r.getDescripcion()))
                         .findAny();
-                if (exists.isEmpty()) {
+                if (!exists.isPresent()) {
                     actividadesAnexo2Repository.delete(r);
                 }
             });
@@ -162,7 +162,7 @@ public class Anexo2Service {
                         .stream()
                         .filter(r -> r.getDescripcion().equalsIgnoreCase(descripcion))
                         .findAny();
-                if (exists.isEmpty()) {
+                if (!exists.isPresent()) {
                     ActividadesAnexo2 save = new ActividadesAnexo2();
                     save.setAnexo2(optional.get());
                     save.setDescripcion(request.getDescripcion());
@@ -176,7 +176,7 @@ public class Anexo2Service {
 
     public void deleteActividadesById(Long id) {
         Optional<ActividadesAnexo2> optional = actividadesAnexo2Repository.findById(id);
-        if (optional.isEmpty()) {
+        if (!optional.isPresent()) {
             throw new BadRequestException("Las actividades con id: " + id + ", no existen");
         }
         actividadesAnexo2Repository.deleteById(id);
@@ -185,7 +185,7 @@ public class Anexo2Service {
     @Transactional
     public void deleteAnexo2ById(Long id) {
         Optional<Anexo2> optional = anexo2Repository.findById(id);
-        if (optional.isEmpty()) {
+        if (!optional.isPresent()) {
             throw new BadRequestException("El anexo2 con id: " + id + ", no existe");
         }
         if (!optional.get().getProyectoPPP().isEstado())
@@ -326,7 +326,7 @@ public class Anexo2Service {
                 return alp;
             }).collect(Collectors.toList());
         }
-        return List.of();
+        return new ArrayList<>();
     }
 
     public int generateCode(String codeCarrera) {

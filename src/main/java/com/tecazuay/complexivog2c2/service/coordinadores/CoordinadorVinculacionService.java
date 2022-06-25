@@ -23,6 +23,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -92,7 +94,8 @@ public class CoordinadorVinculacionService {
         Optional<Usuario> getEmail=usuarioRepository.findByCedula(vinculacionRequest.getCedula());
         if(getEmail.isPresent()){
             EmailBody e = new EmailBody();
-            e.setEmail(List.of(getEmail.get().getEmail()));
+            //cambios en la logica por migracion 1.8
+            e.setEmail(Arrays.asList(getEmail.get().getEmail()));
             e.setContent("Usted ha sido designado como coordinador de vinculación" );
             e.setSubject("Designación para proyectos de vinculación");
             e.setText2("Ingrese al sistema dando clic en el siguiente botón:");

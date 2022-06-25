@@ -122,7 +122,7 @@ public class Anexo5Service {
 
     public void deleteById(Long id){
         Optional<Anexo5> optional=anexo5Repository.findById(id);
-        if(optional.isEmpty()){
+        if(!optional.isPresent()){
             throw new BadRequestException("El anexo 5 con el id " + id + ", no existe");
         }
         if(!optional.get().getProyectoPPP().isEstado())

@@ -196,7 +196,7 @@ public class Anexo1Service {
     @Transactional
     public void deleteAllByProyectId(Long id) {
         Optional<ProyectoPPP> optional = proyectoRepository.findById(id);
-        if (optional.isEmpty())
+        if (!optional.isPresent())
             throw new BadRequestException("El proyecto con id: " + id + ", no existe");
 
         if (!optional.get().isEstado())

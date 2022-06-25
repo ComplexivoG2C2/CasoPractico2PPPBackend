@@ -179,7 +179,7 @@ public class Anexo8Service {
 
     public void deleteById(Long id){
         Optional<Anexo8> optional = anexo8Repository.findById(id);
-        if(optional.isEmpty()){
+        if(!optional.isPresent()){
             throw new BadRequestException("El anexo 8 con el id " + id + ", no existe");
 
         }

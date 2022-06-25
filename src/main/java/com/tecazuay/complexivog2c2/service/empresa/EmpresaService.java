@@ -198,7 +198,7 @@ public class EmpresaService{
     public EmpresaResponse listEmpresaId(Long id) {
         EmpresaResponse response = new EmpresaResponse();
         Optional<Empresa> optional = empresaRepository.findById(id);
-        optional.stream().map(e -> {
+        optional.ifPresent(e -> {
             response.setId(e.getId());
             response.setNombre(e.getNombre());
             response.setRepresentante(e.getRepresentante());
@@ -234,7 +234,7 @@ public class EmpresaService{
 
     public void deleteById(Long id){
         Optional<Empresa> optional = empresaRepository.findById(id);
-        if(optional.isEmpty()){
+        if(!optional.isPresent()){
             throw new BadRequestException("El empresa con el id " + id + ", no existe");
         }
         empresaRepository.deleteById(id);

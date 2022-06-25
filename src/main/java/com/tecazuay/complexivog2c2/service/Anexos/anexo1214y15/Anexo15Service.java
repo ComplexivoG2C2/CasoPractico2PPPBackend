@@ -77,7 +77,7 @@ public class Anexo15Service {
     @Transactional
     public void deleteAnexo15ById(Long id) {
         Optional<Anexo15> optional = anexo15Repository.findById(id);
-        if (optional.isEmpty()) {
+        if (!optional.isPresent()) {
             throw new BadRequestException("El anexo15 con id: " + id + ", no existe");
         }
         if (!optional.get().getProyectoPPP().isEstado())

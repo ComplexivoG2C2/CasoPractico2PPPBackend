@@ -32,6 +32,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -151,7 +152,7 @@ public class DocentesService {
                 Optional<Usuario> getEmail = usuarioRepository.findByCedula(docentesApoyoDelegados.getCedula());
                 if (getEmail.isPresent()) {
                     EmailBody e = new EmailBody();
-                    e.setEmail(List.of(getEmail.get().getEmail()));
+                    e.setEmail(Arrays.asList(getEmail.get().getEmail()));
                     e.setContent("Usted ha sido designado como docente de apoyo");
                     e.setText2(" Ingrese al sistema dando clic en el siguiente botón:");
                     e.setSubject("Designación para proyectos de vinculación");
@@ -273,7 +274,7 @@ public class DocentesService {
 
     public void deleteDocenteApoyoById(Long id) {
         Optional<TutorAcademicoDelegados> optional = tutorAcademicoRepository.findById(id);
-        if (optional.isEmpty()) {
+        if (!optional.isPresent()) {
             throw new BadRequestException("El docente de apoyo con id: " + id + ", no existe");
         }
         tutorAcademicoRepository.deleteById(id);

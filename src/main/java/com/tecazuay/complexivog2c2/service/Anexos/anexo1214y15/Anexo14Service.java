@@ -273,7 +273,7 @@ public class Anexo14Service {
     @Transactional
     public void deleteById(Long id) {
         Optional<Anexo14> optional = anexo14Repository.findById(id);
-        if (optional.isEmpty()) {
+        if (!optional.isPresent()) {
             throw new BadRequestException("El anexo 14 con el id " + id + ", no existe");
         }
         if (!optional.get().getProyectoPPP().isEstado())
@@ -289,7 +289,7 @@ public class Anexo14Service {
 
     public void deleteTutoracaById(Long id) {
         Optional<ItemsAnexo14Tutoracademcio> optional = tutorAcademico14Repository.findById(id);
-        if (optional.isEmpty()) {
+        if (!optional.isPresent()) {
             throw new BadRequestException("Las actividades del tutor academico con: " + id + ", no existen");
         }
         tutorAcademico14Repository.deleteById(id);
@@ -307,7 +307,7 @@ public class Anexo14Service {
                     req = new ItemsAnexo14Tutoracademcio();
                 } else {
                     Optional<ItemsAnexo14Tutoracademcio> op = itemsBase.stream().filter(item -> Objects.equals(item.getId(), i.getId())).findFirst();
-                    if (op.isEmpty()) throw new BadRequestException("El item con id: " + i.getId() + ", no exiset");
+                    if (!op.isPresent()) throw new BadRequestException("El item con id: " + i.getId() + ", no exiset");
                     req = op.get();
                 }
                 req.setTutoracaItem1(i.getTutoracaItem1());

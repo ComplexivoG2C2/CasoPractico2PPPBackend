@@ -85,7 +85,7 @@ import java.util.stream.Collectors;
 
         private void updateEstudiantes(List<EstudiantesVisitaRequest> list, Long idanexo13) {
             Optional<Anexo11> optional = anexo11Repository.findById(idanexo13);
-            if (optional.isEmpty()) {
+            if (!optional.isPresent()) {
                 throw new BadRequestException("Anexo 11 con id: " + idanexo13 + ", no existe");
             }
             List<EstudiantesVisita> proyecto = optional.get().getEstudiantesVisita();
@@ -95,7 +95,7 @@ import java.util.stream.Collectors;
                             .stream()
                             .filter(req -> req.getCedula().equalsIgnoreCase(r.getCedula()))
                             .findAny();
-                    if (exists.isEmpty()) {
+                    if (!exists.isPresent()) {
                         try {
                             estudianteA11Repository.delete(r);
                             log.info("delete: ESTUDIANTE VISITA");
@@ -110,7 +110,7 @@ import java.util.stream.Collectors;
                             .stream()
                             .filter(r -> r.getCedula().equalsIgnoreCase(descripcion))
                             .findAny();
-                    if (exists.isEmpty()) {
+                    if (!exists.isPresent()) {
                         EstudiantesVisita save = new EstudiantesVisita();
                         save.setAnexo11(optional.get());
                         save.setCedula(request.getCedula());
@@ -141,7 +141,7 @@ import java.util.stream.Collectors;
 
         private void updateInformeVisitas(List<ListVisitaRequest> list, Long  idanexo11) {
             Optional<Anexo11> optional = anexo11Repository.findById(idanexo11);
-            if (optional.isEmpty()) {
+            if (!optional.isPresent()) {
                 throw new BadRequestException("Anexo 11 con id: " + idanexo11 + ", no existe");
             }
             try {
@@ -342,7 +342,7 @@ import java.util.stream.Collectors;
 
         public void deleteById(Long id) {
             Optional<Anexo11> optional = anexo11Repository.findById(id);
-            if (optional.isEmpty()) {
+            if (!optional.isPresent()) {
                 throw new BadRequestException("El anexo 11 con el id " + id + ", no existe");
             }
             if (!optional.get().getProyectoPPP().isEstado())

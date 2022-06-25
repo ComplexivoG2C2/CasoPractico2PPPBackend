@@ -231,7 +231,7 @@ public class Anexo6Service {
                         .stream()
                         .filter(req -> req.getCedulaEstudiante().equalsIgnoreCase(r.getCedulaEstudiante()))
                         .findAny();
-                if (exists.isEmpty()) {
+                if (!exists.isPresent()) {
                     alumnosAnexo6Repository.delete(r);
                 }
             });
@@ -242,7 +242,7 @@ public class Anexo6Service {
                         .stream()
                         .filter(r -> r.getCedulaEstudiante().equalsIgnoreCase(descripcion))
                         .findAny();
-                if (exists.isEmpty()) {
+                if (!exists.isPresent()) {
                     AlumnosAnexo6 save = new AlumnosAnexo6();
                     save.setAnexo6(optional.get());
                     save.setCedulaEstudiante(request.getCedulaEstudiante());
@@ -406,7 +406,7 @@ public class Anexo6Service {
 
     public void deleteById(Long id) {
         Optional<Anexo6> optional = anexo6Repository.findById(id);
-        if (optional.isEmpty()) {
+        if (!optional.isPresent()) {
             throw new BadRequestException("El anexo 5 con el id " + id + ", no existe");
 
         }

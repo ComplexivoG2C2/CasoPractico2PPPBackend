@@ -165,7 +165,7 @@ public class Anexo7Service {
 
     public void deleteActividadesById(Long id) {
         Optional<ActividadesAnexo7> optional = actividadesAnexo7Repository.findById(id);
-        if (optional.isEmpty()) {
+        if (!optional.isPresent()) {
             throw new BadRequestException("Las actividades con id: " + id + ", no existen");
         }
         actividadesAnexo7Repository.deleteById(id);
@@ -173,7 +173,7 @@ public class Anexo7Service {
 
     public void deleteActividadesCumplirById(Long id) {
         Optional<ActividadesCumplirAnexo7> optional = actividadesCumplirAnexo7Repository.findById(id);
-        if (optional.isEmpty()) {
+        if (!optional.isPresent()) {
             throw new BadRequestException("Las actividades con id: " + id + ", no existen");
         }
         actividadesCumplirAnexo7Repository.deleteById(id);
@@ -181,7 +181,7 @@ public class Anexo7Service {
 
     public void deleteCronogramaActividadesById(Long id) {
         Optional<CronogramaActividadesAnexo7> optional = cronogramaActividadesAnexo7Repository.findById(id);
-        if (optional.isEmpty()) {
+        if (!optional.isPresent()) {
             throw new BadRequestException("Las actividades con id: " + id + ", no existen");
         }
         cronogramaActividadesAnexo7Repository.deleteById(id);
@@ -190,7 +190,7 @@ public class Anexo7Service {
     @Transactional
     public void deleteAnexo7ById(Long id) {
         Optional<Anexo7> optional = anexo7Repository.findById(id);
-        if (optional.isEmpty()) {
+        if (!optional.isPresent()) {
             throw new BadRequestException("El anexo7 con id: " + id + ", no existe");
         }
         if (!optional.get().getProyectoPPP().isEstado())
