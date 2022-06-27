@@ -8,6 +8,8 @@ import java.util.Date;
 
 @Data
 public class Anexo8Request implements Serializable {
+
+    /////
     private Long id;
     private Date fechaRespuesta;
     private String estudianteTitulo;
