@@ -1,5 +1,6 @@
 package com.tecazuay.complexivog2c2.controller.Anexos;
 
+import com.tecazuay.complexivog2c2.dto.anexos.Anexo10Request;
 import com.tecazuay.complexivog2c2.dto.anexos.Anexo10Response;
 import com.tecazuay.complexivog2c2.dto.anexos.Anexo11Request;
 import com.tecazuay.complexivog2c2.dto.anexos.Anexo11Response;
@@ -19,11 +20,17 @@ public class Anexo11Controller {
     @Autowired
     private Anexo11Service anexo11Service;
 
-    @PostMapping
-    public ResponseEntity<?> save(@RequestBody Anexo11Request request) {
-        anexo11Service.save(request);
-        return new ResponseEntity<>(new Mensaje("Anexo 11 guardado"), HttpStatus.CREATED);
-    }
+//    @PostMapping
+//    public ResponseEntity<?> save(@RequestBody Anexo11Request request) {
+//        anexo11Service.save(request);
+//        return new ResponseEntity<>(new Mensaje("Anexo 11 guardado"), HttpStatus.CREATED);
+//    }
+@PostMapping
+public ResponseEntity<?> create(@RequestBody Anexo11Request request) {
+    anexo11Service.save(request);
+    return new ResponseEntity(new Mensaje("Anexo 11 Creado"), HttpStatus.CREATED);
+}
+
 
     @PostMapping("/agregarVisita")
     public ResponseEntity<?> agregarVisita(@RequestBody Anexo11Request request) {

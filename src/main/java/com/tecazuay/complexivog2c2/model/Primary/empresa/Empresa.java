@@ -1,8 +1,6 @@
 package com.tecazuay.complexivog2c2.model.Primary.empresa;
 
-import com.tecazuay.complexivog2c2.model.Primary.Anexos.Anexo13;
-import com.tecazuay.complexivog2c2.model.Primary.Anexos.Anexo5;
-import com.tecazuay.complexivog2c2.model.Primary.Anexos.TutorEmp;
+import com.tecazuay.complexivog2c2.model.Primary.Anexos.*;
 import com.tecazuay.complexivog2c2.model.Primary.coordinadores.CoordinadorVinculacion;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -71,4 +69,7 @@ public class Empresa {
 
     @OneToMany(targetEntity = Anexo13.class, mappedBy = "empresa")
     private List<Anexo13> anexo13;
+
+    @OneToMany(targetEntity = RegistroConvenios.class, mappedBy = "empresa")
+    private List<RegistroConvenios> registroConvenios;
 }

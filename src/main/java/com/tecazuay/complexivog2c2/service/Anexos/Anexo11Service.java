@@ -4,9 +4,7 @@ package com.tecazuay.complexivog2c2.service.Anexos;
 import com.tecazuay.complexivog2c2.dto.anexos.*;
 import com.tecazuay.complexivog2c2.exception.BadRequestException;
 import com.tecazuay.complexivog2c2.exception.ResponseNotFoundException;
-import com.tecazuay.complexivog2c2.model.Primary.Anexos.Anexo11;
-import com.tecazuay.complexivog2c2.model.Primary.Anexos.EstudiantesVisita;
-import com.tecazuay.complexivog2c2.model.Primary.Anexos.ListVisitaAnexo11;
+import com.tecazuay.complexivog2c2.model.Primary.Anexos.*;
 import com.tecazuay.complexivog2c2.model.Primary.desigaciones.TutorAcademicoDelegados;
 import com.tecazuay.complexivog2c2.model.Primary.solicitudproyecto.ProyectoPPP;
 import com.tecazuay.complexivog2c2.repository.Primary.Anexos.Anexo11Repository;
@@ -19,6 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -35,22 +34,25 @@ import java.util.stream.Collectors;
     private final TutorAcademicoRepository tutorAcademicoRepository;
 
         @Transactional
-        public void save(Anexo11Request request) {
+        public boolean save(Anexo11Request request) {
             Optional<ProyectoPPP> optionalProyecto = proyectoRepository.findById(request.getProyectoId());
             if (optionalProyecto.isPresent()) {
                 if (!optionalProyecto.get().isEstado())
                     throw new BadRequestException("El solicitud a fonalizado");
 
-                Optional<TutorAcademicoDelegados> optionalDocente = tutorAcademicoRepository.findByCedula(request.getCedulaDirectorDocenteApoyo());
-                  if (optionalDocente.isPresent()) {
-                    Anexo11 anexo11;
-                    if (request.getId() == null) {
-                        anexo11 = new Anexo11();
-                    } else {
-                        anexo11 = anexo11Repository
-                                .findById(request.getId())
-                                .orElseThrow(() -> new BadRequestException("El anexo11 con id: " + request.getId() + ", no existe"));
-                    }
+
+
+//                Optional<TutorAcademicoDelegados> optionalDocente = tutorAcademicoRepository.findByCedula(request.getCedulaDirectorDocenteApoyo());
+//                  if (optionalDocente.isPresent()) {
+//                    Anexo11 anexo11;
+//                    if (request.getId() == null) {
+//                        anexo11 = new Anexo11();
+//                    } else {
+//                        anexo11 = anexo11Repository
+//                                .findById(request.getId())
+//                                .orElseThrow(() -> new BadRequestException("El anexo11 con id: " + request.getId() + ", no existe"));
+//                    }
+                Anexo11 anexo11= new Anexo11();
                     anexo11.setNombreDirectorDocenteApoyo(request.getNombreDirectorDocenteApoyo());
                     anexo11.setCedulaDirectorDocenteApoyo(request.getCedulaDirectorDocenteApoyo());
                     anexo11.setPeriodoAcademicon(request.getPeriodoAcademicon());
@@ -63,25 +65,47 @@ import java.util.stream.Collectors;
                       anexo11.setCedulaetutoremp(request.getCedulaetutoremp());
                     anexo11.setRepresentanteLegal(request.getRepresentanteLegal());
                     anexo11.setCiclo(request.getCiclo());
+                    anexo11.setDocumento(request.getDocumento());
                     anexo11.setObservaciones(request.getObservaciones());
                     anexo11.setProyectoPPP(optionalProyecto.get());
                     anexo11.setNum_proceso(request.getNum_proceso());
-                    try {
-                        Anexo11 saved = anexo11Repository.save(anexo11);
-                        //saveInformesVisitas(request.getInformes(), saved);
-                        updateInformeVisitas(request.getInformes(), saved.getId());
-                        //saveEstudiantes(request.getEstudiantesVisitas(), saved);
-                        updateEstudiantes(request.getEstudiantesVisitas(), saved.getId());
-                        return;
-                    } catch (Exception e) {
-                        log.error("Error al guardar anexo13");
-                        e.printStackTrace();
-                        throw new BadRequestException("Error al guardar el anexo 13: " + e.getMessage());
-                    }
+                List<ListVisitaAnexo11> list = new ArrayList<>();
+
+                request.getInformes().stream().forEach(a -> {
+                    ListVisitaAnexo11 cronogramaAnexo10 = new ListVisitaAnexo11();
+                    cronogramaAnexo10.setObservaciones(a.getObservaciones());
+                    cronogramaAnexo10.setObservaciones(a.getObservaciones());
+                    cronogramaAnexo10.setActividades(a.getActividades());
+                    cronogramaAnexo10.setFecha(a.getFecha());
+                    cronogramaAnexo10.setHoraInicio(a.getHoraInicio());
+                    cronogramaAnexo10.setHoraFin(a.getHoraFin());
+
+                    list.add(cronogramaAnexo10);
+                });
+
+                try {
+                    savelista(list, anexo11Repository.save(anexo11));
+                } catch (Exception e) {
+                    throw new BadRequestException("No se guardo el anexo 11" + e);
                 }
-                throw new ResponseNotFoundException("Tutor academico", "cédula", request.getCedulaDirectorDocenteApoyo());
+                try {
+                    return true;
+                } catch (Exception ex) {
+                    throw new BadRequestException("No se enviÃ³ el email");
+                }
+
             }
+            throw new BadRequestException("No existe la solicitud con id: " + request.getProyectoId());
         }
+
+    private void savelista(List<ListVisitaAnexo11> list, Anexo11 anexo11) {
+        list.stream().forEach(a -> {
+            a.setAnexo11(anexo11);
+            informeRepository.save(a);
+        });
+    }
+
+
 
         private void updateEstudiantes(List<EstudiantesVisitaRequest> list, Long idanexo13) {
             Optional<Anexo11> optional = anexo11Repository.findById(idanexo13);
@@ -305,6 +329,7 @@ import java.util.stream.Collectors;
                             response.setCedulaest(a.getCedulaest());
                             response.setNombretutoremp(a.getNombretutoremp());
                           response.setCedulaetutoremp(a.getCedulaetutoremp());
+                            response.setDocumento(a.getDocumento());
                             response.setCarrera(a.getCarrera());
                             response.setSiglascarrera(a.getSiglascarrera());
                             response.setRepresentanteLegal(a.getRepresentanteLegal());
@@ -369,6 +394,7 @@ import java.util.stream.Collectors;
             response.setNombretutoremp(a.getNombretutoremp());
             response.setCedulaetutoremp(a.getCedulaetutoremp());
             response.setCarrera(a.getCarrera());
+            response.setDocumento(a.getDocumento());
             response.setSiglascarrera(a.getSiglascarrera());
             response.setRepresentanteLegal(a.getRepresentanteLegal());
             response.setObservaciones(a.getObservaciones());

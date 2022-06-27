@@ -67,7 +67,7 @@ public class EmpresaService{
             er.setTelefonoEmpresa(empresa.getTelefonoEmpresa());
             er.setCelularRepresentante(empresa.getCelularRepresentante());
             er.setFechaCreacion(empresa.getFechaCreacion());
-            er.setNombreCoordinador(getNombreCoordinador(empresa.getCoordinadorVinculacion().getId()));
+            er.setTitulorepresentante(empresa.getTitulorepresentante());
 //            er.setNombreAdministrador(empresa.getNombreAdministrador());
 //            er.setCedulaAdministrador(empresa.getCedulaAdministrador());
 //            er.setCorreoAdministrador(empresa.getCorreoAdministrador());
@@ -185,7 +185,7 @@ public class EmpresaService{
         eb.setTelefonoEmpresa(empresaRequest.getTelefonoEmpresa());
         eb.setCelularRepresentante(empresaRequest.getCelularRepresentante());
         eb.setFechaCreacion(empresaRequest.getFechaCreacion());
-        eb.setCoordinadorVinculacion(getIdCoordinador(empresaRequest.getIdCoordinador()));
+//        eb.setCoordinadorVinculacion(getIdCoordinador(empresaRequest.getIdCoordinador()));
         eb.setTitulorepresentante(empresaRequest.getTitulorepresentante());
         eb.setCiudad(empresaRequest.getCiudad());
         eb.setDireccion(empresaRequest.getDireccion());
@@ -231,12 +231,12 @@ public class EmpresaService{
             response.setTelefonoEmpresa(e.getTelefonoEmpresa());
             response.setCelularRepresentante(e.getCelularRepresentante());
             response.setFechaCreacion(e.getFechaCreacion());
-            response.setNombreCoordinador(getNombreCoordinador(e.getCoordinadorVinculacion().getId()));
+//            response.setNombreCoordinador(getNombreCoordinador(e.getCoordinadorVinculacion().getId()));
             response.setTitulorepresentante(e.getTitulorepresentante());
             response.setCiudad(e.getCiudad());
             response.setDireccion(e.getDireccion());
             response.setDescripcionEmpresa(e.getDescripcionEmpresa());
-            response.setIdCoordinador(e.getCoordinadorVinculacion().getId());
+//            response.setIdCoordinador(e.getCoordinadorVinculacion().getId());
         });
         return response;
     }

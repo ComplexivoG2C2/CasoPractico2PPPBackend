@@ -32,8 +32,8 @@ public class Anexo1Service {
     public boolean save(Anexo1Request anexo1Request) {
         Optional<ProyectoPPP> optional = proyectoRepository.findById(anexo1Request.getIdProyectoPPP());
         if (optional.isPresent()) {
-            if (!optional.get().isEstado())
-                throw new BadRequestException("El proyecto ha finalizado, no es posible modificar sus datos");
+//            if (!optional.get().isEstado())
+//                throw new BadRequestException("El proyecto ha finalizado, no es posible modificar sus datos");
 
             Anexo1 an = new Anexo1();
             if (personasRepository.existsByCedula(anexo1Request.getCedulaDelegado())) {

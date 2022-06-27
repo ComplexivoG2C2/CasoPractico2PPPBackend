@@ -40,7 +40,6 @@ public class Anexo10Service {
             if (!optional.get().isEstado())
                 throw new BadRequestException("El proceso a finalizado");
 
-            if (!anexo10Repository.existsByProyectoPPP(optional.get())) {
                 Anexo10 anexo10 = new Anexo10();
                 anexo10.setCarrera(request.getCarrera());
                 anexo10.setSiglascarrera(request.getSiglascarrera());
@@ -73,9 +72,7 @@ public class Anexo10Service {
                 } catch (Exception ex) {
                     throw new BadRequestException("No se enviÃ³ el email");
                 }
-            } else {
-                throw new BadRequestException("Ya existe el anexo con ese id de proyecto");
-            }
+
         }
         throw new BadRequestException("No existe la solicitud con id: " + request.getIdProyectoPPP());
     }

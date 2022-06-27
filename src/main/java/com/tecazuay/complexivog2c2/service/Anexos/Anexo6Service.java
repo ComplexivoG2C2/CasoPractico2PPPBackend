@@ -118,7 +118,7 @@ public class Anexo6Service {
                     saveAlumnos(list, anexo6Repository.save(anexo));
                     return true;
                 } catch (Exception e) {
-                    throw new BadRequestException("No se guardó el anexo 5" + e);
+                    throw new BadRequestException("No se guardó el anexo 6" + e);
                 }
             }
         }

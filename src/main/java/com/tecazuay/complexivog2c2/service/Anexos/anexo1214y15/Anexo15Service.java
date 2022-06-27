@@ -56,7 +56,7 @@ public class Anexo15Service {
             anexo.setNotaTutorA(request.getNotaTutorA());
             anexo.setNotaTutorE(request.getNotaTutorE());
             anexo.setPorcentajeTutorA(request.getPorcentajeTutorA());
-            anexo.setPorcentajeTutorA(request.getPorcentajeTutorA());
+            anexo.setPorcentajeTutorE(request.getPorcentajeTutorE());
             anexo.setPromediofinal(request.getPromediofinal());
             anexo.setPromediofinaldecimal(request.getPromediofinaldecimal());
 
@@ -111,7 +111,7 @@ public class Anexo15Service {
             response.setNotaTutorA(a.getNotaTutorA());
             response.setNotaTutorE(a.getNotaTutorE());
             response.setPorcentajeTutorA(a.getPorcentajeTutorA());
-            response.setPorcentajeTutorA(a.getPorcentajeTutorA());
+            response.setPorcentajeTutorE(a.getPorcentajeTutorE());
             response.setPromediofinal(a.getPromediofinal());
             response.setPromediofinaldecimal(a.getPromediofinaldecimal());
 
@@ -153,7 +153,7 @@ public class Anexo15Service {
             response.setNotaTutorA(a.get().getNotaTutorA());
             response.setNotaTutorE(a.get().getNotaTutorE());
             response.setPorcentajeTutorA(a.get().getPorcentajeTutorA());
-            response.setPorcentajeTutorA(a.get().getPorcentajeTutorA());
+            response.setPorcentajeTutorE(a.get().getPorcentajeTutorE());
             response.setPromediofinal(a.get().getPromediofinal());
             response.setPromediofinaldecimal(a.get().getPromediofinaldecimal());
 
@@ -197,7 +197,7 @@ public class Anexo15Service {
                 response.setNotaTutorA(a.get().getNotaTutorA());
                 response.setNotaTutorE(a.get().getNotaTutorE());
                 response.setPorcentajeTutorA(a.get().getPorcentajeTutorA());
-                response.setPorcentajeTutorA(a.get().getPorcentajeTutorA());
+                response.setPorcentajeTutorE(a.get().getPorcentajeTutorE());
                 response.setPromediofinal(a.get().getPromediofinal());
                 response.setPromediofinaldecimal(a.get().getPromediofinaldecimal());
 
