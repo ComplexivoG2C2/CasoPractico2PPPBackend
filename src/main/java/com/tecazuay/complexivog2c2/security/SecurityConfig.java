@@ -52,7 +52,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
-        http.csrf().disable().authorizeRequests().antMatchers("/swagger-ui.html","/webjars/**","/swagger-resources/**","/v2/*","/csrf","/","/api/auth/login","/api/auth/login2","/api/auth/signup","/api/empresa/login","/api/auth/estudiante/user/**","/api/auth/obtenercarrera/**","/api/anexo2/listarconvocatorias/all","/api/auth/logintutor")
+        http.csrf().disable().authorizeRequests().antMatchers("/swagger-ui.html","/webjars/**","/swagger-resources/**","/v2/*","/csrf","/","/api/auth/login","/api/auth/login2","/api/auth/signup","/api/empresa/login","/api/auth/estudiante/user/**","/api/auth/obtenercarrera/**","/api/anexo2/listarconvocatorias/all","/api/anexo3/allByCedula/**","/api/auth/logintutor")
                 .permitAll().anyRequest().authenticated()
                 .and().exceptionHandling().and().sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
@@ -62,3 +62,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
